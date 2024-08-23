@@ -13,6 +13,7 @@ templates/.DS_Store
 movie
 run.sh
 
+venv
 temp
 traces
 logs

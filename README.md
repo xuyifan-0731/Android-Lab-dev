@@ -13,14 +13,14 @@ Android Eval comprises a set of predefined Android virtual images and 138 tasks 
 By using this environment, we develop the Android Instruction dataset and train the LLaMA3-8B-instruct, GLM-4, and CogVLM2 (LLaMA3-8B) models on it. The trained models as Android agents are comparable to the best open and closed-source models, respectively. 
 
 <p align="center">
-    <a href="https://arxiv.org/abs/" target="_blank">📃 Paper </a> | <a href="" target="_blank"> 🗂️ Android Training (Under Construction)
+    <a href="https://arxiv.org/abs/" target="_blank">📃 Paper </a> 
 </p>
 
 This repository is the code framework for the Android Eval section. We provide two execution modes: AVD on Mac (arm64) and Docker on Linux (x86_64). You can freely add or modify new tasks or Android images according to our framework. We offer a complete evaluation framework that can be used to assess the performance of various Android agents. We are also advancing the design of a more powerful open-source Android Agent, and we will release the complete training data and corresponding training code, along with checkpoints, once the data and training methods are finalized.
 
 ![](./assets/main-picture.png)
 
-# Benchmark Statistics
+# Benchmark Components
 
 In our experiment, we utilized a range of apps to conduct various tests. The following mobile apps are chosen:
 
@@ -39,7 +39,7 @@ The selection of these apps underwent multiple iterations to ensure their suitab
 ![](./assets/avd-subgoal-subcates.png)
 # Leaderboard
 
-Main Result of XML and SoM modes. SR, Sub-SR, RRR, and ROR stand for Success Rate, Sub-Goal Success Rate, Reversed Redundancy Ratio, and Reasonable Operation Ratio, respectively. For all these metrics, a higher value means better. **-IT** represents an instruction tuning model. In each mode, **Bold** represents the best result, and **Underline** represents the second-best result.
+Main Result of XML and SoM modes. SR, Sub-SR, RRR, and ROR stand for Success Rate, Sub-Goal Success Rate, Reversed Redundancy Ratio, and Reasonable Operation Ratio, respectively. For all these metrics, a higher value means better. **-ft** represents an instruction tuning model. In each mode, **Bold** represents the best result, and **Underline** represents the second-best result.
 
 ![](./assets/leaderboard.png)
 
@@ -55,7 +55,7 @@ We offer two testing methods: AVD on Mac (arm64) and Docker on Linux (x86_64).
 Clone this repo and install the dependencies.
 
 ```bash
-cd Android-United
+cd /path/to/your/repo
 conda create -n Android-United python=3.11
 conda activate Android-United
 pip install -r requirements.txt
@@ -94,11 +94,11 @@ The corresponding task_id for each question can be found in `evaluation/config`.
 Use the following code to generate evaluation results:
 
 ```bash
-gpt-4o-2024-05-13:
+# eval by gpt-4o-2024-05-13:
 export OPENAI_API_KEY='your-api-key-here'
 python generate_result.py --input_folder ./logs/evaluation/ --output_folder ./logs/evaluation/ --output_excel ./logs/evaluation/test_name.xlsx --judge_model gpt-4o-2024-05-13
 
-glm4:
+# eval by glm4:
 python generate_result.py --input_folder ./logs/evaluation/ --output_folder ./logs/evaluation/ --output_excel ./logs/evaluation/test_name.xlsx --judge_model glm4 --api_key your api key
 ```
 
@@ -110,14 +110,9 @@ generate_result.py will generate an Excel file of all test results under --input
 The `Agent` class has been predefined in the `agent/` folder, with implementations for the OpenAI interface based on
 oneapi and the currently deployed GLM interface. If you need to add a base model, you need to:
 
-1. Create a new Python file under `agent/`, and refer to `agent/model.OpenAIAgent` to implement your model call by
-   inheriting the `Agent` class. The `act` function input is already organized in the OpenAI message format, and the
-   output is a string. If the input format of the corresponding model is different from OpenAI, you can refer to
-   the `format_history` function in `glm_model` for modifications. The `prompt_to_message` method modifies the current
-   round of prompts and image inputs (if any) to the current model's single-round format, which can refer to the
-   standard OpenAI format provided by `OpenAIAgent`.
+1. Create a new Python file under the `agent/` directory, and refer to `agent/model/OpenAIAgent`. Implement your model call by inheriting the `Agent` class. The `act` function input is already organized according to the OpenAI message format, and the output should be a string. If the input format of the corresponding model differs from OpenAI, you can refer to the `format_history` function in `claude_model` and the `prompt_to_message` function in `qwen_model` for modifications. `format_history` can organize the format of historical records, and the `prompt_to_message` method converts the prompt and image input (if any) of the current turn into the single-turn format of the current model.
 2. Import your new class in `agent/__init__.py`.
-3. Replace the content under `agent` in the config file used by `text_only_auto_test.py` with:
+3. Replace the content under `agent` in the config file used by `eval.py` with:
 
 ```yaml
 agent:

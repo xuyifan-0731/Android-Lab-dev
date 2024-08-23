@@ -229,7 +229,7 @@ def make_merge_pic(log_path, save_path=None):
     # Assuming all_images now contains all processed images
     final_image = merge_images(all_images)
     task_description = task_description.split("following task: ")[-1]
-    text_img = create_text_image("任务：" + task_description, final_image, 48, log_path=log_path)
+    text_img = create_text_image("Task: " + task_description, final_image, 48, log_path=log_path)
     final_image = merge_text_up(final_image, text_img, position=(0, 0))
     if save_path is None:
         save_path = log_path
@@ -240,18 +240,7 @@ def make_merge_pic(log_path, save_path=None):
     final_image_path = os.path.join(save_path, f"{filename}_final_combined_image.png")
     final_image.save(final_image_path)
     print(f"Saved final image to {final_image_path}")
-    try:
-        with jsonlines.open(trace_file) as f:
-            for line in f:
-                trace_id = line["trace_id"]
-                prompt = line["prompt"]
-                with jsonlines.open("/Users/xuyifan/Desktop/agent/sample/sample-0808.jsonl", 'a') as f1:
-                    f1.write({"trace_id": trace_id, "prompt": prompt})
-                break
-    except:
-        import traceback
-        traceback.print_exc()
-        pass
+
 
 
 def single_worker(all_log_path, log, save_path):
@@ -266,7 +255,7 @@ def single_worker(all_log_path, log, save_path):
 
 def check_all_log(all_log_path, save_path=None):
     def err_call_back(err):
-        print(f'出错啦~ error：{str(err)}')
+        print(f'error：{str(err)}')
 
     with Pool(processes=200) as pool:
         for log in tqdm(os.listdir(all_log_path)):
@@ -276,21 +265,18 @@ def check_all_log(all_log_path, save_path=None):
 
 
 if __name__ == '__main__':
-    # 原始数据保存路径
-    directory_path = '/Users/xuyifan/Desktop/agent/sample/logs'
+    import argparse
+    arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument("--directory_path", default="logs/evaluation", type=str)
+    arg_parser.add_argument("--save_path", default="logs/pic", type=str)
 
-    # directory_path = '/Users/peun/Desktop/未命名文件夹'
-    # 质检图片保存路径
-    save_path = '/Users/xuyifan/Desktop/agent/sample/save-0808'
-    # save_path = '/Users/peun/Desktop/result'
+    directory_path = arg_parser.parse_args().directory_path
+    save_path = arg_parser.parse_args().save_path
 
     subfolders = [f.name for f in os.scandir(directory_path) if f.is_dir()]
 
-    # 创建一个新的列表来存储组合后的完整路径
     combined_paths = [os.path.join(directory_path, subfolder) for subfolder in subfolders]
     combined_save_paths = [os.path.join(save_path, subfolder) for subfolder in subfolders]
 
-    # 调用质检函数
     for all_log_path, save_path in zip(combined_paths, combined_save_paths):
-        # print(all_log_path, save_path)
         check_all_log(all_log_path, save_path)

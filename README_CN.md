@@ -3,14 +3,14 @@
 英文版的README可以在[这里](README.md)找到。
 
 <p align="center">
-    <a href="https://arxiv.org/abs/" target="_blank">📃 论文 </a> | <a href="" target="_blank"> 🗂️ Android训练（建设中）
+    <a href="https://arxiv.org/abs/" target="_blank">📃 论文 </a> 
 </p>
 
 这个仓库是Android Eval部分的代码框架。我们提供了两种执行模式：Mac上的AVD（arm64）和Linux上的Docker（x86_64）。您可以根据我们的框架自由添加或修改新的任务或Android镜像。我们提供了一个完整的评估框架，可以用于评估各种Android智能体的性能。我们也在推进更强大的开源Android智能体的设计，并将在数据和训练方法最终确定后发布完整的训练数据和相应的训练代码。
 
 ![](./assets/main-picture.png)
 
-# Benchmark数据统计
+# Benchmark组成
 
 在我们的实验中，我们使用了一系列应用程序进行了各种测试。选择的移动应用程序如下：
 
@@ -29,14 +29,14 @@
 ![](./assets/avd-subgoal-subcates.png)
 # 排行榜
 
-XML和SoM模式的主要结果。SR、Sub-SR、RRR和ROR分别代表成功率、子目标成功率、反冗余率和合理操作率。对于所有这些指标，数值越高表示越好。**-IT**表示指令微调模型。在每个模式下，**加粗**表示最佳结果，**下划线**表示次佳结果。
+XML和SoM模式的主要结果。SR、Sub-SR、RRR和ROR分别代表成功率、子目标成功率、冗余率和合理操作率。对于所有这些指标，数值越高表示越好。**-ft**表示指令微调模型。在每个模式下，**加粗**表示最佳结果，**下划线**表示次佳结果。
 
 ![](./assets/leaderboard.png)
 
 
 # 快速开始
 
-## 自动评估管道
+## 自动评估
 
 我们提供了两种测试方法：Mac上的AVD（arm64）和Linux上的Docker（x86_64）。
 
@@ -45,7 +45,7 @@ XML和SoM模式的主要结果。SR、Sub-SR、RRR和ROR分别代表成功率、
 克隆此仓库并安装依赖项。
 
 ```bash
-cd Android-United
+cd /path/to/your/repo
 conda create -n Android-United python=3.11
 conda activate Android-United
 pip install -r requirements.txt
@@ -57,19 +57,21 @@ pip install -r requirements.txt
 
 ### 运行自动评估Pipeline
 
-请运行：
+运行：
 
 ```bash
 python eval.py -n test_name -c your path to config.yaml
 ```
 
-每个问题的具体输出保存在`./logs/evaluation/test_name`下，评估结果保存在`output`文件夹中。如果您只想运行几个问题进行测试，可以参考：
+每个问题的具体输出保存在`./logs/evaluation/test_name`下，评估结果保存在`output`文件夹中。
+
+如果您只想运行几个问题进行测试，可以参考：
 
 ```bash
 python eval.py -n test_name -c your path to config.yaml --task_id taskid_1,taskid_2,taskid_3
 ```
 
-我们支持并行测试。请注意，您需要提前确认有足够的内存和存储空间。每个并发会话大约占用6G内存和9G存储空间。
+我们支持并行测试。请注意，您需要提前确认有足够的内存和存储空间。每个并发测试大约占用6G内存和9G存储空间。
 
 ```bash
 python eval.py -n test_name -c your path to config.yaml -p 3
@@ -80,11 +82,11 @@ python eval.py -n test_name -c your path to config.yaml -p 3
 使用以下代码生成评估结果：
 
 ```bash
-gpt-4o-2024-05-13:
+# gpt-4o-2024-05-13评测:
 export OPENAI_API_KEY='your-api-key-here'
 python generate_result.py --input_folder ./logs/evaluation/ --output_folder ./logs/evaluation/ --output_excel ./logs/evaluation/test_name.xlsx --judge_model gpt-4o-2024-05-13
 
-glm4:
+# glm4评测:
 python generate_result.py --input_folder ./logs/evaluation/ --output_folder ./logs/evaluation/ --output_excel ./logs/evaluation/test_name.xlsx --judge_model glm4 --api_key your api key
 ```
 
@@ -94,9 +96,9 @@ python generate_result.py --input_folder ./logs/evaluation/ --output_folder ./lo
 
 `Agent`类已在`agent/`文件夹中预定义，包含基于oneapi的OpenAI接口和当前部署的GLM接口的实现。如果需要添加基础模型，您需要：
 
-1. 在`agent/`下创建一个新的Python文件，并参考`agent/model/OpenAIAgent`，通过继承`Agent`类实现您的模型调用。`act`函数输入已经按照OpenAI消息格式组织，输出为字符串。如果对应模型的输入格式与OpenAI不同，可以参考`glm_model`中的`format_history`函数进行修改。`prompt_to_message`方法将当前回合的提示和图像输入（如果有）修改为当前模型的单回合格式，可以参考`OpenAIAgent`提供的标准OpenAI格式。
+1. 在`agent/`下创建一个新的Python文件，并参考`agent/model/OpenAIAgent`，通过继承`Agent`类实现您的模型调用。`act`函数输入已经按照OpenAI message格式组织，输出为字符串。如果对应模型的输入格式与OpenAI不同，可以参考`claude_model`中的`format_history`函数和`qwen_model`中的`prompt_to_message`进行修改。`format_history`可以组织历史记录格式，`prompt_to_message`方法将当前回合的提示和图像输入（如果有）修改为当前模型的单回合格式。
 2. 在`agent/__init__.py`中导入您的新类。
-3. 将`text_only_auto_test.py`使用的配置文件中的`agent`内容替换为：
+3. 将`eval.py`使用的配置文件中的`agent`内容替换为：
 
 ```yaml
 agent:
@@ -123,7 +125,7 @@ agent:
 
 如果您想定义一个与android eval快照不同的移动快照，您需要遵循以下步骤：
 
-1. 从链接下载相关docker文件：https://drive.google.com/file/d/1xpPEzVof5hrt5bQY6BHm_4Uoyq5mJQNb/view?usp=drive_link
+1. 从链接下载相关docker_no_avd文件：https://drive.google.com/file/d/1xpPEzVof5hrt5bQY6BHm_4Uoyq5mJQNb/view?usp=drive_link
 2. 解压文件，进入解压后的文件夹，然后运行：
 
 ```bash
