@@ -1,4 +1,4 @@
-# Android United: Developing and Evaluating Android Agents in A Reproducible Environment
+# Android Lab: Developing and Evaluating Android Agents in A Reproducible Environment
 
 Chinese version of this README is available [here](README_CN.md).
 
@@ -6,9 +6,9 @@ Autonomous agents have become increasingly important for interacting with the re
 Android agents, in particular, have been a frequently mentioned interaction method in recent research. 
 However, current benchmarks for evaluating Android agents still require further development. 
 They lack a good combination of reproducibility and task difficulty. 
-In this work, we propose Android United as a powerful Android agent framework. 
+In this work, we propose Android Lab as a powerful Android agent framework. 
 It includes an operation environment with operation modes and action space, as well as a reproducible benchmark---Android Eval. 
-By `United', it supports both text-based and multi-modal models in the same action space. 
+It supports both text-based and multi-modal models in the same action space. 
 Android Eval comprises a set of predefined Android virtual images and 138 tasks across nine apps designed based on these images. 
 By using this environment, we develop the Android Instruction dataset and train the LLaMA3-8B-instruct, GLM-4, and CogVLM2 (LLaMA3-8B) models on it. The trained models as Android agents are comparable to the best open and closed-source models, respectively. 
 
@@ -56,8 +56,8 @@ Clone this repo and install the dependencies.
 
 ```bash
 cd /path/to/your/repo
-conda create -n Android-United python=3.11
-conda activate Android-United
+conda create -n Android-Lab python=3.11
+conda activate Android-Lab
 pip install -r requirements.txt
 ```
 
