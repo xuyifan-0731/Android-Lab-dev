@@ -1,4 +1,4 @@
-# Android United: 开发和评估Android智能体的可复现环境
+# Android Lab: 开发和评估Android智能体的可复现环境
 
 英文版的README可以在[这里](README.md)找到。
 
@@ -46,8 +46,8 @@ XML和SoM模式的主要结果。SR、Sub-SR、RRR和ROR分别代表成功率、
 
 ```bash
 cd /path/to/your/repo
-conda create -n Android-United python=3.11
-conda activate Android-United
+conda create -n Android-Lab python=3.11
+conda activate Android-Lab
 pip install -r requirements.txt
 ```
 
