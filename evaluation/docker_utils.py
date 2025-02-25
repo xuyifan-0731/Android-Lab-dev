@@ -11,9 +11,26 @@ def run_docker_command(command):
     return result.returncode, result.stdout, result.stderr
 
 
-def create_docker_container(docker_image_name, docker_port, docker_local_port):
+def create_docker_container_old(docker_image_name, docker_port, docker_local_port):
     command = f"docker run -itd --privileged  -p {docker_local_port}:{docker_port} {docker_image_name}"
     returncode, stdout, stderr = run_docker_command(command)
+    time.sleep(10)
+    if returncode == 0:
+        container_id = stdout.strip()
+        # TODO: add to final docker
+        command = f"docker cp adb_client.py {container_id}:/"
+        returncode, stdout, stderr = run_docker_command(command)
+        return container_id
+    else:
+        print(returncode, stdout, stderr)
+        raise Exception(f"Error creating container: {stderr}")
+
+def create_docker_container(docker_image_name, port_list):
+    command_start = f"docker run -itd --privileged"
+    for port in port_list:
+        command_start += f" -p {port[1]}:{port[0]}"
+    command_start += f" {docker_image_name}"
+    returncode, stdout, stderr = run_docker_command(command_start)
     time.sleep(10)
     if returncode == 0:
         container_id = stdout.strip()

@@ -8,7 +8,7 @@ class SingleTask_Firefox_1(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         return {"judge_page": True, "1": True, "complete": True}
@@ -21,7 +21,7 @@ class SingleTask_Firefox_2(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         return {"judge_page": True, "1": True, "complete": True}
@@ -34,7 +34,7 @@ class SingleTask_Firefox_3(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         return {"judge_page": True, "1": True, "complete": True}
@@ -47,7 +47,7 @@ class SingleTask_Firefox_4(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         return {"judge_page": True, "1": True, "complete": True}
@@ -60,7 +60,7 @@ class SingleTask_Firefox_5(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         return {"judge_page": True, "1": True, "complete": True}
@@ -73,7 +73,7 @@ class SingleTask_Firefox_6(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         return {"judge_page": True, "1": True, "complete": True}
@@ -86,7 +86,7 @@ class SingleTask_Firefox_7(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         return {"judge_page": True, "1": True, "complete": True}
@@ -99,7 +99,7 @@ class SingleTask_Firefox_8(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         key = True
@@ -116,7 +116,7 @@ class SingleTask_Firefox_9(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         key = True

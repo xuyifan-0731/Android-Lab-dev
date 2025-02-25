@@ -11,7 +11,7 @@ class SingleTask_Contacts_1(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         outcome = {"judge_page": False, "1": False, "2": False, "complete": False}
 
         if not self.judge_page(xml_compressed_tree):
@@ -45,20 +45,23 @@ class SingleTask_Contacts_2(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
+        
 
         outcome = {"judge_page": True, "1": False, "2": False, "complete": False}
         outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "1 (234) 567-8")
-
+        
         for out in outs:
             for single_out in out.values():
                 for key in single_out.keys():
+                    print(key)
                     key = key.split(";")[-1]
-                    if key == "Call Mobile 1 (234) 567-8 ":
+                    if "Call Mobile 1 (234) 567-8 " in key:
                         outcome["1"] = True
-                    if key == "Email Work 123456@qq.com ":
+    
+                    if "123456@gmail.com " in key:
                         outcome["2"] = True
                     if outcome["1"] and outcome["2"]:
                         outcome["complete"] = True
@@ -76,20 +79,19 @@ class SingleTask_Contacts_3(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
         outcome = {"judge_page": True, "1": False, "2": False, "complete": False}
         outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "1 (234) 567-8")
-
         for out in outs:
             for single_out in out.values():
                 for key in single_out.keys():
                     key = key.split(";")[-1]
-                    if key == "Call Work 1 (234) 567-8 ":
+                    if "Call Work 1 (234) 567-8 " in key:
                         outcome["1"] = True
-                    if key == "Call Mobile (876) 543-21 ":
+                    if "Call Mobile (876) 543-21 " in key:
                         outcome["2"] = True
                     if outcome["1"] and outcome["2"]:
                         outcome["complete"] = True
@@ -107,7 +109,7 @@ class SingleTask_Contacts_4(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -118,7 +120,7 @@ class SingleTask_Contacts_4(SingleTask):
             for single_out in out.values():
                 for key in single_out.keys():
                     key = key.split(";")[-1]
-                    if key == "Tsinghua University ":
+                    if "Tsinghua University " in key:
                         outcome["1"] = True
                         outcome["complete"] = True
                         return outcome
@@ -135,7 +137,7 @@ class SingleTask_Contacts_5(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -152,11 +154,11 @@ class SingleTask_Contacts_5(SingleTask):
                     try:
                         for it in value.keys():
                             key = it.split(";")[-1]
-                            if key == "Chen Chen ":
+                            if "Chen Chen " in key:
                                 outcome["1"] = True
-                            elif key == "Lee Lee ":
+                            elif "Lee Lee " in key:
                                 outcome["2"] = True
-                            elif key == "Xu Xu ":
+                            elif "Xu Xu " in key:
                                 outcome["3"] = True
                             if outcome["1"] and outcome["2"] and outcome["3"]:
                                 outcome["complete"] = True
@@ -176,7 +178,7 @@ class SingleTask_Contacts_6(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -199,7 +201,7 @@ class SingleTask_Contacts_7(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -210,7 +212,7 @@ class SingleTask_Contacts_7(SingleTask):
             for single_out in out.values():
                 for key in single_out.keys():
                     key = key.split(";")[-1]
-                    if key == "October 24, 1996 ":
+                    if "October 24, 1996 " in key:
                         outcome["1"] = True
                         outcome["complete"] = True
                         return outcome
@@ -227,7 +229,7 @@ class SingleTask_Contacts_8(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -248,7 +250,7 @@ class SingleTask_Contacts_9(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -277,7 +279,7 @@ class SingleTask_Contacts_10(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -285,24 +287,39 @@ class SingleTask_Contacts_10(SingleTask):
 
 
 class SingleTask_Contacts_11(SingleTask):
+    step1_go_to_delete_page = False
+    step2_delete_contact = False
+    step3_delete_contact_confirm = False
 
     def judge_page(self, xml_compressed_tree):
-        if not find_subtrees_of_parents_with_key(xml_compressed_tree, "ABC ABC"):
+        if not find_subtrees_of_parents_with_key(xml_compressed_tree, "AAA"):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
-        if not self.judge_page(xml_compressed_tree):
-            return {"judge_page": False}
+    def judge(self, xml_compressed_tree, line, xml_path):
+        if not self.step1_go_to_delete_page:
+            if not self.judge_page(xml_compressed_tree):
+                return {"judge_page": False}
+            else:
+                self.step1_go_to_delete_page = True
 
-        judge_key = not find_subtrees_of_parents_with_key(xml_compressed_tree, "AAA AAA ")
+        if self.step1_go_to_delete_page:
+            if find_subtrees_of_parents_with_key(xml_compressed_tree, "Delete contact?"):
+                self.step2_delete_contact = True
+        
+        if self.step1_go_to_delete_page and self.step2_delete_contact:
+            if find_subtrees_of_parents_with_key(xml_compressed_tree, "No results"):
+                self.step3_delete_contact_confirm = True
+        
+        if self.step1_go_to_delete_page and self.step2_delete_contact and self.step3_delete_contact_confirm:
+            return {"judge_page": True, "1": True, "2": True, "3": True, "complete": True}
 
-        return {"judge_page": True, "1": judge_key, "complete": judge_key}
+        return {"judge_page": True, "1": self.step1_go_to_delete_page, "2": self.step2_delete_contact, "3": self.step3_delete_contact_confirm, "complete": self.step1_go_to_delete_page and self.step2_delete_contact and self.step3_delete_contact_confirm}
 
 
 class SingleTask_Contacts_12(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -317,52 +334,61 @@ class SingleTask_Contacts_12(SingleTask):
 
 class SingleTask_Contacts_13(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
         answer = "22334455@gmail.com"
-        self.save_answer(answer)
-        if self.check_answer(line):
+        if find_subtrees_of_parents_with_key(xml_compressed_tree, "22334455@gmail.com"):
             outcome = {"judge_page": True, "1": True, "complete": True}
         else:
-            outcome = {"judge_page": True, "1": False, "complete": False}
+            self.save_answer(answer)
+            if self.check_answer(line):
+                outcome = {"judge_page": True, "1": True, "complete": True}
+            else:
+                outcome = {"judge_page": True, "1": False, "complete": False}
         return outcome
 
 
 class SingleTask_Contacts_14(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
         answer = "October 24, 1996"
-        self.save_answer(answer)
-        if self.check_answer(line):
+        if find_subtrees_of_parents_with_key(xml_compressed_tree, "October 24, 1996"):
             outcome = {"judge_page": True, "1": True, "complete": True}
         else:
-            outcome = {"judge_page": True, "1": False, "complete": False}
+            self.save_answer(answer)
+            if self.check_answer(line):
+                outcome = {"judge_page": True, "1": True, "complete": True}
+            else:
+                outcome = {"judge_page": True, "1": False, "complete": False}
         return outcome
 
 
 class SingleTask_Contacts_15(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
         answer = "Tsinghua university"
-        self.save_answer(answer)
-        if self.check_answer(line):
+        if find_subtrees_of_parents_with_key(xml_compressed_tree, "Tsinghua university"):
             outcome = {"judge_page": True, "1": True, "complete": True}
         else:
-            outcome = {"judge_page": True, "1": False, "complete": False}
+            self.save_answer(answer)
+            if self.check_answer(line):
+                outcome = {"judge_page": True, "1": True, "complete": True}
+            else:
+                outcome = {"judge_page": True, "1": False, "complete": False}
         return outcome
 
 
 class SingleTask_Contacts_16(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 

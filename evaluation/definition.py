@@ -41,7 +41,7 @@ def detect_answer(question: str, model_answer: str, standard_answer: str, args):
     while call_time <= 5:
         call_time += 1
         if args.judge_model == "glm4":
-            return_message = get_completion_glm(prompt=detect_prompt, glm4_key=api_key)
+            return_message = get_completion_glm(prompt=detect_prompt, glm4_key=args.api_key)
         elif "gpt" in args.judge_model:
             return_message = get_completion_gpt(prompt=detect_prompt, model_name = args.judge_model)
         if "True" in return_message:

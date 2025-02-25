@@ -103,6 +103,17 @@ class OpenAIAgent(Agent):
     def system_prompt(self, instruction) -> str:
         return SYSTEM_PROMPT_ANDROID_MLLM_DIRECT + f"\n\nTask Instruction: {instruction}"
 
+    '''
+    def predict(self, text_prompt: str) -> tuple[str, Optional[bool], Any]:
+        message = self.prompt_to_message(text_prompt, [])
+        response = self.act(message)
+        return response, None, None
+
+    def predict_mm(self, text_prompt: str, images: List[str]) -> tuple[str, Optional[bool], Any]:
+        message = self.prompt_to_message(text_prompt, images)
+        response = self.act(message)
+        return response, None, None'''
+
 
 class HTTPAgent(Agent):
     def __init__(

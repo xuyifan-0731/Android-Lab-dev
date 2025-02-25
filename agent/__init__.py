@@ -4,6 +4,7 @@ except:
     print("Claude LLM is not available.")
 try:
     from .llm.glm4 import *
+    from .llm.glm_model import *
 except:
     print("GLM4 is not available.")
 try:
@@ -12,7 +13,14 @@ try:
 except:
     print("Qwen LLM is not available.")
 
+try:
+    from .mllm.cogagent import *
+except:
+    print("CogAgent is not available.")
+
 from .model import *
+from .llm.gpt_oneapi import *
+
 
 
 

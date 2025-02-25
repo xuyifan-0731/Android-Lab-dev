@@ -5,7 +5,7 @@ from evaluation.docker_utils import create_docker_container, execute_command_in_
     start_avd, stop_avd
 from evaluation.evaluation import *
 from evaluation.utils import *
-from page_executor import TextOnlyExecutor
+from page_executor import TextOnlyExecutor, TextOnlyExecutor_v4, TextOnlyExecutor_v41
 from page_executor.simple_vision_executor import VisionExecutor
 from recorder import JSONRecorder
 from templates import *
@@ -106,6 +106,80 @@ class Instance():
         except:
             pass
 
+class Instance_AndroidWorld(Instance):
+    def initialize_single_task(self, config = None):
+        avd_name = self.avd_name
+        print_with_color(f"Starting Android Emulator with AVD name: {avd_name}", "blue")
+        if not os.path.exists(self.config.avd_log_dir):
+            os.makedirs(self.config.avd_log_dir, exist_ok=True)
+        out_file = open(os.path.join(self.config.avd_log_dir, 'emulator_output.txt'), 'a')
+
+        device_start_port = self.config.device_start_port
+        grpc_start_port = self.config.grpc_start_port
+        idx_num = int(self.idx)
+        self.device_port = device_start_port + idx_num * 4
+        self.grpc_port = grpc_start_port + idx_num * 4
+        emulator_process = subprocess.Popen(
+            [
+                "emulator",
+                "-avd", avd_name,
+                "-no-snapshot-save",
+                "-no-window",
+                "-no-audio",
+                "-grpc", str(self.grpc_port),
+                "-port", str(self.device_port)  # 替换为你要指定的端口
+            ],
+            stdout=out_file,
+            stderr=subprocess.STDOUT
+        )
+        print_with_color(f"Waiting for the emulator to start...", "blue")
+        while True:
+            try:
+                device = get_adb_device_name(avd_name)
+            except:
+                continue
+            if device is not None:
+                break
+        # TODO: fix open emulator bug here
+
+        print("idx: ", self.idx)
+        print("Device name: ", device)
+        print("Device port: ", self.device_port)
+        print("GRPC port: ", self.grpc_port)
+        print("AVD name: ", avd_name)
+
+        while True:
+            boot_complete = f"adb -s {device} shell getprop init.svc.bootanim"
+            boot_complete = execute_adb(boot_complete, output=False)
+            if boot_complete == 'stopped':
+                print_with_color("Emulator started successfully", "blue")
+                break
+            time.sleep(1)
+        time.sleep(1)
+        self.emulator_process = emulator_process
+        self.out_file = out_file
+        device_list = list_all_devices()
+        if len(device_list) == 1:
+            device = device_list[0]
+            print_with_color(f"Device selected: {device}", "yellow")
+        else:
+            device = get_avd_serial_number(avd_name)
+        return device
+
+    def __del__(self):
+        if self.tar_avd_dir is not None:
+            shutil.rmtree(self.tar_avd_dir)
+        if self.tar_ini_file is not None:
+            os.remove(self.tar_ini_file)
+        try:
+            self.emulator_process.terminate()
+        except:
+            pass
+        try:
+            self.out_file.close()
+        except:
+            pass
+
 
 class Docker_Instance(Instance):
     def __init__(self, config, idx = 0):
@@ -118,16 +192,23 @@ class Docker_Instance(Instance):
     def initialize_worker(self, config):
         self.config = config
         print_with_color(f"Starting Android Emulator in docker with AVD name: {config.avd_name}", "blue")
-        docker_port_local = find_free_ports(start_port=6060 + self.idx)
+        if "local_port" in self.config.docker_args:
+            local_port_start = self.config.docker_args["local_port"]
+        else:
+            local_port_start = 6060
+        docker_port_local = find_free_ports(start_port=local_port_start + self.idx)
         self.docker_port_local = docker_port_local
         print(f"Local port: {docker_port_local}")
 
+    def start_docker(self, docker_image_name, docker_port):
+        container_id = create_docker_container(docker_image_name, [(docker_port, self.docker_port_local)])
+        return container_id
 
 
     def initialize_single_task(self,config):
         docker_image_name = config.docker_args.get("image_name")
         docker_port = config.docker_args.get("port")
-        container_id = create_docker_container(docker_image_name, docker_port, self.docker_port_local)
+        container_id = self.start_docker(docker_image_name, docker_port)
 
         # TODO: python location should be configurable
         command = "/usr/local/bin/python adb_client.py > server.txt 2>&1"
@@ -188,14 +269,14 @@ class AutoTest():
         device = instance.initialize_single_task(self.config)
 
         self.controller = AndroidController(device, type, instance)
-        self.controller.run_command("adb root")
-        self.controller.run_command("adb emu geo fix -122.156 37.438")
-        if "map.me" not in self.instruction:
-            self.controller.run_command("adb shell date \"2024-05-10 12:00:00\"")
+        if not self.config.android_world:
+            self.controller.run_command("adb root")
+            self.controller.run_command("adb emu geo fix -122.156 37.438")
+            if "map.me" not in self.instruction:
+                self.controller.run_command("adb shell date \"2024-05-10 12:00:00\"")
         #self.controller.run_command("adb install /raid/xuyifan/data/ADBKeyboard.apk")
         #time.sleep(5)
         #self.controller.run_command("adb shell ime set com.android.adbkeyboard/.AdbIME")
-
         if self.config.mode == "in_app":
             self.controller.launch_app(find_package(self.app))
             time.sleep(15)
@@ -203,8 +284,10 @@ class AutoTest():
     def run_serial(self, tasks):
         if self.config.docker:
             instance = Docker_Instance(self.config)
-        else:
+        elif not self.config.android_world:
             instance = Instance(self.config)
+        else:
+            instance = Instance_AndroidWorld(self.config)
         for task in tasks:
             self.run_task(task, instance)
 
@@ -239,7 +322,7 @@ class AutoTest():
             try:
                 round_count += 1
                 print_with_color(f"Round {round_count}", "yellow")
-                task_agent.run_step(round_count)
+                task_agent.run_step()
                 print_with_color("Thinking about what to do in the next step...", "yellow")
                 time.sleep(self.config.request_interval)
 
@@ -279,6 +362,42 @@ class TextOnlyMobileTask_AutoTest(AutoTest):
 
     def get_executor(self):
         return TextOnlyExecutor(self.controller, self.config)
+
+
+class TextOnlyMobileTask_AutoTest_v4(AutoTest):
+    def get_agent(self):
+        task_agent = TextOnlyTask(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record,
+                                  self.command_per_step)
+        return task_agent
+
+    def get_executor(self):
+        return TextOnlyExecutor_v4(self.controller, self.config)
+
+
+class Multi_ScreenshotMobileTask_AutoTest(AutoTest):
+    def get_agent(self):
+        task_agent = Multi_ScreenshotTask(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record,
+                                          self.command_per_step)
+        return task_agent
+    
+    def get_executor(self):
+        return TextOnlyExecutor(self.controller, self.config)
+
+
+class Multi_ScreenshotMobileTask_AutoTest_v4(TextOnlyMobileTask_AutoTest_v4):
+    def get_agent(self):
+        task_agent = Multi_ScreenshotTask(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record,
+                                          self.command_per_step)
+        return task_agent
+
+class Multi_ScreenshotMobileTask_AutoTest_v41(AutoTest):
+    def get_agent(self):
+        task_agent = Multi_ScreenshotTask(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record,
+                                          self.command_per_step)
+        return task_agent
+    
+    def get_executor(self):
+        return TextOnlyExecutor_v41(self.controller, self.config)
 
 
 class ScreenshotMobileTask_AutoTest(TextOnlyMobileTask_AutoTest):
@@ -337,7 +456,21 @@ class ScreenSeeActTask_AutoTest(TextOnlyMobileTask_AutoTest):
                                       self.record, self.command_per_step)
         return task_agent
 
+class TextOnlySeeActTask_AutoTest(TextOnlyMobileTask_AutoTest):
+    def get_agent(self):
+        task_agent = TextOnlySeeActTask(self.instruction, self.controller, self.page_executor, self.llm_agent,
+                                      self.record, self.command_per_step)
+        return task_agent
 
+class QwenVLAgentTask_AutoTest(TextOnlyMobileTask_AutoTest):
+    def get_agent(self):
+        task_agent = QwenVLAgentTask(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record,
+                                  self.command_per_step)
+        return task_agent
+
+    def get_executor(self):
+        return VisionExecutor(self.controller, self.config)
+    
 class ScreenReactTask_AutoTest(TextOnlyMobileTask_AutoTest):
     def get_agent(self):
         task_agent = ScreenshotReactTask(self.instruction, self.controller, self.page_executor, self.llm_agent,

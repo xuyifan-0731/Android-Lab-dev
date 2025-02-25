@@ -34,3 +34,6 @@ google.auth
 docker
 fuzzywuzzy
 openpyxl
+datasketch
+rapidocr_onnxruntime
+immutabledict

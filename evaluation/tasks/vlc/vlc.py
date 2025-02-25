@@ -26,7 +26,7 @@ class SingleTask_vlc_1(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -46,7 +46,7 @@ class SingleTask_vlc_2(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -66,7 +66,7 @@ class SingleTask_vlc_3(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -86,7 +86,7 @@ class SingleTask_vlc_4(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -106,7 +106,7 @@ class SingleTask_vlc_5(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -126,7 +126,7 @@ class SingleTask_vlc_6(SingleTask):
         player = next(iter(player_dict))
         return "Video player" in player
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -159,7 +159,7 @@ class SingleTask_vlc_7(SingleTask):
             return False
         return "Video" in next(iter(selected))
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 

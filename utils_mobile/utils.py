@@ -17,7 +17,7 @@ from openai import OpenAI
 from zhipuai import ZhipuAI
 
 # from evaluation.definition import *
-from utils_mobile.xml_tool import UIXMLTree
+from utils_mobile.xml_tool_v1 import UIXMLTree
 
 
 def get_compressed_xml(xml_path, type="json"):

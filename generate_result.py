@@ -2,6 +2,7 @@ import argparse
 import concurrent.futures
 import datetime
 import os
+import shutil
 from collections import defaultdict
 from glob import glob
 from os.path import join, isdir, isfile, relpath
@@ -57,8 +58,9 @@ def evaluate_all_tasks(tasks: List[Evaluation_Task]):
             task.evaluate()
             del task
         except Exception as e:
-            import traceback
-            print(traceback.format_exc())
+            pass
+            #import traceback
+            #print(traceback.format_exc())
 
 
 def evaluate_input_dir(input_dir, task_yamls, create_time, args):
@@ -75,9 +77,9 @@ def evaluate_input_dir(input_dir, task_yamls, create_time, args):
     for app_task_config_path in task_files:
         app_config = AppConfig(app_task_config_path, output_dir=output_root_dir)
         app_task = Evaluation_Task(app_config, traces, args, detail=True)
-        print(f"    Evaluation_Task '{app_task.name}' loaded from config {app_task_config_path}")
+        #print(f"    Evaluation_Task '{app_task.name}' loaded from config {app_task_config_path}")
         tasks.append(app_task)
-    print(f"> Successfully load {len(tasks)} task{'s' if len(tasks) > 1 else ''}")
+    #print(f"> Successfully load {len(tasks)} task{'s' if len(tasks) > 1 else ''}")
     evaluate_all_tasks(tasks)
 
 
@@ -88,7 +90,7 @@ def output_to_excel(args):
 
     for output in outputs:
         output_folder = os.path.join(base_folder, output)
-        agent_name = output.split("_2024")[0]
+        agent_name = output.split("_202")[0]
         if not os.path.exists(os.path.join(output_folder, "total.jsonl")):
             continue
         with jsonlines.open(os.path.join(output_folder, "total.jsonl")) as f:
@@ -128,7 +130,8 @@ def output_to_excel(args):
             output_dict["correct"] = tt_correct
             output_df = output_df._append(output_dict, ignore_index=True)
     output_df.to_excel(args.output_excel)
-    print(output_df)
+    #print(output_df)
+    return output_df
 
 
 def parse_args():
@@ -140,7 +143,7 @@ def parse_args():
     group.add_argument("--tt", type=int, default=138)
     group.add_argument("--judge_model", type=str, default="glm4")
     group.add_argument("--api_base", type=str, default="")
-    group.add_argument("--api_key", type=str, default="")
+    group.add_argument("--api_key", type=str, default="a9e4c4bc2c3c8f5b026ec10488b7b485.SZHOUgvPfCEKbztk")
     args = parser.parse_args()
     return args
 
@@ -160,19 +163,38 @@ def main():
     already_output = os.listdir(args.output_folder)
     agent_list = []
     for output in already_output:
-        agent_name = output.split("_2024")[0]
+        agent_name = output.split("_202")[0]
         agent_list.append(agent_name)
+        # agent_name去掉其中年份以及之后的字符
+        '''
+        if os.path.exists(os.path.join(args.output_folder, output, "total.jsonl")):
+            result_file = os.path.join(args.output_folder, output, "results.jsonl")
+            num_lines_result = sum(1 for _ in open(result_file))
+            if "2025" in output and num_lines_result > 135:
+                agent_name = output.split("_202")[0]
+                agent_list.append(agent_name)
+            elif "2025" in output and num_lines_result <= 135:
+                print("unfinish: ", output)
+                print(f"num_lines_result: {num_lines_result}")
+                shutil.rmtree(os.path.join(args.output_folder, output))
+            else:
+                agent_name = output.split("_202")[0]
+                agent_list.append(agent_name)'''
+
+    test_agents = []
     for input_dir in input_dirs:
         if "emulator_output.txt" in input_dir:
             continue
+        skip_flag = False
         for agent in agent_list:
             if agent == input_dir.split('/')[-1]:
-                input_dirs.remove(input_dir)
-                break
-
-    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+                skip_flag = True
+        if not skip_flag:
+            test_agents.append(input_dir)
+    
+    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
         futures = [executor.submit(evaluate_input_dir, input_dir, task_yamls, create_time, args) for input_dir in
-                   input_dirs]
+                   test_agents]
         for future in concurrent.futures.as_completed(futures):
             try:
                 future.result()
@@ -180,12 +202,14 @@ def main():
                 import traceback
                 traceback.print_exc()
                 print(f'Generated an exception: {exc}')
-    output_to_excel(args)
-    df = pd.DataFrame()
+    output_df_main_result = output_to_excel(args)
+    output_df_app_result = pd.DataFrame()
     files = os.listdir(args.output_folder)
     for file in files:
         output_folder = os.path.join(args.output_folder, file)
         agent_name = file.split("_2024")[0]
+        if "test" in agent_name:
+            continue
         if not os.path.exists(os.path.join(output_folder, "total.jsonl")):
             continue
         output_dict = {"agent_name": agent_name}
@@ -194,8 +218,14 @@ def main():
                 app = line["App"]
                 correct = line["Complete_Correct"]
                 output_dict[app] = correct
-        df = df._append(output_dict, ignore_index=True)
-        df.to_excel(args.output_excel.replace(".xlsx", "_detail.xlsx"))
+        #if output_dict["agent_name"] in test_agents:
+            #print("Add result: ", output_dict)
+        output_df_app_result = output_df_app_result._append(output_dict, ignore_index=True)
+
+    desired_order = ["bluecoins", "calendar", "cantook", "clock", "contacts", "map", "pimusic", "setting", "zoom"]
+    output_df_app_result = output_df_app_result[["agent_name"] + desired_order]
+    merged_df = pd.merge(output_df_main_result, output_df_app_result, on="agent_name")
+    merged_df.to_excel(args.output_excel.replace(".xlsx", "_detail.xlsx"))
 
 
 if __name__ == "__main__":

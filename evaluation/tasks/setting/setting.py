@@ -3,7 +3,7 @@ from evaluation.task import *
 
 class SingleTask_Setting_0(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if "command" not in line:
             return {"judge_page": False}
         command = line["command"]
@@ -22,7 +22,7 @@ class SingleTask_Setting_1(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "Turn on Wi‑Fi automatically")
@@ -43,7 +43,7 @@ class SingleTask_Setting_2(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "dns.google")
@@ -55,7 +55,7 @@ class SingleTask_Setting_2(SingleTask):
 
 class SingleTask_Setting_3(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if "command" not in line:
             return {"judge_page": False}
         command = line["command"]
@@ -74,7 +74,7 @@ class SingleTask_Setting_4(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "my AVD")
@@ -93,7 +93,7 @@ class SingleTask_Setting_5(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "Battery percentage")
@@ -114,7 +114,7 @@ class SingleTask_Setting_6(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "Apps")
@@ -162,7 +162,7 @@ class SingleTask_Setting_7(SingleTask):
         else:
             return {"judge_page": False}
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "Display ")
@@ -199,7 +199,7 @@ class SingleTask_Setting_8(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "Brightness level ")
@@ -219,7 +219,7 @@ class SingleTask_Setting_8(SingleTask):
 
 class SingleTask_Setting_9(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         if "command" not in line:
@@ -233,7 +233,7 @@ class SingleTask_Setting_9(SingleTask):
 
 class SingleTask_Setting_10(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         if "command" not in line:
@@ -252,7 +252,7 @@ class SingleTask_Setting_11(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -271,7 +271,7 @@ class SingleTask_Setting_12(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -292,7 +292,7 @@ class SingleTask_Setting_13(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         finish = {"judge_page": True, "1": False, "complete": False}
@@ -309,7 +309,7 @@ class SingleTask_Setting_13(SingleTask):
 
 class SingleTask_Setting_14(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         if "command" not in line:
@@ -332,30 +332,35 @@ class SingleTask_Setting_15(SingleTask):
 
     def judge_page(self, xml_compressed_tree):
         # 判断是否包含 "Add a language"
-        outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "Add a language")
+        outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "Preferred language order")
         if len(outs) == 0:
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
-        outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "Español (Estados Unidos)")
-        if len(outs) == 0:
-            return {"judge_page": True, "1": False, "complete": False}
-        for out in outs:
-            for key, value in out.items():
-                for idx, judge_key in enumerate(value.keys()):
-                    if "Español (Estados Unidos)" in judge_key:
-                        if "2" in list(value.keys())[idx + 1]:
-                            return {"judge_page": True, "1": True, "2": True, "complete": True}
-                        else:
-                            return {"judge_page": True, "1": True, "2": False, "complete": False}
+
+        # bug in v1, use xml v2 str format for temp fix
+        from utils_mobile.utils import get_compressed_xml
+        #print(xml_compressed_tree)
+        #print("="*100)
+        xml_compressed_tree = get_compressed_xml(xml_path, version="v2", type="json")
+        xml_compressed_tree = xml_compressed_tree.split("\n")
+        #print(xml_compressed_tree)
+        is_page = False
+        for idx, xml_line in enumerate(xml_compressed_tree):
+            if "Español (Estados Unidos)" in xml_line:
+                if "2" in xml_compressed_tree[idx + 1]:
+                    return {"judge_page": True, "1": True, "2": True, "complete": True}
+                else:
+                    return {"judge_page": True, "1": True, "2": False, "complete": False}
+        return {"judge_page": True, "1": False, "2": False, "complete": False}
 
 
 class SingleTask_Setting_16(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         if line["parsed_action"]["action"] != "finish":
@@ -372,23 +377,26 @@ class SingleTask_Setting_16(SingleTask):
 
 class SingleTask_Setting_17(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         if "command" not in line:
             return {"judge_page": False}
-        command = line["command"]
-        answer = command["adb shell getprop ro.build.version.release"]
-        if line["parsed_action"]["action"] != "finish":
-            return {"judge_page": False}
-        try:
-            self.final_ground_truth = answer
-            if self.check_answer(line):
-                return {"judge_page": True, "1": True, "complete": True}
-            else:
+        if find_subtrees_of_parents_with_key(xml_compressed_tree, "Android 13") or find_subtrees_of_parents_with_key(xml_compressed_tree, "Android version: 13"):
+            return {"judge_page": True, "1": True, "complete": True}
+        else:
+            command = line["command"]
+            answer = command["adb shell getprop ro.build.version.release"]
+            if line["parsed_action"]["action"] != "finish":
+                return {"judge_page": False}
+            try:
+                self.final_ground_truth = answer
+                if self.check_answer(line):
+                    return {"judge_page": True, "1": True, "complete": True}
+                else:
+                    return {"judge_page": True, "1": False, "complete": False}
+            except:
                 return {"judge_page": True, "1": False, "complete": False}
-        except:
-            return {"judge_page": True, "1": False, "complete": False}
 
 
 class SingleTask_Setting_18(SingleTask):
@@ -425,7 +433,7 @@ class SingleTask_Setting_18(SingleTask):
         else:
             return {"judge_page": False}
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return self.setting_18_ch(xml_compressed_tree)
         outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "Allowed")
@@ -466,7 +474,7 @@ class SingleTask_Setting_19(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "Default browser app")
@@ -480,7 +488,7 @@ class SingleTask_Setting_19(SingleTask):
 
 class SingleTask_Setting_20(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         if "command" not in line:
@@ -502,7 +510,7 @@ class SingleTask_Setting_21(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         return {"judge_page": True, "1": True, "complete": True}
@@ -510,7 +518,7 @@ class SingleTask_Setting_21(SingleTask):
 
 class SingleTask_Setting_22(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         if "command" not in line:

@@ -100,6 +100,7 @@ class TaskConfig:
     avd_name: Optional[str] = None
     avd_log_dir: Optional[str] = None
     avd_base: Optional[str] = None
+    adb_path: Optional[str] = None
     android_sdk_path: Optional[str] = None
     is_relative_bbox: Optional[bool] = False
     docker: Optional[bool] = False
@@ -107,6 +108,12 @@ class TaskConfig:
     sample: Optional[bool] = False
     show_avd: Optional[bool] = False
     version: Optional[str] = None
+    use_ocr: Optional[bool] = False
+    tap_desc: Optional[bool] = False
+    ablation: Optional[str] = None
+    device_start_port: Optional[int] = 5558
+    grpc_start_port: Optional[int] = 8554
+    android_world: Optional[bool] = False
 
     def subdir_config(self, subdir: str):
         new_config = self.__dict__.copy()

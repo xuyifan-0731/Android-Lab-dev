@@ -74,7 +74,7 @@ class SingleTask_pimusic_1(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -94,7 +94,7 @@ class SingleTask_pimusic_2(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -103,7 +103,12 @@ class SingleTask_pimusic_2(SingleTask):
         if self.check_answer(line):
             outcome = {"judge_page": True, "1": True, "complete": True}
         else:
-            outcome = {"judge_page": True, "1": False, "complete": False}
+            answer = "8 songs"
+            self.save_answer(answer)
+            if self.check_answer(line):
+                outcome = {"judge_page": True, "1": True, "complete": True}
+            else:
+                outcome = {"judge_page": True, "1": False, "complete": False}
         return outcome
 
 
@@ -114,7 +119,7 @@ class SingleTask_pimusic_3(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -134,7 +139,7 @@ class SingleTask_pimusic_4(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -154,7 +159,7 @@ class SingleTask_pimusic_5(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -169,7 +174,7 @@ class SingleTask_pimusic_5(SingleTask):
 
 class SingleTask_pimusic_6(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -193,7 +198,7 @@ class SingleTask_pimusic_7(SingleTask):
                 return True
         return False
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_list:
             if check_selected(xml_compressed_tree, "PLAYLISTS"):
                 self.judge_list = True
@@ -232,7 +237,7 @@ class SingleTask_pimusic_8(SingleTask):
         else:
             return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_arti:
             if check_selected(xml_compressed_tree, "ARTISTS"):
                 self.judge_arti = True
@@ -245,7 +250,8 @@ class SingleTask_pimusic_8(SingleTask):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
-        judge_pf = False
+        judge_pf = judge_sort_final = False
+
         get_pf = find_matching_subtrees(xml_compressed_tree, "] ;; ;;Pink Floyd")
         if len(get_pf) == 1:
             judge_pf = True
@@ -271,7 +277,7 @@ class SingleTask_pimusic_9(SingleTask):
     def judge_page(self, xml_compressed_tree):
         return check_selected(xml_compressed_tree, "PLAYLISTS")
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -301,7 +307,7 @@ class SingleTask_pimusic_10(SingleTask):
                 return True
         return False
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -326,7 +332,7 @@ class SingleTask_pimusic_11(SingleTask):
                 return True
         return False
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -348,7 +354,7 @@ class SingleTask_pimusic_12(SingleTask):
     def judge_page(self, xml_compressed_tree):
         return check_selected(xml_compressed_tree, "TRACKS")
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_sort_step:
             sort_info = extract_info(xml_compressed_tree)
             if "Sort By" in sort_info:
@@ -356,7 +362,8 @@ class SingleTask_pimusic_12(SingleTask):
 
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
-
+        
+        judge_sort_final = False
         song_data = extract_songs(xml_compressed_tree)
         dur2sec = lambda duration: parse_duration(duration)
         dur2sec_list = [dur2sec(song['duration']) for song in song_data]

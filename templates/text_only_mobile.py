@@ -354,13 +354,6 @@ def home():
         None
     """
 
-def wait():
-    """
-    Sleep for 5 seconds to wait for the page to load.
-    
-    Returns:
-        None
-    """
 
 
 def finished(message=None):
@@ -507,7 +500,7 @@ def do(action, element=None, **kwargs):
 
     Args:
         action (str): Specifies the action to be performed. Valid options are:
-                      "Tap", "Type", "Swipe", "Long Press", "Home", "Back", "Enter", "Wait".
+                      "Tap", "Type", "Swipe", "Long Press", "Home", "Back", "Enter".
         element (list, optional): Defines the screen area or starting point for the action.
                                   - For "Tap" and "Long Press", provide coordinates [x1, y1, x2, y2]
                                     to define a rectangle from top-left (x1, y1) to bottom-right (x2, y2).
@@ -712,7 +705,7 @@ def do(action, element=None, **kwargs):
 
     Args:
         action (str): Specifies the action to be performed. Valid options are:
-                      "Tap", "Type", "Swipe", "Long Press", "Home", "Back", "Enter", "Wait".
+                      "Tap", "Type", "Swipe", "Long Press", "Home", "Back", "Enter".
         element (list, optional): Defines the screen area or starting point for the action.
                                   - For "Tap" and "Long Press", provide coordinates [x1, y1, x2, y2]
                                     to define a rectangle from top-left (x1, y1) to bottom-right (x2, y2).
