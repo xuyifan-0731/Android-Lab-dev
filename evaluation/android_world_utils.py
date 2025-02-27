@@ -24,11 +24,13 @@ from android_world.env import env_launcher
 from android_world.env import interface
 from android_world.env import adb_utils
 from android_world.env import json_action
+from android_world.task_evals.task_eval import TaskEval
 
-from evaluation.auto_test import AutoTest, Instance_AndroidWorld
+from evaluation.auto_test import AutoTest, Instance_AndroidWorld, Instance
 from evaluation.evaluation import *
 from evaluation.auto_test import find_package
 from recorder import JSONRecorder
+
 from evaluation.docker_utils import create_docker_container, execute_command_in_container, remove_docker_container, \
     start_avd, stop_avd
 
@@ -76,6 +78,111 @@ def print_android_world_results(path = None, all_results = None):
     df = process_episodes(all_results, print_summary = True)
     df.to_excel(os.path.join(path, "results.xlsx"), index=True)
     return df
+
+class Instance_AndroidWorld_test(Instance_AndroidWorld):
+    def initialize_single_task(self, config = None):
+        avd_name = self.avd_name
+        print_with_color(f"Starting Android Emulator with AVD name: {avd_name}", "blue")
+        if not os.path.exists(self.config.avd_log_dir):
+            os.makedirs(self.config.avd_log_dir, exist_ok=True)
+        out_file = open(os.path.join(self.config.avd_log_dir, 'emulator_output.txt'), 'a')
+
+        try:
+            device = get_adb_device_name(avd_name)
+        except:
+            pass
+        if device is None:
+            emulator_process = subprocess.Popen(
+                [
+                    "emulator",
+                    "-avd", avd_name,
+                    "-no-snapshot-save",
+                    "-no-window",
+                    "-no-audio",
+                    "-grpc", str(self.grpc_port),
+                    "-port", str(self.device_port)  # 替换为你要指定的端口
+                ],
+                stdout=out_file,
+                stderr=subprocess.STDOUT
+            )
+            print_with_color(f"Waiting for the emulator to start...", "blue")
+            limit_time = time.time() + 120
+            while True:
+                try:
+                    device = get_adb_device_name(avd_name)
+                    time.sleep(1)
+                    if time.time() > limit_time:
+                        print_with_color("Emulator start timeout, please check the log", "red")
+                        return False
+                except:
+                    continue
+                if device is not None:
+                    break
+            self.emulator_process = emulator_process
+        else:
+            print_with_color(f"Emulator {avd_name} already started", "blue")
+        # TODO: fix open emulator bug here
+
+        print("idx: ", self.idx)
+        print("Device name: ", device)
+        print("Device port: ", self.device_port)
+        print("GRPC port: ", self.grpc_port)
+        print("AVD name: ", avd_name)
+
+        limit_time = time.time() + 120
+        while True:
+            boot_complete = f"adb -s {device} shell getprop init.svc.bootanim"
+            boot_complete = execute_adb(boot_complete, output=False)
+            if boot_complete == 'stopped':
+                print_with_color("Emulator started successfully", "blue")
+                break
+            time.sleep(1)
+            if time.time() > limit_time:
+                print_with_color("Emulator start timeout, please check the log", "red")
+                return False
+        time.sleep(1)
+        
+        self.out_file = out_file
+        device_list = list_all_devices()
+        if len(device_list) == 1:
+            device = device_list[0]
+            print_with_color(f"Device selected: {device}", "yellow")
+        else:
+            device = get_avd_serial_number(avd_name)
+        return device
+
+    def stop_single_task(self):
+        print_with_color("Stopping Android Emulator, only close output file...", "blue")
+        '''
+        self.emulator_process.terminate()
+
+        while True:
+            try:
+                device = get_adb_device_name(self.config.avd_name)
+                command = f"adb -s {device} reboot -p"
+                ret = execute_adb(command, output=False)
+                self.emulator_process.terminate()
+            except:
+                device = None
+            if device is None:
+                print_with_color("Emulator stopped successfully", "blue")
+                break
+            time.sleep(1)'''
+        self.out_file.close()
+
+    def __del__(self):
+        if self.tar_avd_dir is not None:
+            shutil.rmtree(self.tar_avd_dir)
+        if self.tar_ini_file is not None:
+            os.remove(self.tar_ini_file)
+        try:
+            self.emulator_process.terminate()
+        except:
+            pass
+        try:
+            self.out_file.close()
+        except:
+            pass
 
 class AndroidLabAgent(base_agent.EnvironmentInteractingAgent):
   """A random agent interaction loop for testing purposes."""
@@ -139,14 +246,41 @@ class AndroidLabAgent(base_agent.EnvironmentInteractingAgent):
         step_data,
     )
 
-def initialize_android_world_suite():
+class Empty_Task(TaskEval):
+  """Base class for Camera tasks."""
+
+  app_names = ("camera",)
+  complexity = 1
+  schema = {
+      "type": "object",
+      "properties": {},
+      "required": [],
+  }
+  template = "Take one photo."
+
+  def _clear_app_data(self, env: interface.AsyncEnv) -> None:
+    pass
+
+  def initialize_task(self, env: interface.AsyncEnv) -> None:
+    pass
+
+  def tear_down(self, env: interface.AsyncEnv):
+    super().tear_down(env)
+    self._clear_app_data(env)
+
+    
+  @classmethod
+  def generate_random_params(cls) -> dict[str, Any]:
+    return {}
+
+def initialize_android_world_suite(task_template = None):
     n_task_combinations = _N_TASK_COMBINATIONS
     task_registry = registry.TaskRegistry()
     suite = suite_utils.create_suite(
         task_registry.get_registry(family=_SUITE_FAMILY),
         n_task_combinations=n_task_combinations,
         seed=_TASK_RANDOM_SEED,
-        tasks=_TASKS,
+        tasks=task_template,
         use_identical_params=_FIXED_TASK_SEED,
     )
     suite.suite_family = _SUITE_FAMILY
@@ -214,7 +348,7 @@ class AndroidWorld_AutoTest(AutoTest):
         #if self.config.docker:
             #instance = Docker_Instance_AndroidWorld(self.config)
         #else:
-        instance = Instance_AndroidWorld(self.config)
+        instance = Instance_AndroidWorld_test(self.config)
 
         tasks = split_dict(tasks, 1)
         #for task in tasks:
@@ -291,6 +425,72 @@ class AndroidWorld_AutoTest(AutoTest):
 
     def get_agent(self):
         return self.base_class.get_agent()
+
+    def get_executor(self):
+        return self.base_class.get_executor()
+
+
+class AndroidWorld_Sample(AndroidWorld_AutoTest):
+    def __init__(self, config, base_class, llm_agent) -> None:
+        self.config = config
+        self.base_class = base_class
+        self.llm_agent = llm_agent
+        #self.test_llm_agent()
+
+    def test_llm_agent(self):
+        print("test_llm_agent")
+        print(self.llm_agent)
+        print("input: hello, who are you?")
+        response = self.llm_agent.act(messages=[{"role": "user", "content": "hello, who are you?"}])
+        print(response)
+
+    def start_emulator(self, instance):
+        if self.config.docker:
+            type = "docker"
+        else:
+            type = "cmd"
+        device = instance.initialize_single_task(self.config)
+        self.controller = AndroidController(device, type, instance)
+
+
+    def run_serial(self, tasks):
+        for task in tasks:
+            self.android_world_task_wrapper(task)
+
+    def android_world_task_wrapper(self, task, instance = None):
+        if instance is None:
+            instance = Instance_AndroidWorld_test(self.config)
+        instance.initialize_single_task(self.config)
+        adb_path = self.config.adb_path
+        env = env_launcher.load_and_setup_env(
+            console_port=instance.device_port,
+            emulator_setup=_EMULATOR_SETUP,
+            adb_path=adb_path,
+            grpc_port=instance.grpc_port
+        )
+
+        self.env = env
+
+        if task["suite"] is not None:
+            for key, value in task["suite"].items():
+                task_eval = value[0]
+        else:
+            task_eval = Empty_Task(params={})
+
+        if task["suite"] is not None:
+            task_eval.initialize_task(self.env)
+        self.run_task(task, instance)
+        task_eval.tear_down(self.env)
+        return None
+ 
+    def run_task(self, suite, instance):
+        self.base_class.run_task(suite, instance)
+
+    def get_agent(self):
+        return self.base_class.get_agent()
+
+    def get_executor(self):
+        return self.base_class.get_executor()
 
     def get_executor(self):
         return self.base_class.get_executor()

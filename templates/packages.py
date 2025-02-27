@@ -414,11 +414,18 @@ def find_package(input_str: str) -> str:
         return package_name
     else:
         return find_closest(input_str, apps_dict)
+    
+#按照find_package的逻辑 写一个由package name找到app name的函数
+def find_app(package_name: str) -> str:
+    if package_name in package_dict_en:
+        return package_dict_en[package_name]
+    else:
+        return find_closest(package_name, package_dict_en)
 
 
-def find_app(input_str: str) -> str:
+#def find_app(input_str: str) -> str:
     # inverse_dict = {v: k for k, v in apps_dict.items()}
-    return find_closest(input_str, package_dict_en)
+    #return find_closest(input_str, package_dict_en)
 
 def get_adb_activity(app_name: str) -> str:
     """Get a mapping of regex patterns to ADB activities top Android apps."""

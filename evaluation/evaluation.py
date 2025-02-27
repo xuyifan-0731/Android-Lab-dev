@@ -89,7 +89,6 @@ class Multi_ScreenshotTask(AutoTask):
             import traceback
             traceback.print_exc()
             exit(1)
-        
         exe_res = self.page_executor(get_code_snippet(rsp))
         self.record.update_after(exe_res, rsp, format_prompt)
         self.record.turn_number += 1

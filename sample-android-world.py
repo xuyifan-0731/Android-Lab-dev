@@ -6,7 +6,9 @@ import argparse
 import yaml
 from evaluation.configs import AppConfig_Sample
 from check_invaild_trace import check_invalid
-
+from evaluation.android_world_utils import AndroidWorld_Sample
+from evaluation.android_world_utils import AndroidWorld_AutoTest, initialize_android_world_suite, print_android_world_results
+from evaluation.parallel import parallel_worker, parallel_worker_android_world
 
 def generate_info(task_files):
     all_task_start_info = {}
@@ -118,6 +120,15 @@ if __name__ == '__main__':
                 pass
                 #print(f"Task '{key}' already run, skipping")
             else:
+                if "type" in value and value["type"] != "None":
+                    try:
+                        suite = initialize_android_world_suite([value["type"]])
+                        value["suite"] = suite
+                    except Exception as e:
+                        print(f"Error initializing android world suite: {e}")
+                        value["suite"] = None
+                else:
+                    value["suite"] = None
                 run_task_start_info.append(value)
                 #print(f"Task '{key}' added to run queue")
         
@@ -144,11 +155,12 @@ if __name__ == '__main__':
         if class_ is None:
             raise AttributeError(f"Class {autotask_class} not found. Please check the class name in the config file.")
         single_config.sample = True
+        Auto_Test = class_(single_config.subdir_config(name))
         if args.parallel == 1:
-            Auto_Test = class_(single_config.subdir_config(name))
-            Auto_Test.run_serial(run_task_start_info)
+            android_world_class = AndroidWorld_Sample(single_config.subdir_config(args.name), Auto_Test, agent)
+            android_world_class.run_serial(run_task_start_info)
         else:
-            parallel_worker(class_, single_config.subdir_config(name), args.parallel, run_task_start_info)
+            parallel_worker_android_world(class_, AndroidWorld_Sample, single_config.subdir_config(args.name), agent, args.parallel, run_task_start_info, sample=True)
 
 
 

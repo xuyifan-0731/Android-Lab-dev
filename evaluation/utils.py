@@ -199,6 +199,9 @@ def clone_avd(src_avd_name, tar_avd_name, android_avd_home):
     print("This may take a while...")
     if not os.path.exists(tar_avd_dir):
         shutil.copytree(src_avd_dir, tar_avd_dir)
+    else:
+        shutil.rmtree(tar_avd_dir)
+        shutil.copytree(src_avd_dir, tar_avd_dir)
 
     # Copy the .ini file and modify it for the new AVD
     with open(src_ini_file, 'r') as src_ini, open(tar_ini_file, 'w') as tar_ini:

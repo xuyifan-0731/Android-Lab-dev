@@ -80,3 +80,4 @@ new_activate.txt
 run-aw.sh
 run-android-world-test.sh
 configs/*
+sample_dump/

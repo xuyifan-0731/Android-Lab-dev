@@ -107,18 +107,30 @@ class Instance():
             pass
 
 class Instance_AndroidWorld(Instance):
+    def __init__(self, config, idx = 0):
+        self.idx = str(idx)
+        self.type = "cmd"
+        self.config = config
+        self.container_id = None
+        self.docker_port_local = None
+        self.avd_name = None
+        self.tar_avd_dir = None
+        self.tar_ini_file = None
+        device_start_port = self.config.device_start_port
+        grpc_start_port = self.config.grpc_start_port
+        idx_num = int(self.idx)
+        self.device_port = device_start_port + idx_num * 4
+        self.grpc_port = grpc_start_port + idx_num * 4
+        
+        self.initialize_worker()
+        
     def initialize_single_task(self, config = None):
         avd_name = self.avd_name
         print_with_color(f"Starting Android Emulator with AVD name: {avd_name}", "blue")
         if not os.path.exists(self.config.avd_log_dir):
             os.makedirs(self.config.avd_log_dir, exist_ok=True)
         out_file = open(os.path.join(self.config.avd_log_dir, 'emulator_output.txt'), 'a')
-
-        device_start_port = self.config.device_start_port
-        grpc_start_port = self.config.grpc_start_port
-        idx_num = int(self.idx)
-        self.device_port = device_start_port + idx_num * 4
-        self.grpc_port = grpc_start_port + idx_num * 4
+        
         emulator_process = subprocess.Popen(
             [
                 "emulator",
@@ -165,6 +177,24 @@ class Instance_AndroidWorld(Instance):
         else:
             device = get_avd_serial_number(avd_name)
         return device
+
+    def stop_single_task(self):
+        print_with_color("Stopping Android Emulator...", "blue")
+        self.emulator_process.terminate()
+
+        while True:
+            try:
+                device = get_adb_device_name(self.config.avd_name)
+                command = f"adb -s {device} reboot -p"
+                ret = execute_adb(command, output=False)
+                self.emulator_process.terminate()
+            except:
+                device = None
+            if device is None:
+                print_with_color("Emulator stopped successfully", "blue")
+                break
+            time.sleep(1)
+        self.out_file.close()
 
     def __del__(self):
         if self.tar_avd_dir is not None:
