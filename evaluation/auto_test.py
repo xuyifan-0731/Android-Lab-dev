@@ -5,7 +5,7 @@ from evaluation.docker_utils import create_docker_container, execute_command_in_
     start_avd, stop_avd
 from evaluation.evaluation import *
 from evaluation.utils import *
-from page_executor import TextOnlyExecutor, TextOnlyExecutor_v4, TextOnlyExecutor_v41
+from page_executor import TextOnlyExecutor, TextOnlyExecutor_v4, TextOnlyExecutor_v41, TextOnlyExecutor_android_world
 from page_executor.simple_vision_executor import VisionExecutor
 from recorder import JSONRecorder
 from templates import *
@@ -121,6 +121,7 @@ class Instance_AndroidWorld(Instance):
         idx_num = int(self.idx)
         self.device_port = device_start_port + idx_num * 4
         self.grpc_port = grpc_start_port + idx_num * 4
+        self.task_count_unclosed = 0
         
         self.initialize_worker()
         
@@ -349,22 +350,20 @@ class AutoTest():
                                    config=self.config)
         task_agent = self.get_agent()
         while round_count < self.config.max_rounds:
-            try:
-                round_count += 1
-                print_with_color(f"Round {round_count}", "yellow")
-                task_agent.run_step()
-                print_with_color("Thinking about what to do in the next step...", "yellow")
-                time.sleep(self.config.request_interval)
+            round_count += 1
+            print_with_color(f"Round {round_count}", "yellow")
+            state = task_agent.run_step()
+            print_with_color("Thinking about what to do in the next step...", "yellow")
+            time.sleep(self.config.request_interval)
 
-                if task_agent.page_executor.is_finish:
-                    print_with_color(f"Completed successfully.", "yellow")
-                    task_agent.page_executor.update_screenshot(prefix="end")
-                    task_complete = True
-                    break
-            except Exception as e:
-                import traceback
-                print(traceback.print_exc())
-                print_with_color(f"Error: {e}", "red")
+            if not state:
+                print_with_color(f"Error: error in round, end task", "red")
+                break
+
+            if task_agent.page_executor.is_finish:
+                print_with_color(f"Completed successfully.", "yellow")
+                task_agent.page_executor.update_screenshot(prefix="end")
+                task_complete = True
                 break
 
         instance.stop_single_task()
@@ -419,6 +418,15 @@ class Multi_ScreenshotMobileTask_AutoTest_v4(TextOnlyMobileTask_AutoTest_v4):
         task_agent = Multi_ScreenshotTask(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record,
                                           self.command_per_step)
         return task_agent
+
+class Multi_ScreenshotMobileTask_AutoTest_v4_android_world(TextOnlyMobileTask_AutoTest_v4):
+    def get_agent(self):
+        task_agent = Multi_ScreenshotTask(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record,
+                                          self.command_per_step)
+        return task_agent
+    
+    def get_executor(self):
+        return TextOnlyExecutor_android_world(self.controller, self.config)
 
 class Multi_ScreenshotMobileTask_AutoTest_v41(AutoTest):
     def get_agent(self):

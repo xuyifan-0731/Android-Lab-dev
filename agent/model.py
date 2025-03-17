@@ -10,7 +10,7 @@ from templates.android_screenshot_template import *
 
 def handle_giveup(details):
     print(
-        "Backing off {wait:0.1f} seconds afters {tries} tries calling fzunction {target} with args {args} and kwargs {kwargs}"
+        "Backing off afters {tries} tries calling fzunction {target} with args {args} and kwargs {kwargs}"
         .format(**details))
 
 

@@ -51,7 +51,7 @@ apps_dict = {
     "PiMusicPlayer": "com.Project100Pi.themusicplayer",
     "Firefox": "org.mozilla.firefox",
     "simple_notepad": "org.mightyfrog.android.simplenotepad",
-    "tasks": "com.tarento.tasks",
+    #"tasks": "com.tarento.tasks",
     "vlc": "org.videolan.vlc",
 }
 

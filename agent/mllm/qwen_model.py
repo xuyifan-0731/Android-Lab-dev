@@ -153,7 +153,8 @@ class QwenVLAgent(Agent):
                     
     def prompt_to_message(self, prompt: str, images: List[str], xml: str=None, current_app: str=None) -> Dict[str, Any]:
         base_text = prompt + f"\n\n{json.dumps({'current_app': current_app}, ensure_ascii=False)}"
-        final_text = base_text + (f"\n{clean_tree_structure(xml)}" if xml is not None else "")
+        #final_text = base_text + (f"\n{clean_tree_structure(xml)}" if xml is not None else "")
+        final_text = base_text + (f"\n{xml}" if xml is not None else "")
         content = [
             {
                 "type": "text",

@@ -25,6 +25,7 @@ from android_world.env import interface
 from android_world.env import adb_utils
 from android_world.env import json_action
 from android_world.task_evals.task_eval import TaskEval
+from android_world.task_evals.information_retrieval.proto_utils import get_expected_answer
 
 from evaluation.auto_test import AutoTest, Instance_AndroidWorld, Instance
 from evaluation.evaluation import *
@@ -34,12 +35,29 @@ from recorder import JSONRecorder
 from evaluation.docker_utils import create_docker_container, execute_command_in_container, remove_docker_container, \
     start_avd, stop_avd
 
+'''
 def split_dict(input_dict, n = 1):
     if not isinstance(input_dict, dict) or not isinstance(n, int) or n <= 0:
         raise ValueError("输入参数不合法，input_dict 应为字典，n 应为正整数")
     
     items = list(input_dict.items())
-    return [dict(items[i:i + n]) for i in range(0, len(items), n)]
+    return [dict(items[i:i + n]) for i in range(0, len(items), n)]'''
+
+def split_dict(input_dict, n=1):
+    if not isinstance(input_dict, dict) or not isinstance(n, int) or n <= 0:
+        raise ValueError("输入参数不合法，input_dict 应为字典，n 应为正整数")
+
+    # 展开原始字典的值，使每个列表元素单独存放在一个长度为1的list中
+    expanded_items = []
+    for key, value in input_dict.items():
+        if isinstance(value, list) and len(value) > 1:
+            for v in value:
+                expanded_items.append((key, [v]))  # 仍然存为 list，但长度为 1
+        else:
+            expanded_items.append((key, value if not isinstance(value, list) else [value[0]]))
+
+    # 按照 n 进行切分
+    return [dict(expanded_items[i:i + n]) for i in range(0, len(expanded_items), n)]
 
 _TASKS = None
 _FIXED_TASK_SEED = False
@@ -49,6 +67,7 @@ _EMULATOR_SETUP = False
 _SUITE_FAMILY = registry.TaskRegistry.ANDROID_WORLD_FAMILY
 # other:registry.TaskRegistry.MINIWOB_FAMILY_SUBSET
   
+'''
 def turn_on_ac(state, env):
     x = None
     y = None
@@ -63,23 +82,37 @@ def turn_on_ac(state, env):
         env.execute_action(action)
         time.sleep(2)
     else:
-        return None
+        return None'''
+
+def android_world_answer(state, env, finish_message):
+    action = json_action.JSONAction(**{'action_type':'answer', 'text':finish_message})
+    env.execute_action(action)
+
 
 def print_android_world_results(path = None, all_results = None):
-    if path is not None and all_results is None:
-        task_paths = os.listdir(path)
-        all_results = []
-        for task_path in task_paths:
-            if not os.path.exists(os.path.join(path, task_path, "results.jsonl")):
-                continue
-            with jsonlines.open(os.path.join(path, task_path, "results.jsonl"), "r") as reader:
-                for line in reader:
-                    all_results.append(line)
     df = process_episodes(all_results, print_summary = True)
     df.to_excel(os.path.join(path, "results.xlsx"), index=True)
     return df
 
 class Instance_AndroidWorld_test(Instance_AndroidWorld):
+    def __init__(self, config, idx = 0, start_idx = 0):
+        self.idx = str(idx+start_idx)
+        self.type = "cmd"
+        self.config = config
+        self.container_id = None
+        self.docker_port_local = None
+        self.avd_name = None
+        self.tar_avd_dir = None
+        self.tar_ini_file = None
+        device_start_port = self.config.device_start_port
+        grpc_start_port = self.config.grpc_start_port
+        idx_num = int(self.idx)
+        self.device_port = device_start_port + idx_num * 4
+        self.grpc_port = grpc_start_port + idx_num * 4
+        self.task_count_unclosed = 0
+        
+        self.initialize_worker()
+
     def initialize_single_task(self, config = None):
         avd_name = self.avd_name
         print_with_color(f"Starting Android Emulator with AVD name: {avd_name}", "blue")
@@ -91,7 +124,11 @@ class Instance_AndroidWorld_test(Instance_AndroidWorld):
             device = get_adb_device_name(avd_name)
         except:
             pass
-        if device is None:
+        if device is None or self.task_count_unclosed > 5:
+            if self.task_count_unclosed > 5 and device is not None:
+                self.task_count_unclosed == 0
+                self.stop_emulator()
+
             emulator_process = subprocess.Popen(
                 [
                     "emulator",
@@ -120,6 +157,7 @@ class Instance_AndroidWorld_test(Instance_AndroidWorld):
                     break
             self.emulator_process = emulator_process
         else:
+            self.task_count_unclosed += 1
             print_with_color(f"Emulator {avd_name} already started", "blue")
         # TODO: fix open emulator bug here
 
@@ -170,6 +208,24 @@ class Instance_AndroidWorld_test(Instance_AndroidWorld):
             time.sleep(1)'''
         self.out_file.close()
 
+    def stop_emulator(self):
+        print_with_color("Stopping Android Emulator...", "blue")
+        self.emulator_process.terminate()
+
+        while True:
+            try:
+                device = get_adb_device_name(self.config.avd_name)
+                command = f"adb -s {device} reboot -p"
+                ret = execute_adb(command, output=False)
+                self.emulator_process.terminate()
+            except:
+                device = None
+            if device is None:
+                print_with_color("Emulator stopped successfully", "blue")
+                break
+            time.sleep(5)
+        self.out_file.close()
+
     def __del__(self):
         if self.tar_avd_dir is not None:
             shutil.rmtree(self.tar_avd_dir)
@@ -196,6 +252,7 @@ class AndroidLabAgent(base_agent.EnvironmentInteractingAgent):
       max_rounds: int = 15,
       app: str = None,
       controller: AndroidController | None = None,
+      transition_pause = 5.0,
   ):
     """Initializes a RandomAgent.
 
@@ -211,21 +268,33 @@ class AndroidLabAgent(base_agent.EnvironmentInteractingAgent):
     self.max_rounds = max_rounds
     self.app = app
     self.controller = controller
+    self.transition_pause = transition_pause
 
   def step(self, goal: str) -> base_agent.AgentInteractionResult:
     """See base class."""
     round_count = self.autotest_agent.record.get_round_count()
+    
     if round_count == 0:
         print("launch app: ", find_package(self.app))
         self.controller.launch_app(find_package(self.app))
         time.sleep(5)
-    
     state = self.get_post_transition_state()
     if round_count == 0 and not self.autotest_agent.controller.check_ac_survive():
-        turn_on_ac(state, self.env)
+        #turn_on_ac(state, self.env)
+        command = 'adb shell settings put secure enabled_accessibility_services \
+"$(adb shell settings get secure enabled_accessibility_services):com.google.androidenv.accessibilityforwarder/.AccessibilityForwarder:com.example.android.xml_parser/.XMLParserAccessibilityService"'
+        self.controller.run_command(command)
+        time.sleep(1)
         self.autotest_agent.accessibility = self.autotest_agent.controller.check_ac_survive()
 
     self.autotest_agent.run_step()
+
+    latest_action = self.autotest_agent.record.get_latest_parsed_action()
+    if latest_action.get("operation") == 'finish':
+        finish_message = latest_action.get("kwargs",{}).get("message", None)
+        android_world_answer(state, self.env, finish_message)
+
+    
     
     step_data = {
         'raw_screenshot': state.pixels,
@@ -240,7 +309,7 @@ class AndroidLabAgent(base_agent.EnvironmentInteractingAgent):
     
     if round_count >= self.max_rounds:
         done = True
-        
+    time.sleep(self.transition_pause)
     return base_agent.AgentInteractionResult(
         done,
         step_data,
@@ -273,13 +342,13 @@ class Empty_Task(TaskEval):
   def generate_random_params(cls) -> dict[str, Any]:
     return {}
 
-def initialize_android_world_suite(task_template = None):
-    n_task_combinations = _N_TASK_COMBINATIONS
+def initialize_android_world_suite(task_template = None, n_task_combinations = 1, seed = 30):
+    n_task_combinations = n_task_combinations
     task_registry = registry.TaskRegistry()
     suite = suite_utils.create_suite(
         task_registry.get_registry(family=_SUITE_FAMILY),
         n_task_combinations=n_task_combinations,
-        seed=_TASK_RANDOM_SEED,
+        seed=seed,
         tasks=task_template,
         use_identical_params=_FIXED_TASK_SEED,
     )
@@ -345,27 +414,13 @@ class AndroidWorld_AutoTest(AutoTest):
 
 
     def run_serial(self, tasks):
-        #if self.config.docker:
-            #instance = Docker_Instance_AndroidWorld(self.config)
-        #else:
         instance = Instance_AndroidWorld_test(self.config)
-
-        tasks = split_dict(tasks, 1)
-        #for task in tasks:
-            #if "ContactsAddContact" == list(task.keys())[0]:
-                #self.run_task(task, instance)
-
-
-        #random_task = random.choice(tasks)
-        #self.run_task(random_task, instance)
-        #task = tasks[0]
-        #self.run_task(task, instance)
         for task in tasks:
             self.run_task(task, instance)
 
     def run_task(self, suite, instance):
         task_id = list(suite.keys())[0]
-        app = suite[task_id][0].app_names[0]
+        app = suite[task_id][0].app_names[-1]
         self.instruction = suite[task_id][0].goal
         self.base_class.instruction = self.instruction
         self.command_per_step = None
@@ -415,11 +470,12 @@ class AndroidWorld_AutoTest(AutoTest):
             demo_mode=False,
         )
 
-        with jsonlines.open(os.path.join(self.config.task_dir, "results.jsonl"), "a") as writer:
-            writer.write_all(results)
-
         self.env.close()
         instance.stop_single_task()
+
+        with jsonlines.open(os.path.join(self.config.task_dir, "results.jsonl"), "w") as writer:
+            for result in results:
+                writer.write(result)
 
         return results
 

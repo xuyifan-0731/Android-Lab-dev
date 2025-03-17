@@ -289,6 +289,42 @@ class JSONRecorder:
         with jsonlines.open(self.trace_file_path, 'a') as f:
             f.write(self.contents[-1])
 
+    def update_error(self, error_message, rsp, format_prompt=None):
+        if len(self.contents) == 0:
+            return
+        self.contents[-1]['error_message'] = error_message
+        if rsp is None:
+            self.contents[-1]["current_response"] = "Error in response. no response."
+            return
+
+        self.history.append({"role": "user", "content": "** XML **"})
+
+        if self.xml_compressed_version in ["v1", "v2"]:
+            self.history.append({"role": "assistant", "content": rsp})
+            self.contents[-1]["current_response"] = rsp  
+        else:
+            self.history.append({"role": "assistant", "content": rsp, "current_app": package_dict_en[self.get_current_activity()]})
+            self.contents[-1]["current_app"] = package_dict_en[self.get_current_activity()]
+            self.contents[-1]["current_response"] = rsp
+            
+        with jsonlines.open(self.trace_file_path, 'a') as f:
+            f.write(self.contents[-1])
+        if format_prompt is not None:
+            if isinstance(format_prompt, list):
+                format_prompt.append({"role": "assistant", "content": rsp})
+                format_prompt = json.dumps(format_prompt, ensure_ascii=False, indent=4)
+            else:
+                format_prompt = format_prompt + rsp
+            
+            with open(os.path.join(self.xml_file_path, f"{self.turn_number}_format_prompt.txt"), 'w',
+                  encoding='utf-8') as f:
+                f.write(format_prompt + rsp)
+        if self.scaling_map is not None:
+            with open(os.path.join(self.xml_file_path, f"{self.turn_number}_scaling_map.txt"), 'w',
+                  encoding='utf-8') as f:
+                f.write(json.dumps(self.scaling_map, indent=4, ensure_ascii=False))
+        self.dectect_auto_stop()
+
     def update_after(self, exe_res, rsp, format_prompt=None):
         if len(self.contents) == 0:
             return
@@ -339,3 +375,6 @@ class JSONRecorder:
 
     def get_round_count(self):
         return self.turn_number
+
+    def get_latest_parsed_action(self):
+        return self.contents[-1]['parsed_action']

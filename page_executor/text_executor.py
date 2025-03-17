@@ -430,3 +430,45 @@ class TextOnlyExecutor_v41(TextOnlyExecutor):
     def finish(self, message=None):
         self.is_finish = True
         self.current_return = {"operation": "finish", "action": 'finish', "kwargs": {"message": message}}
+
+
+class TextOnlyExecutor_android_world(TextOnlyExecutor_v4):
+    def do(self, action=None, element=None, **kwargs):
+        assert action in ["Tap", "Type", "Swipe", "Enter", "Home", "Back", "Long Press", "Wait", "Launch",
+                          "Call_API"], "Unsupported Action"
+        if element is not None:
+            predict_element = element
+            element = self.modify_relative_bbox(element)
+        if action == "Tap":
+            self.tap(element, predict_element)
+        elif action == "Type":
+            self.type(**kwargs)
+        elif action == "Swipe":
+            self.swipe(element, predict_element, **kwargs)
+        elif action == "Enter":
+            self.press_enter()
+        elif action == "Home":
+            self.press_home()
+        elif action == "Back":
+            self.press_back()
+        elif action == "Long Press":
+            self.long_press(element, predict_element)
+        elif action == "Wait":
+            self.wait()
+        elif action == "Launch":
+            self.launch(**kwargs)
+        elif action == "Call_API":
+            self.call_api(**kwargs)
+        else:
+            raise NotImplementedError()
+
+    def type(self, **kwargs):
+        assert "text" in kwargs, "text is required for type"
+        instruction = kwargs.get("text")
+        self.controller.text_android_world(instruction)
+        self.current_return = {"operation": "do", "action": 'Type',
+                               "kwargs": {"text": instruction}}
+
+    def finish(self, message=None):
+        self.is_finish = True
+        self.current_return = {"operation": "finish", "action": 'finish', "kwargs": {"message": message}}

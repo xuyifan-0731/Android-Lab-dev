@@ -81,3 +81,9 @@ run-aw.sh
 run-android-world-test.sh
 configs/*
 sample_dump/
+fetch_ir_task.py
+offline_sample/
+eval-androidworld-debug.py
+android_world_sample_collect.py
+android_world_sample_copy.py
+sample-round.sh

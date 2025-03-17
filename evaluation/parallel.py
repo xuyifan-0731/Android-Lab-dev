@@ -44,7 +44,7 @@ def task_done_callback_android_world(future, instance, free_dockers, results):
     finally:
         free_dockers.put(instance)
 
-def parallel_worker_android_world(class_, AndroidWorld_AutoTest, config, agent, parallel, tasks, sample = False):
+def parallel_worker_android_world(args, class_, AndroidWorld_AutoTest, config, agent, parallel, tasks, sample = False):
     free_dockers = Queue()
     results = []
     if isinstance(tasks, dict):
@@ -54,9 +54,8 @@ def parallel_worker_android_world(class_, AndroidWorld_AutoTest, config, agent, 
 
     for idx in range(parallel):
         from evaluation.android_world_utils import Instance_AndroidWorld, Instance_AndroidWorld_test
-        instance = Instance_AndroidWorld_test(config, idx)
+        instance = Instance_AndroidWorld_test(config, idx, args.parallel_start_num)
         free_dockers.put(instance)
-
     with concurrent.futures.ThreadPoolExecutor(max_workers=parallel) as executor:
         while tasks:
             if free_dockers.empty():
@@ -65,7 +64,6 @@ def parallel_worker_android_world(class_, AndroidWorld_AutoTest, config, agent, 
 
             instance = free_dockers.get()
             task = tasks.pop(0)
-
             config_copy = copy.deepcopy(config)
             #agent_copy = copy.deepcopy(agent)
             auto_class = class_(config_copy)

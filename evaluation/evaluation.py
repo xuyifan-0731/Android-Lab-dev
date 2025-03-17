@@ -4,7 +4,7 @@ from evaluation.definition import *
 from evaluation.utils import *
 from templates import *
 from templates.packages import package_dict_en
-
+import traceback
 
 class AutoTask():
     def __init__(self, instruction, controller, page_executor, agent, record, command_per_step, **kwargs):
@@ -59,6 +59,8 @@ class Multi_ScreenshotTask(AutoTask):
         self.record.update_before(controller=self.controller, need_screenshot=True, ac_status=self.accessibility,
                                   need_labeled=False)
         round_count = self.record.get_round_count()
+        rsp = None
+        format_prompt = None
         try:
             # format current message
             prompt = "** XML **"
@@ -86,12 +88,20 @@ class Multi_ScreenshotTask(AutoTask):
                 format_prompt = self.agent.format_prompt([*self.record.history, current_message])
         except Exception as e:
             print_with_color(f"Error: {e}", "red")
-            import traceback
             traceback.print_exc()
-            exit(1)
-        exe_res = self.page_executor(get_code_snippet(rsp))
-        self.record.update_after(exe_res, rsp, format_prompt)
-        self.record.turn_number += 1
+
+ 
+        try:
+            exe_res = self.page_executor(get_code_snippet(rsp))
+            self.record.update_after(exe_res, rsp, format_prompt)
+            self.record.turn_number += 1
+            return True
+        except Exception as e:
+            print_with_color(f"Error: {e}", "red")
+            
+            error_message = traceback.format_exc()
+            self.record.update_error(error_message, rsp, format_prompt)
+            return False
     
     def set_system_prompt(self, instruction):
         self.record.history = [{
