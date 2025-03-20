@@ -1,0 +1,25 @@
+agent:
+  name: Glm4v_vllm_agent
+  relative_bbox: "True"
+  args:
+    model_name: "/data/liuxiao/swift/output/androidlab-multimodal-1023/glm4v-9b-chat/v1-20241023-065405/checkpoint-567"
+    url: "http://172.18.192.43:24063/v1/chat/completions"
+
+
+task:
+  class: QwenVLAgentTask_AutoTest
+  args:
+    save_dir: "./logs/evaluation"
+    max_rounds: 25
+    request_interval: 5
+    mode: "in_app"
+
+eval:
+  avd_name: Pixel_7_Pro_API_33
+  avd_log_dir: ./logs/evaluation
+  docker: True
+  docker_args:
+    image_name: android_eval:v2
+    port: 6060
+    local_port: 6200
+  version: "v2"

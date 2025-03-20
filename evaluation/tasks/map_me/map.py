@@ -3,7 +3,7 @@ from evaluation.task import *
 
 class SingleTask_Mapme_1(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -18,7 +18,7 @@ class SingleTask_Mapme_1(SingleTask):
 
 class SingleTask_Mapme_2(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -33,7 +33,7 @@ class SingleTask_Mapme_2(SingleTask):
 
 class SingleTask_Mapme_3(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -48,7 +48,7 @@ class SingleTask_Mapme_3(SingleTask):
 
 class SingleTask_Mapme_4(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -63,7 +63,7 @@ class SingleTask_Mapme_4(SingleTask):
 
 class SingleTask_Mapme_5(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -78,7 +78,7 @@ class SingleTask_Mapme_5(SingleTask):
 
 class SingleTask_Mapme_6(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -93,7 +93,7 @@ class SingleTask_Mapme_6(SingleTask):
 
 class SingleTask_Mapme_7(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -108,7 +108,7 @@ class SingleTask_Mapme_7(SingleTask):
 
 class SingleTask_Mapme_8(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -123,7 +123,7 @@ class SingleTask_Mapme_8(SingleTask):
 
 class SingleTask_Mapme_9(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -138,7 +138,7 @@ class SingleTask_Mapme_9(SingleTask):
 
 class SingleTask_Mapme_10(SingleTask):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -163,7 +163,7 @@ class SingleTask_Mapme_11(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -193,7 +193,7 @@ class SingleTask_Mapme_12(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -213,7 +213,7 @@ class SingleTask_Mapme_13(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -233,7 +233,7 @@ class SingleTask_Mapme_14(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -253,7 +253,7 @@ class SingleTask_Mapme_15(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 

@@ -36,7 +36,7 @@ class SingleTask_tasks_1(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -56,7 +56,7 @@ class SingleTask_tasks_2(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -76,7 +76,7 @@ class SingleTask_tasks_3(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -96,7 +96,7 @@ class SingleTask_tasks_4(SingleTask):
         type, task, ddl = get_type_task_ddl(xml_compressed_tree, "create")
         return type and task and ddl
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -122,7 +122,7 @@ class SingleTask_tasks_5(SingleTask):
         type, task, ddl = get_type_task_ddl(xml_compressed_tree, "create")
         return type and task and ddl
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -148,7 +148,7 @@ class SingleTask_tasks_6(SingleTask):
         type, task, ddl = get_type_task_ddl(xml_compressed_tree, "create")
         return type and task and ddl
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -174,7 +174,7 @@ class SingleTask_tasks_7(SingleTask):
         type, task, ddl = get_type_task_ddl(xml_compressed_tree, "create")
         return type and task and ddl
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -200,7 +200,7 @@ class SingleTask_tasks_8(SingleTask):
         type, task, ddl = get_type_task_ddl(xml_compressed_tree, "create")
         return type and task and ddl
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -226,7 +226,7 @@ class SingleTask_tasks_9(SingleTask):
         type, task, ddl = get_type_task_ddl(xml_compressed_tree, "create")
         return type and task and ddl
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -252,7 +252,7 @@ class SingleTask_tasks_10(SingleTask):
         type, task, ddl = get_type_task_ddl(xml_compressed_tree, "create")
         return type and task and ddl
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -278,7 +278,7 @@ class SingleTask_tasks_11(SingleTask):
         type, task, ddl = get_type_task_ddl(xml_compressed_tree, "create")
         return type and task and ddl
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -304,7 +304,7 @@ class SingleTask_tasks_12(SingleTask):
         type, task, ddl = get_type_task_ddl(xml_compressed_tree, "create")
         return type and task and ddl
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -328,7 +328,7 @@ class SingleTask_tasks_13(SingleTask):
         type, task, ddl = get_type_task_ddl(xml_compressed_tree, "edit")
         return type and task and ddl
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 

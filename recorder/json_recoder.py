@@ -5,24 +5,79 @@ import jsonlines
 
 from utils_mobile.utils import draw_bbox_multi
 from utils_mobile.xml_tool import UIXMLTree
+from templates.packages import package_dict_en
+# from utils_mobile.xml_tool_v2 import UIXMLTree
+import cv2
 
 
-
-def get_compressed_xml(xml_path, type="plain_text", version="v1"):
-    xml_parser = UIXMLTree()
+def get_compressed_xml(xml_path, type="plain_text", version="v1", use_ocr=False, image_path=None, width=None, height=None, xml_parser=None):
+    assert version in ["v1", "v2"] or (version in ["v3", "v4", "v4.1"] and width is not None and height is not None)
+    assert use_ocr is False or (use_ocr is True and image_path is not None)
+    
+    if xml_parser is None:
+        xml_parser = UIXMLTree(xml_version=version)
+        
     with open(xml_path, 'r', encoding='utf-8') as f:
         xml_str = f.read()
     try:
-        compressed_xml = xml_parser.process(xml_str, level=1, str_type=type)
-        if isinstance(compressed_xml, tuple):
-            compressed_xml = compressed_xml[0]
-
+        compressed_xml, output_root, processed_root, id2bounds, scaling_map = xml_parser.process(xml_str, 
+                                                                                                 level=1, 
+                                                                                                 str_type=type,
+                                                                                                 call_api=False, 
+                                                                                                 use_xml_id=False, 
+                                                                                                 use_ocr=use_ocr, 
+                                                                                                 image_path=image_path, 
+                                                                                                 check_special=True,
+                                                                                                 width=width,
+                                                                                                 height=height)
         if type == "plain_text":
             compressed_xml = compressed_xml.strip()
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         compressed_xml = None
+        output_root = None
+        scaling_map = None
         print(f"XML compressed failure: {e}")
-    return compressed_xml
+    return compressed_xml, output_root, scaling_map
+
+
+def get_tap_desc(xml_parser, output_root, bound, scaling_map):
+    if output_root is None:
+        return ""
+    if scaling_map is None:
+        raw_bound = f"[{bound[0]},{bound[1]}][{bound[2]},{bound[3]}]"
+    else:
+        bound_str = f"[{bound[0]},{bound[1]},{bound[2]},{bound[3]}]"
+        raw_bound = scaling_map['scaled2raw'][bound_str]
+    
+    matched_nodes = []
+    for node in output_root.iter():
+        if 'raw_bounds' not in node.attrib:
+            continue
+        if node.attrib['raw_bounds'] == raw_bound:
+            matched_nodes.append(node)
+            
+    if len(matched_nodes) == 0:
+        return ""
+    elif len(matched_nodes) == 1:
+        return xml_parser.root_to_compressed_xml(matched_nodes[0], "plain_text")
+    else:
+        for node in matched_nodes:
+            if node.attrib['clickable'] == "true" or node.attrib['long-clickable'] == "true":
+                return xml_parser.root_to_compressed_xml(node, "plain_text")
+
+
+def plot_bbox(bboxs, screenshot, output_path, instruction = None):
+    image = cv2.imread(screenshot)
+    
+    for bbox in bboxs:
+        bbox[2] = bbox[2] - bbox[0]
+        bbox[3] = bbox[3] - bbox[1]
+        cv2.rectangle(image, (bbox[0], bbox[1]), (bbox[0] + bbox[2], bbox[1] + bbox[3]), (0, 255, 0), 2)
+        cv2.circle(image, (int(bbox[0] + bbox[2] / 2), int(bbox[1] + bbox[3] / 2)), radius=0, color=(0, 255, 0), thickness=2)
+
+    cv2.imwrite(output_path, image)
 
 
 class JSONRecorder:
@@ -48,10 +103,19 @@ class JSONRecorder:
         self.xml_history = []
         self.history = []
         self.command_per_step = []
-        if config.version is None or config.version == "v1":
+        if config.version is None:
             self.xml_compressed_version = "v1"
-        elif config.version == "v2":
-            self.xml_compressed_version = "v2"
+        else:
+            self.xml_compressed_version = config.version
+        if config.version is None:
+            self.xml_parser = UIXMLTree(xml_version="v1", ablation=config.ablation)
+        else:
+            self.xml_parser = UIXMLTree(xml_version=config.version, ablation=config.ablation)
+        self.ablation = config.ablation
+        self.use_ocr = config.use_ocr
+        self.tap_desc = config.tap_desc
+        self.output_root = None
+        self.scaling_map = None
 
     def update_response_deprecated(self, controller, response=None, prompt="** screenshot **", need_screenshot=False,
                                    ac_status=False):
@@ -120,6 +184,7 @@ class JSONRecorder:
             else:
                 ac_xml_path = os.path.join(self.xml_file_path, str(self.turn_number) + '.xml')
 
+        # print(f"xml_path: {xml_path}, ac_xml_path: {ac_xml_path}")
         step = {
             "trace_id": self.id,
             "index": self.turn_number,
@@ -162,8 +227,11 @@ class JSONRecorder:
                 break
         if should_stop:
             self.page_executor.is_finish = True
+    
+    def get_current_activity(self):
+        return self.xml_parser.get_current_app()
 
-    def get_latest_xml(self):
+    def get_latest_xml(self, controller=None):
         if len(self.contents) == 0:
             return None
         # print(self.contents[-1])
@@ -171,7 +239,26 @@ class JSONRecorder:
             xml_path = self.contents[-1]['ac_xml']
         else:
             xml_path = self.contents[-1]['xml']
-        xml_compressed = get_compressed_xml(xml_path, version=self.xml_compressed_version)
+        # print(f"xml_path: {xml_path}")
+        if xml_path == "ERROR" or xml_path is None:
+            print(f"XML ERROR: {self.contents[-1]['trace_id']} {self.contents[-1]['target']}")
+            with open('error_xml.txt', 'a') as f:
+                f.write(f"{self.contents[-1]['trace_id']} {self.contents[-1]['target']}\n")
+        if controller is not None:
+            width = controller.viewport_size[0]
+            height = controller.viewport_size[1]
+        else:
+            width = None
+            height = None
+        xml_compressed, output_root, scaling_map = get_compressed_xml(xml_path=xml_path, 
+                                                                      version=self.xml_compressed_version,
+                                                                      image_path=self.page_executor.current_screenshot,
+                                                                      width=width,
+                                                                      height=height,
+                                                                      use_ocr=self.use_ocr,
+                                                                      xml_parser=self.xml_parser)
+        self.output_root = output_root
+        self.scaling_map = scaling_map
         with open(os.path.join(self.xml_file_path, f"{self.turn_number}_compressed_xml.txt"), 'w',
                   encoding='utf-8') as f:
             f.write(xml_compressed)
@@ -186,7 +273,7 @@ class JSONRecorder:
             xml_path = self.contents[-1]['ac_xml']
         else:
             xml_path = self.contents[-1]['xml']
-        xml_compressed = get_compressed_xml(xml_path, type="json")
+        xml_compressed = get_compressed_xml(xml_path, type="seeact-json")
         return json.loads(xml_compressed)
 
     def update_execution(self, exe_res):
@@ -196,7 +283,7 @@ class JSONRecorder:
         with jsonlines.open(self.trace_file_path, 'a') as f:
             f.write(self.contents[-1])
 
-    def update_after(self, exe_res, rsp):
+    def update_after(self, exe_res, rsp, format_prompt=None):
         if len(self.contents) == 0:
             return
         self.contents[-1]['parsed_action'] = exe_res
@@ -205,8 +292,41 @@ class JSONRecorder:
             call_instruction = exe_res["kwargs"]["instruction"]
             call_response = exe_res["kwargs"]["response"]
             rsp = rsp + f"\n\nQuery:{call_instruction}\nResponse:{call_response}"
-        self.history.append({"role": "assistant", "content": rsp})
+        if self.tap_desc:
+            try:
+                if exe_res["action"] == "Tap" or exe_res["action"] == "Long Press":
+                    bound = exe_res["kwargs"]["element"]
+                    tap_desc = get_tap_desc(self.xml_parser, self.output_root, bound, self.scaling_map)
+                    rsp = f"Tap:{tap_desc}" + rsp
+            except:
+                import traceback
+                traceback.print_exc()
+                with open(os.path.join(self.xml_file_path, f"{self.turn_number}_error.txt"), 'w',
+                  encoding='utf-8') as f:
+                    f.write(traceback.format_exc())
+        self.history.append({"role": "assistant", "content": rsp, "current_app": package_dict_en[self.get_current_activity()]})
+        self.contents[-1]["current_app"] = package_dict_en[self.get_current_activity()]
         self.contents[-1]["current_response"] = rsp
         with jsonlines.open(self.trace_file_path, 'a') as f:
             f.write(self.contents[-1])
+        if format_prompt is not None:
+            if isinstance(format_prompt, list):
+                format_prompt.append({"role": "assistant", "content": rsp})
+                format_prompt = json.dumps(format_prompt, ensure_ascii=False, indent=4)
+            else:
+                format_prompt = format_prompt + rsp
+            
+            with open(os.path.join(self.xml_file_path, f"{self.turn_number}_format_prompt.txt"), 'w',
+                  encoding='utf-8') as f:
+                f.write(format_prompt + rsp)
+        if self.scaling_map is not None:
+            with open(os.path.join(self.xml_file_path, f"{self.turn_number}_scaling_map.txt"), 'w',
+                  encoding='utf-8') as f:
+                f.write(json.dumps(self.scaling_map, indent=4, ensure_ascii=False))
+        if exe_res["action"] == "Tap":
+            if "origin_element" in exe_res["kwargs"]:
+                elements = [int(x) for x in exe_res["kwargs"]["origin_element"]]
+            else:
+                elements = [int(x) for x in exe_res["kwargs"]["element"]]
+            plot_bbox([elements], self.page_executor.current_screenshot, self.page_executor.current_screenshot.replace(".png", "_bbox.png"))
         self.dectect_auto_stop()

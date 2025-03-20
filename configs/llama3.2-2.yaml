@@ -1,0 +1,25 @@
+agent:
+  name: Llama_32_agent_full_prompt
+  relative_bbox: "True"
+  args:
+    model_name: "Llama-3.2-11B-Vision"
+    url: "http://172.18.192.104:10010/v1/chat/completions"
+
+
+task:
+  class: QwenVLAgentTask_AutoTest
+  args:
+    save_dir: "./logs/evaluation"
+    max_rounds: 25
+    request_interval: 5
+    mode: "in_app"
+
+eval:
+  avd_name: Pixel_7_Pro_API_33
+  avd_log_dir: ./logs/evaluation
+  docker: True
+  docker_args:
+    image_name: android_eval:v2
+    port: 6060
+    local_port: 6600
+  version: "v2"

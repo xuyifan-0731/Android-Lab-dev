@@ -9,12 +9,12 @@ def extract_bills_NewEditBK(xml_compressed_tree) -> Dict:
     cash: EditText ;click long-click ; ;; -> int
     note: EditText ;click long-click ; ;; -> str
     """
-    type = date = cash = note = ""
+    type = date = cash = note =  ""
     results = {
         "type": type,
         "date": date,
         "cash": cash,
-        "note": note
+        "note": note,
     }
 
     try:
@@ -47,9 +47,9 @@ def extract_bills_NewEditBK(xml_compressed_tree) -> Dict:
     try:
         note_datas = find_matching_subtrees(xml_compressed_tree, "EditText")[-1]
         note = list(note_datas.keys())[0].split(";;")[-1].strip()
-        # if note == "Notes":  # 如果在正确的note位置找不到的话，就找标题，毕竟两者差不多功能
-        #     note_datas = find_matching_subtrees(xml_compressed_tree, "AutoCompleteTextView")[-1]
-        #     note = list(note_datas.keys())[0].split(";;")[-1].strip()
+        if note == "Notes":  # 如果在正确的note位置找不到的话，就找标题，毕竟两者差不多功能
+            note_datas = find_matching_subtrees(xml_compressed_tree, "AutoCompleteTextView")[-1]
+            note = list(note_datas.keys())[0].split(";;")[-1].strip()
         results["note"] = "None" if note in ("Notes", "Payee or item purchased", "Name of income") else note
     except IndexError as e:
         # print(f"ERROR occured: Cannot find note causes {e}.")
@@ -65,12 +65,13 @@ class SingleTask_bluecoins_1(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
-        answer = "11,400.00 CNY"
+        answer = "11,400 yuan"
         self.save_answer(answer)
+
         if self.check_answer(line):
             outcome = {"judge_page": True, "1": True, "complete": True}
         else:
@@ -85,7 +86,7 @@ class SingleTask_bluecoins_2(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -105,7 +106,7 @@ class SingleTask_bluecoins_3(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -125,12 +126,13 @@ class SingleTask_bluecoins_4(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
         answer = "Three transactions"
         self.save_answer(answer)
+        
         if self.check_answer(line):
             outcome = {"judge_page": True, "1": True, "complete": True}
         else:
@@ -145,7 +147,7 @@ class SingleTask_bluecoins_5(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -166,7 +168,7 @@ class SingleTask_bluecoins_6(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -195,7 +197,7 @@ class SingleTask_bluecoins_7(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -208,7 +210,7 @@ class SingleTask_bluecoins_7(SingleTask):
         if bill.get("cash") in ("8000", "8000.00"):
             judge_cash = True
 
-        if bill.get("note").lower() == "salary":
+        if bill.get("note").lower() == "salary" or find_subtrees_of_parents_with_key(xml_compressed_tree, "Employer > Salary"):
             judge_note = True
 
         return {
@@ -228,7 +230,7 @@ class SingleTask_bluecoins_8(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -261,7 +263,7 @@ class SingleTask_bluecoins_9(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -298,7 +300,7 @@ class SingleTask_bluecoins_10(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -336,7 +338,7 @@ class SingleTask_bluecoins_11(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -373,7 +375,7 @@ class SingleTask_bluecoins_12(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -410,7 +412,7 @@ class SingleTask_bluecoins_13(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -420,7 +422,7 @@ class SingleTask_bluecoins_13(SingleTask):
             if bill.get("date") == "May 13, 2024" and bill.get("type") == "Expense":
                 self.origin_bill = True
         else:
-            judge_type = judge_sign = judge_date = judge_note = False
+            judge_type = judge_date = judge_note = False
             if bill.get("type") == "Income":
                 judge_type = True
 
@@ -430,24 +432,12 @@ class SingleTask_bluecoins_13(SingleTask):
             if bill.get("note").lower() == "gift":
                 judge_note = True
 
-            tvc_datas = find_matching_subtrees(xml_compressed_tree, "TextView ;click")
-            keys = [key for d in tvc_datas for key in d.keys()]
-            for key in keys:
-                key = key.split("; ;;")[-1].strip()
-                if key in ("+", "-"):
-                    sign = key
-                    break
-
-            if sign == "+":
-                judge_sign = True
-
             return {
                 "judge_page": True,
                 "1": judge_type,
-                "2": judge_sign,
-                "3": judge_date,
-                "4": judge_note,
-                "complete": judge_type & judge_sign & judge_date & judge_note
+                "2": judge_date,
+                "3": judge_note,
+                "complete": judge_type & judge_date & judge_note
             }
 
         return {"judge_page": False}
@@ -462,7 +452,7 @@ class SingleTask_bluecoins_14(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -519,7 +509,7 @@ class SingleTask_bluecoins_15(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 

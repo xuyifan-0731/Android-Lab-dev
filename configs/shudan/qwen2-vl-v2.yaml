@@ -1,0 +1,25 @@
+agent:
+  name: QwenVLAgent
+  args:
+    api_base: "http://172.18.199.22:9000/v1/chat/completions"
+    temperature: 0.01
+    max_new_tokens: 256
+
+
+task:
+  class: Multi_ScreenshotMobileTask_AutoTest
+  args:
+    save_dir: "./logs/shudan"
+    max_rounds: 25
+    request_interval: 3
+    mode: "in_app"
+
+eval:
+  avd_name: Pixel_7_Pro_API_33
+  avd_log_dir: ./logs/shudan
+  docker: True
+  docker_args:
+    image_name: android_eval:v2
+    port: 6060
+    local_port: 47000
+  version: "v2"

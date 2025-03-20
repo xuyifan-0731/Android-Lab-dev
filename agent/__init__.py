@@ -1,18 +1,26 @@
+import traceback
 try:
     from .mllm.claude_model import *
 except:
+    traceback.print_exc()
     print("Claude LLM is not available.")
 try:
     from .llm.glm4 import *
+    from .llm.glm_model import *
+    from .mllm.glm4v import *
 except:
+    traceback.print_exc()
     print("GLM4 is not available.")
 try:
     from .llm.qwen_llm_model import *
     from .mllm.qwen_model import *
 except:
+    traceback.print_exc()
     print("Qwen LLM is not available.")
 
 from .model import *
+from .llm.gpt_oneapi import *
+from .mllm.cogagent import *
 
 
 

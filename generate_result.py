@@ -6,6 +6,7 @@ from collections import defaultdict
 from glob import glob
 from os.path import join, isdir, isfile, relpath
 from typing import List, Dict
+import re
 
 import jsonlines
 import pandas as pd
@@ -88,7 +89,10 @@ def output_to_excel(args):
 
     for output in outputs:
         output_folder = os.path.join(base_folder, output)
-        agent_name = output.split("_2024")[0]
+        # Extract agent name from string like "name_YYYY-MM-DD-HH-MM-SS"
+        pattern = r'^(.+?)_\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}'
+        match = re.match(pattern, output)
+        agent_name = match.group(1) if match else output  # fallback to full string if no match
         if not os.path.exists(os.path.join(output_folder, "total.jsonl")):
             continue
         with jsonlines.open(os.path.join(output_folder, "total.jsonl")) as f:
@@ -129,18 +133,19 @@ def output_to_excel(args):
             output_df = output_df._append(output_dict, ignore_index=True)
     output_df.to_excel(args.output_excel)
     print(output_df)
+    return output_df
 
 
 def parse_args():
     parser = argparse.ArgumentParser(add_help=False)
     group = parser.add_argument_group("evaluation", "Evaluation configurations")
-    group.add_argument("--input_folder", type=str, default="logs/evaluation")
-    group.add_argument("--output_folder", type=str, default="outputs")
+    group.add_argument("--input_folder", type=str, default="logs/shudan")
+    group.add_argument("--output_folder", type=str, default="outputs_shudan")
     group.add_argument("--output_excel", type=str, default="output.xlsx")
     group.add_argument("--tt", type=int, default=138)
     group.add_argument("--judge_model", type=str, default="glm4")
     group.add_argument("--api_base", type=str, default="")
-    group.add_argument("--api_key", type=str, default="")
+    group.add_argument("--api_key", type=str, default="a9e4c4bc2c3c8f5b026ec10488b7b485.SZHOUgvPfCEKbztk")
     args = parser.parse_args()
     return args
 
@@ -160,19 +165,24 @@ def main():
     already_output = os.listdir(args.output_folder)
     agent_list = []
     for output in already_output:
-        agent_name = output.split("_2024")[0]
+        pattern = r'^(.+?)_\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}'
+        match = re.match(pattern, output)
+        agent_name = match.group(1) if match else output  # fallback to full string if no match
         agent_list.append(agent_name)
+    test_agents = []
     for input_dir in input_dirs:
         if "emulator_output.txt" in input_dir:
             continue
+        skip_flag = False
         for agent in agent_list:
             if agent == input_dir.split('/')[-1]:
-                input_dirs.remove(input_dir)
-                break
+                skip_flag = True
+        if not skip_flag:
+            test_agents.append(input_dir)
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
         futures = [executor.submit(evaluate_input_dir, input_dir, task_yamls, create_time, args) for input_dir in
-                   input_dirs]
+                   test_agents]
         for future in concurrent.futures.as_completed(futures):
             try:
                 future.result()
@@ -180,12 +190,17 @@ def main():
                 import traceback
                 traceback.print_exc()
                 print(f'Generated an exception: {exc}')
-    output_to_excel(args)
-    df = pd.DataFrame()
+    output_df_main_result = output_to_excel(args)
+    output_df_app_result = pd.DataFrame()
     files = os.listdir(args.output_folder)
     for file in files:
         output_folder = os.path.join(args.output_folder, file)
-        agent_name = file.split("_2024")[0]
+        # Extract agent name from string like "name_YYYY-MM-DD-HH-MM-SS"
+        pattern = r'^(.+?)_\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}'
+        match = re.match(pattern, file)
+        agent_name = match.group(1) if match else file  # fallback to full string if no match
+        if "test" in agent_name:
+            continue
         if not os.path.exists(os.path.join(output_folder, "total.jsonl")):
             continue
         output_dict = {"agent_name": agent_name}
@@ -194,8 +209,15 @@ def main():
                 app = line["App"]
                 correct = line["Complete_Correct"]
                 output_dict[app] = correct
-        df = df._append(output_dict, ignore_index=True)
-        df.to_excel(args.output_excel.replace(".xlsx", "_detail.xlsx"))
+        #if output_dict["agent_name"] in test_agents:
+            #print("Add result: ", output_dict)
+        output_df_app_result = output_df_app_result._append(output_dict, ignore_index=True)
+
+    # desired_order = ["bluecoins", "calendar", "cantook", "clock", "contacts", "map", "pimusic", "setting", "zoom"]
+    # output_df_app_result = output_df_app_result[["agent_name"] + desired_order]
+    # merged_df = pd.merge(output_df_main_result, output_df_app_result, on="agent_name")
+    merged_df = pd.merge(output_df_main_result, output_df_app_result)
+    merged_df.to_excel(args.output_excel.replace(".xlsx", "_detail.xlsx"))
 
 
 if __name__ == "__main__":

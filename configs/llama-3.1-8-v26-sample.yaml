@@ -1,10 +1,9 @@
 agent:
-  name: OpenAIAgent
+  name: LLaMAModelAgent_0801
   args:
-    api_key:
-    api_base:
-    model_name: "gpt-4o-2024-05-13"
-    max_new_tokens: 512
+    api_base: "http://172.18.192.104:10010/v1/chat/completions"
+    temperature: 1.0
+
 
 task:
   class: TextOnlyMobileTask_AutoTest
@@ -19,7 +18,7 @@ eval:
   avd_log_dir: ./logs/evaluation
   docker: True
   docker_args:
-    image_name: python-android-env-test:latest
+    image_name: android_eval:v2
     port: 6060
-
-
+    local_port: 6100
+  version: "v2"

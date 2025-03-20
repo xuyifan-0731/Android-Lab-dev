@@ -4,11 +4,11 @@ from evaluation.task import *
 class SingleTask_Zoom_1(SingleTask):
 
     def judge_page(self, xml_compressed_tree):
-        if not find_subtrees_of_parents_with_key(xml_compressed_tree, "Join with a personal link name"):
+        if not find_subtrees_of_parents_with_key(xml_compressed_tree, "If you received an invitation link, tap on the link to join the meeting"):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -23,11 +23,11 @@ class SingleTask_Zoom_1(SingleTask):
 class SingleTask_Zoom_2(SingleTask):
 
     def judge_page(self, xml_compressed_tree):
-        if not find_subtrees_of_parents_with_key(xml_compressed_tree, "Join with a personal link name"):
+        if not find_subtrees_of_parents_with_key(xml_compressed_tree, "If you received an invitation link, tap on the link to join the meeting"):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         judge_key1 = False
@@ -45,11 +45,11 @@ class SingleTask_Zoom_2(SingleTask):
 class SingleTask_Zoom_3(SingleTask):
 
     def judge_page(self, xml_compressed_tree):
-        if not find_subtrees_of_parents_with_key(xml_compressed_tree, "Join with a personal link name"):
+        if not find_subtrees_of_parents_with_key(xml_compressed_tree, "If you received an invitation link, tap on the link to join the meeting"):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         judge_key1 = False
@@ -78,7 +78,7 @@ class SingleTask_Zoom_4(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         judge_key = False
@@ -98,7 +98,7 @@ class SingleTask_Zoom_5(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         judge_key = False

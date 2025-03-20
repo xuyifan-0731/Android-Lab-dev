@@ -1,0 +1,25 @@
+agent:
+  name: OpenAIAgent_oneapi
+  args:
+    api_key: sk-flcuPoVCv8nGzY4k2f5e168bDa1c4a00B04b1a2a9f0f3007
+    api_base: "https://one-api.glm.ai/v1"
+    model_name: "gpt-4o-mini-2024-07-18"
+    max_new_tokens: 512
+
+task:
+  class: TextOnlyMobileTask_AutoTest
+  args:
+    save_dir: "./logs/shudan"
+    max_rounds: 25
+    request_interval: 3
+    mode: "in_app"
+
+eval:
+  avd_name: Pixel_7_Pro_API_33
+  avd_log_dir: ./logs/shudan
+  docker: True
+  docker_args:
+    image_name: android_eval:v2
+    port: 6060
+    local_port: 9020
+  version: "v2"

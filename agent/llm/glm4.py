@@ -13,9 +13,9 @@ class GLM4Agent(OpenAIAgent):
             top_p: float = 0.7,
             **kwargs
     ) -> None:
+        self.model_name = model_name
         self.glm4_key = model_key
         self.client = ZhipuAI(api_key=self.glm4_key)
-        self.model_name = model_name
         self.max_new_tokens = max_new_tokens
         self.temperature = temperature
         self.top_p = top_p
@@ -30,7 +30,7 @@ class GLM4Agent(OpenAIAgent):
     )
     def act(self, messages: List[Dict[str, Any]]) -> str:
         response = self.client.chat.completions.create(
-            model="glm-4",  # 填写需要调用的模型名称
+            model=self.model_name,  # 填写需要调用的模型名称
             messages=messages,
         )
         return response.choices[0].message.content

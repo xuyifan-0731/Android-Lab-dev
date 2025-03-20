@@ -107,6 +107,9 @@ class TaskConfig:
     sample: Optional[bool] = False
     show_avd: Optional[bool] = False
     version: Optional[str] = None
+    use_ocr: Optional[bool] = False
+    tap_desc: Optional[bool] = False
+    ablation: Optional[str] = None
 
     def subdir_config(self, subdir: str):
         new_config = self.__dict__.copy()

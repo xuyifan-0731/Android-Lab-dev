@@ -1,0 +1,25 @@
+agent:
+  name: OpenAIAgent_oneapi
+  args:
+    api_key: sk-iKDxVf6Uap69SsSUBbC642C48f8e44Ce861f2941CcE278Ab
+    api_base: "https://one-api.glm.ai/v1"
+    model_name: "gpt-4o-2024-05-13"
+    max_new_tokens: 512
+
+task:
+  class: ScreenSeeActTask_AutoTest
+  args:
+    save_dir: "./logs/evaluation"
+    max_rounds: 25
+    request_interval: 3
+    mode: "in_app"
+
+eval:
+  avd_name: Pixel_7_Pro_API_33
+  avd_log_dir: ./logs/evaluation
+  docker: True
+  docker_args:
+    image_name: android_eval:v2
+    port: 6060
+    local_port: 7000
+  version: "v2"

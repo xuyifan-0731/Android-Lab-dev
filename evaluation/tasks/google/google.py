@@ -9,7 +9,7 @@ class SingleTask_Google_1(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         return {"judge_page": True, "1": True, "complete": True}
@@ -23,7 +23,7 @@ class SingleTask_Google_2(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         return {"judge_page": True, "1": True, "complete": True}
@@ -37,7 +37,7 @@ class SingleTask_Google_3(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         return {"judge_page": True, "1": True, "complete": True}
@@ -51,7 +51,7 @@ class SingleTask_Google_4(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         return {"judge_page": True, "1": True, "complete": True}
@@ -65,7 +65,7 @@ class SingleTask_Google_5(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         return {"judge_page": True, "1": True, "complete": True}
@@ -79,7 +79,7 @@ class SingleTask_Google_6(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         return {"judge_page": True, "1": True, "complete": True}
@@ -93,7 +93,7 @@ class SingleTask_Google_7(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         return {"judge_page": True, "1": True, "complete": True}
@@ -107,7 +107,7 @@ class SingleTask_Google_8(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         key = True
@@ -125,7 +125,7 @@ class SingleTask_Google_9(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
         key = True

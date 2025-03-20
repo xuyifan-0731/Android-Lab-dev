@@ -3,6 +3,7 @@ from evaluation.task import *
 
 def extract_alarms(data):
     def clock_end(key, Collapse=False):
+        #print("check clock_end", key, Collapse)
         if not Collapse:
             if "Switch" in key and "checked" in key:
                 return True
@@ -24,36 +25,40 @@ def extract_alarms(data):
     alarm["days"] = []
     Collapse = False
     for key, element in elements.items():
+        #print(key, element, isinstance(element, str), Collapse)
         if isinstance(element, str):
             continue
-        if "Collapse" in key:
-            Collapse = True
-            alarm["Expand"] = True
-        if clock_end(key, Collapse):
-            if "unchecked" in key:
-                alarm["status"] = "unchecked"
-            else:
-                alarm["status"] = "checked"
-            alarms.append(alarm)
-            alarm = {}
-            Collapse = False
-            alarm["days"] = []
-        if "AM" in key or "PM" in key:
-            alarm["time"] = key
-        if "Label" in key:
-            alarm["label"] = key
-        days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Not scheduled", "Today", "Tomorrow", "Every day"]
+        elif isinstance(element, dict):
+            for k, v in element.items():
+                if "Collapse" in k:
+                    Collapse = True
+                    alarm["Expand"] = True
+                if clock_end(k, Collapse):
+                    #print("clock_end")
+                    if "unchecked" in k:
+                        alarm["status"] = "unchecked"
+                    else:
+                        alarm["status"] = "checked"
+                    alarms.append(alarm)
+                    alarm = {}
+                    Collapse = False
+                    alarm["days"] = []
+                if "AM" in k or "PM" in k:
+                    alarm["time"] = k
+                if "Label" in k:
+                    alarm["label"] = k
+                days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Not scheduled", "Today", "Tomorrow", "Every day"]
 
-        for day in days:
-            if day in key and "TextView" in key:
-                alarm["days"].append(day)
-        if "Ringtone" in key:
-            alarm["ringtone"] = key
-        if "Vibrate" in key:
-            if "unchecked" in key:
-                alarm["vibrate"] = "unchecked"
-            else:
-                alarm["vibrate"] = "checked"
+                for day in days:
+                    if day in k and "TextView" in k:
+                        alarm["days"].append(day)
+                if "Ringtone" in k:
+                    alarm["ringtone"] = k
+                if "Vibrate" in k:
+                    if "unchecked" in k:
+                        alarm["vibrate"] = "unchecked"
+                    else:
+                        alarm["vibrate"] = "checked"
 
     return alarms
 
@@ -68,13 +73,12 @@ class SingleTask_Clock_General(SingleTask):
 
 class SingleTask_Clock_1(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
         outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "Alarm")
         outcome = {"judge_page": True, "1": False, "2": False, "3": False, "complete": False}
-
         for out in outs:
             alarms_data = extract_alarms(out)
             for alarm in alarms_data:
@@ -105,37 +109,51 @@ class SingleTask_Clock_1(SingleTask_Clock_General):
 
 
 class SingleTask_Clock_2(SingleTask_Clock_General):
+    step1_set_645_AM = False
+    step2_set_vibrate_unchecked = False
+    step3_set_Argon = False
+    step4_set_checked = False
 
     def judge_page(self, xml_compressed_tree):
         # 可以根据需要在这里实现特定的页面判断逻辑
         return True
 
-    def judge(self, xml_compressed_tree, line):
-        if not self.judge_page(xml_compressed_tree):
-            return {"judge_page": False}
+    def judge(self, xml_compressed_tree, line, xml_path):
+        if not self.step1_set_645_AM:
+            if not self.judge_page(xml_compressed_tree):
+                return {"judge_page": False}
 
         outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "Alarm")
         outcome = {"judge_page": True, "1": False, "2": False, "3": False, "4": False, "complete": False}
+
+        if self.step1_set_645_AM and self.step4_set_checked:
+            sub_tree = find_subtrees_of_parents_with_key(xml_compressed_tree, "Argon")
+            if len(sub_tree) > 0 and find_subtrees_of_parents_with_key(sub_tree[0], "Selected"):
+                self.step3_set_Argon = True
 
         for out in outs:
             alarms_data = extract_alarms(out)
             for alarm in alarms_data:
                 try:
-                    if '6:45\u200aAM' in alarm['time']:
+                    if '6:45\u200aAM' in alarm['time'] or self.step1_set_645_AM:
                         outcome["1"] = True
+                        self.step1_set_645_AM = True
                         try:
-                            if alarm['vibrate'] == 'unchecked':
+                            if alarm['vibrate'] == 'unchecked' or self.step2_set_vibrate_unchecked:
                                 outcome["2"] = True
+                                self.step2_set_vibrate_unchecked = True
                         except KeyError:
                             pass
                         try:
-                            if self.split_string(alarm["ringtone"], "Ringtone") == 'Argon':
+                            if self.split_string(alarm["ringtone"], "Ringtone") == 'Argon' or self.step3_set_Argon:
                                 outcome["3"] = True
+                                self.step3_set_Argon = True
                         except KeyError:
                             pass
                         try:
-                            if alarm['status'] == 'checked':
+                            if alarm['status'] == 'checked' or self.step4_set_checked:
                                 outcome["4"] = True
+                                self.step4_set_checked = True
                         except KeyError:
                             pass
                         try:
@@ -147,13 +165,13 @@ class SingleTask_Clock_2(SingleTask_Clock_General):
                             pass
                 except KeyError:
                     pass
-
+        outcome = {"judge_page": True, "1": self.step1_set_645_AM, "2": self.step2_set_vibrate_unchecked, "3": self.step3_set_Argon, "4": self.step4_set_checked, "complete": self.step1_set_645_AM & self.step2_set_vibrate_unchecked & self.step3_set_Argon & self.step4_set_checked}
         return outcome
 
 
 class SingleTask_Clock_3(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -191,7 +209,7 @@ class SingleTask_Clock_3(SingleTask_Clock_General):
 
 class SingleTask_Clock_4(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -228,7 +246,7 @@ class SingleTask_Clock_4(SingleTask_Clock_General):
 
 class SingleTask_Clock_5(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -265,7 +283,7 @@ class SingleTask_Clock_5(SingleTask_Clock_General):
 
 class SingleTask_Clock_6(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -308,11 +326,11 @@ class SingleTask_Clock_6(SingleTask_Clock_General):
 
 class SingleTask_Clock_7(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
-        outs = find_matching_subtrees(xml_compressed_tree, "Alarm")
+        outs = outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "Alarm")
         outcome = {"judge_page": True, "1": False, "complete": False}
         if len(outs) == 0 or (len(outs) == 1 and "click ; ;;Alarm" in next(iter(outs[0]))):
             return outcome
@@ -343,11 +361,11 @@ class SingleTask_Clock_8(SingleTask_Clock_General):
                 minute = int(time.split(":")[1])
                 return hour, minute
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
-        outs = find_matching_subtrees(xml_compressed_tree, "Alarm")
+        outs = outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "Alarm")
         outcome = {"judge_page": True, "1": False, "complete": False}
         if len(outs) == 0 or (len(outs) == 1 and "click ; ;;Alarm" in next(iter(outs[0]))):
             return outcome
@@ -370,15 +388,15 @@ class SingleTask_Clock_8(SingleTask_Clock_General):
 
 class SingleTask_Clock_9(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
-        outs = find_matching_subtrees(xml_compressed_tree, "Alarm")
+        outs = outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "Alarm")
         outcome = {"judge_page": True, "1": False, "complete": False}
         if len(outs) == 0 or (len(outs) == 1 and "click ; ;;Alarm" in next(iter(outs[0]))):
             return outcome
-
+        
         for out in outs:
             alarms_data = extract_alarms(out)
             for alarm in alarms_data:
@@ -390,13 +408,12 @@ class SingleTask_Clock_9(SingleTask_Clock_General):
                             break
                 except KeyError:
                     pass
-
         return outcome
 
 
 class SingleTask_Clock_10(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -411,7 +428,7 @@ class SingleTask_Clock_10(SingleTask_Clock_General):
 
 class SingleTask_Clock_11(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -426,7 +443,7 @@ class SingleTask_Clock_11(SingleTask_Clock_General):
 
 class SingleTask_Clock_12(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -441,7 +458,7 @@ class SingleTask_Clock_12(SingleTask_Clock_General):
 
 class SingleTask_Clock_13(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -456,7 +473,7 @@ class SingleTask_Clock_13(SingleTask_Clock_General):
 
 class SingleTask_Clock_14(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -471,7 +488,7 @@ class SingleTask_Clock_14(SingleTask_Clock_General):
 
 class SingleTask_Clock_15(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -490,7 +507,7 @@ class SingleTask_Clock_15(SingleTask_Clock_General):
 
 class SingleTask_Clock_16(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -505,7 +522,7 @@ class SingleTask_Clock_16(SingleTask_Clock_General):
 
 class SingleTask_Clock_17(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -528,7 +545,7 @@ class SingleTask_Clock_17(SingleTask_Clock_General):
 
 class SingleTask_Clock_18(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -554,7 +571,7 @@ class SingleTask_Clock_18(SingleTask_Clock_General):
 
 class SingleTask_Clock_19(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -587,25 +604,26 @@ class SingleTask_Clock_19(SingleTask_Clock_General):
 
 
 class SingleTask_Clock_20(SingleTask_Clock_General):
+    def judge_page(self, xml_compressed_tree):
+        if find_subtrees_of_parents_with_key(xml_compressed_tree, "Sleep sounds"):
+            return True
+        else:
+            return False
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
         outcome = {"judge_page": True, "1": False, "complete": False}
-        outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "Alarm")
-
+        outs = find_subtrees_of_parents_with_key(xml_compressed_tree, "Sleep sounds")
         for out in outs:
-            out = out.values()
-            for single_out in out:
-                for key, value in single_out.items():
-                    if "sleep sound" in key:
-                        str = key.split("sleep sound ")[-1].rstrip()
-                        if str == "Deep space":
-                            outcome["1"] = True
-                            outcome["complete"] = True
-                            break
-
+            if find_subtrees_of_parents_with_key(out, "Deep space"):
+                sub_tree = find_subtrees_of_parents_with_key(out, "Deep space")
+                if len(sub_tree) > 0 and find_subtrees_of_parents_with_key(sub_tree[0], "Selected"):
+                    outcome["1"] = True
+                    outcome["complete"] = True
+                    break
+          
         return outcome
 
 
@@ -618,7 +636,7 @@ class SingleTask_Clock_21(SingleTask_Clock_General):
         else:
             return False
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -639,7 +657,7 @@ class SingleTask_Clock_21(SingleTask_Clock_General):
 
 class SingleTask_Clock_22(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -655,7 +673,7 @@ class SingleTask_Clock_22(SingleTask_Clock_General):
 
 class SingleTask_Clock_23(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -676,7 +694,7 @@ class SingleTask_Clock_23(SingleTask_Clock_General):
 
 class SingleTask_Clock_24(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -698,7 +716,7 @@ class SingleTask_Clock_24(SingleTask_Clock_General):
 
 class SingleTask_Clock_25(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -717,7 +735,7 @@ class SingleTask_Clock_25(SingleTask_Clock_General):
 
 class SingleTask_Clock_26(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -741,7 +759,7 @@ class SingleTask_Clock_26(SingleTask_Clock_General):
 
 class SingleTask_Clock_27(SingleTask_Clock_General):
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 

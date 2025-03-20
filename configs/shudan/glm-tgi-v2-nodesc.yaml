@@ -1,0 +1,26 @@
+agent:
+  name: LLaMAModelAgent_0801_tgi
+  args:
+    api_base: "http://172.18.196.246:3000"
+    temperature: 0.001
+
+
+task:
+  class: TextOnlyMobileTask_AutoTest
+  args:
+    save_dir: "./logs/shudan"
+    max_rounds: 25
+    request_interval: 3
+    mode: "in_app"
+
+eval:
+  avd_name: Pixel_7_Pro_API_33
+  avd_log_dir: ./logs/shudan
+  docker: True
+  docker_args:
+    image_name: android_eval:v2
+    port: 6060
+    local_port: 7000
+  version: "v2"
+
+

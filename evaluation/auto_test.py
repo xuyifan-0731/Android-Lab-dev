@@ -5,7 +5,7 @@ from evaluation.docker_utils import create_docker_container, execute_command_in_
     start_avd, stop_avd
 from evaluation.evaluation import *
 from evaluation.utils import *
-from page_executor import TextOnlyExecutor
+from page_executor import TextOnlyExecutor, TextOnlyExecutor_v4, TextOnlyExecutor_v41
 from page_executor.simple_vision_executor import VisionExecutor
 from recorder import JSONRecorder
 from templates import *
@@ -118,7 +118,11 @@ class Docker_Instance(Instance):
     def initialize_worker(self, config):
         self.config = config
         print_with_color(f"Starting Android Emulator in docker with AVD name: {config.avd_name}", "blue")
-        docker_port_local = find_free_ports(start_port=6060 + self.idx)
+        if "local_port" in self.config.docker_args:
+            local_port_start = self.config.docker_args["local_port"]
+        else:
+            local_port_start = 6060
+        docker_port_local = find_free_ports(start_port=local_port_start + self.idx)
         self.docker_port_local = docker_port_local
         print(f"Local port: {docker_port_local}")
 
@@ -281,6 +285,42 @@ class TextOnlyMobileTask_AutoTest(AutoTest):
         return TextOnlyExecutor(self.controller, self.config)
 
 
+class TextOnlyMobileTask_AutoTest_v4(AutoTest):
+    def get_agent(self):
+        task_agent = TextOnlyTask(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record,
+                                  self.command_per_step)
+        return task_agent
+
+    def get_executor(self):
+        return TextOnlyExecutor_v4(self.controller, self.config)
+
+
+class Multi_ScreenshotMobileTask_AutoTest(AutoTest):
+    def get_agent(self):
+        task_agent = Multi_ScreenshotTask(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record,
+                                          self.command_per_step)
+        return task_agent
+    
+    def get_executor(self):
+        return TextOnlyExecutor(self.controller, self.config)
+
+
+class Multi_ScreenshotMobileTask_AutoTest_v4(TextOnlyMobileTask_AutoTest_v4):
+    def get_agent(self):
+        task_agent = Multi_ScreenshotTask(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record,
+                                          self.command_per_step)
+        return task_agent
+
+class Multi_ScreenshotMobileTask_AutoTest_v41(AutoTest):
+    def get_agent(self):
+        task_agent = Multi_ScreenshotTask(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record,
+                                          self.command_per_step)
+        return task_agent
+    
+    def get_executor(self):
+        return TextOnlyExecutor_v41(self.controller, self.config)
+
+
 class ScreenshotMobileTask_AutoTest(TextOnlyMobileTask_AutoTest):
     def get_agent(self):
         task_agent = ScreenshotTask(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record,
@@ -337,7 +377,21 @@ class ScreenSeeActTask_AutoTest(TextOnlyMobileTask_AutoTest):
                                       self.record, self.command_per_step)
         return task_agent
 
+class TextOnlySeeActTask_AutoTest(TextOnlyMobileTask_AutoTest):
+    def get_agent(self):
+        task_agent = TextOnlySeeActTask(self.instruction, self.controller, self.page_executor, self.llm_agent,
+                                      self.record, self.command_per_step)
+        return task_agent
 
+class QwenVLAgentTask_AutoTest(TextOnlyMobileTask_AutoTest):
+    def get_agent(self):
+        task_agent = QwenVLAgentTask(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record,
+                                  self.command_per_step)
+        return task_agent
+
+    def get_executor(self):
+        return VisionExecutor(self.controller, self.config)
+    
 class ScreenReactTask_AutoTest(TextOnlyMobileTask_AutoTest):
     def get_agent(self):
         task_agent = ScreenshotReactTask(self.instruction, self.controller, self.page_executor, self.llm_agent,

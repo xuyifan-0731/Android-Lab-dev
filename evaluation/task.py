@@ -1,5 +1,6 @@
 from collections import defaultdict
 from typing import Generic, TypeVar
+from PIL import Image
 
 import jsonlines
 import numpy as np
@@ -75,6 +76,7 @@ class Evaluation_Task(Generic[T_INPUT, T_OUTPUT, T_TARGET]):
         assert self.config is not None, "Task config is required."
         self.name = self.config.APP
         self.task_list = self.config.get_tasks()
+        self.check_task_id_list = []
         self.metrics = self.config.get_metrics()
         self.traces = traces
         self.all_result = []
@@ -84,9 +86,18 @@ class Evaluation_Task(Generic[T_INPUT, T_OUTPUT, T_TARGET]):
             self.additional_metrics = defaultdict(dict)
             with open("evaluation/tasks/human_ground_turth/ground_truth_length.json") as f:
                 self.length_gt = json.load(f)
+        
+    def task_list_delete(self, task_ids):
+        for taskid in task_ids:
+            self.check_task_id_list.append(taskid)
 
     def evaluate(self) -> Dict[str, Any]:
         for task in self.task_list:
+            if self.check_task_id_list == []:
+                pass
+            elif task.get('task_id') not in self.check_task_id_list:
+                continue
+            print(f"Evaluating task '{task.get('task_id')}'")
             try:
                 assert task.get('task_id') in self.metrics, f"No valid function mapped for {task.get('task_id')}"
             except:
@@ -127,11 +138,11 @@ class Evaluation_Task(Generic[T_INPUT, T_OUTPUT, T_TARGET]):
                     xml_path = os.path.join(self.traces[task_id]['xml_path'], xml_path.split("/")[-1])
                     metric_type = self.config.metrics_type[task.get('task_id')]
                     if not os.path.exists(xml_path):
-                        print(f"XML file not found: {xml_path}")
+                        #print(f"XML file not found: {xml_path}")
                         continue
                     xml_compressed = dump_xml(xml_path)
                     try:
-                        result = metric.judge(xml_compressed, line)
+                        result = metric.judge(xml_compressed, line, xml_path)
                         all_operation_trace.append(line)
                         image_path = line["image"]
                         image_filename = image_path.split("/")[-1]
@@ -146,8 +157,8 @@ class Evaluation_Task(Generic[T_INPUT, T_OUTPUT, T_TARGET]):
                     except:
                         result = {"complete": False}
                         import traceback
-                        traceback.print_exc()
-                        print(f"Error in judging {task_id} at line {line}")
+                        #traceback.print_exc()
+                        #print(f"Error in judging {task_id} at line {line}")
 
             if self.show_detail_metrics:
                 self.add_metrics(task, all_operation_trace, all_images, final_result)
@@ -171,6 +182,7 @@ class Evaluation_Task(Generic[T_INPUT, T_OUTPUT, T_TARGET]):
         # self.additional_metrics["final_task_ratio"][task["task_id"]] = 0
 
         # Reasonable Operation Ratio
+        
         simi, sum_simi = compute_image_similarity(all_images)
         if length - 1 == 0:
             self.additional_metrics["reasonable_operation_ratio"][task["task_id"]] = 1
@@ -226,6 +238,7 @@ class SingleTask():
     def __init__(self, args):
         self.metric_type = ""
         self.final_ground_truth = None
+        self.args = args
 
     def check_answer(self, line):
         if line["parsed_action"].get("action") != "finish" and line["parsed_action"].get("type") != "finish":
@@ -240,7 +253,7 @@ class SingleTask():
             else:
                 model_answer = line["parsed_action"]["input"]
             ground_truth = self.final_ground_truth
-            if detect_answer(question, model_answer, ground_truth, args):
+            if detect_answer(question, model_answer, ground_truth,self.args):
                 return True
             else:
                 return False

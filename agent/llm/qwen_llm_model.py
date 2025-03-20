@@ -21,4 +21,3 @@ class QwenLLMAgent(OpenAIAgent):
         self.top_p = top_p
         self.kwargs = kwargs
         self.name = "OpenAIAgent"
-

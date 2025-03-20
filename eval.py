@@ -36,6 +36,7 @@ if __name__ == '__main__':
     if "True" == agent_config.get("relative_bbox"):
         single_config.is_relative_bbox = True
     agent = get_agent(agent_config["name"], **agent_config["args"])
+    print("single config", single_config)
 
     task_files = find_all_task_files(args.task_config)
     if os.path.exists(os.path.join(single_config.save_dir, args.name)):

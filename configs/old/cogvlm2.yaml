@@ -1,13 +1,11 @@
 agent:
-  name: OpenAIAgent
+  name: CogagentAgent
+  relative_bbox: "True"
   args:
-    api_key:
-    api_base:
-    model_name: "gpt-4o-2024-05-13"
-    max_new_tokens: 512
+    url: "http://172.18.192.61:24025/v1/general"
 
 task:
-  class: ScreenshotMobileTask_AutoTest
+  class: CogAgentTask_AutoTest
   args:
     save_dir: "./logs/evaluation"
     max_rounds: 25
@@ -16,9 +14,6 @@ task:
 
 eval:
   avd_base: /Users/xuyifan/.android/avd
-  avd_name: Pixel_7_Pro_API_33
+  avd_name: Copy_of_Pixel_7_Pro_API_33_v2
   avd_log_dir: ./logs/evaluation
   android_sdk_path: /Users/xuyifan/Library/Android/sdk
-  show_avd: false
-
-

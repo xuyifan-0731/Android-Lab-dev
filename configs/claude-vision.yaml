@@ -1,0 +1,26 @@
+agent:
+  name: Claude_Vision_agent_full_prompt
+  args:
+    url: ""
+    model_name: "claude-3-5-sonnet-20241022"
+    max_new_tokens: 512
+    temperature: 0
+
+task:
+  class: ScreenshotMobileTask_AutoTest
+  args:
+    save_dir: "./logs/evaluation"
+    max_rounds: 25
+    request_interval: 3
+    mode: "in_app"
+
+eval:
+  avd_name: Pixel_7_Pro_API_33
+  avd_log_dir: ./logs/evaluation
+  docker: True
+  docker_args:
+    image_name: android_eval:v2
+    port: 6060
+    local_port: 5000
+  version: "v2"
+

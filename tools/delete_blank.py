@@ -1,7 +1,7 @@
 import os
 import shutil
 
-folder = "/Users/xuyifan/Desktop/agent/pipeline-mobile/logs/evaluation"
+folder = ""
 files = os.listdir(folder)
 
 for file in files:
@@ -14,4 +14,4 @@ for file in files:
         if not os.path.exists(os.path.join(folder, file, task, "traces/trace.jsonl")):
             print(f"Trace for task '{folder, file, task}' not found.")
             if os.path.exists(os.path.join(folder, file, task)):
-                shutil.rmtree(os.path.join(folder, file, task))
+                # shutil.rmtree(os.path.join(folder, file, task))

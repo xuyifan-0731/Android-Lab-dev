@@ -36,7 +36,7 @@ class SingleTask_cantook_1(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -56,7 +56,7 @@ class SingleTask_cantook_2(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -76,7 +76,7 @@ class SingleTask_cantook_3(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -96,7 +96,7 @@ class SingleTask_cantook_4(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -116,7 +116,7 @@ class SingleTask_cantook_5(SingleTask):
             return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(line):
             return {"judge_page": False}
 
@@ -138,7 +138,7 @@ class SingleTask_cantook_6(SingleTask):
                 return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -166,7 +166,7 @@ class SingleTask_cantook_7(SingleTask):
                 return True
         return False
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -193,7 +193,7 @@ class SingleTask_cantook_8(SingleTask):
                 return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -224,7 +224,7 @@ class SingleTask_cantook_9(SingleTask):
                 return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -255,7 +255,7 @@ class SingleTask_cantook_10(SingleTask):
                 return False
         return True
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 
@@ -283,7 +283,7 @@ class SingleTask_cantook_11(SingleTask):
         else:
             return False
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if check_selected(xml_compressed_tree, "Categories"):
             self.judge_cate = True
 
@@ -314,7 +314,7 @@ class SingleTask_cantook_12(SingleTask):
     def judge_page(self, xml_compressed_tree):
         return check_selected(xml_compressed_tree, "Collections")
 
-    def judge(self, xml_compressed_tree, line):
+    def judge(self, xml_compressed_tree, line, xml_path):
         if not self.judge_page(xml_compressed_tree):
             return {"judge_page": False}
 

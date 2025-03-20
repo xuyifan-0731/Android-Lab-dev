@@ -55,7 +55,7 @@ class TextOnlyExecutor:
         self.new_page_captured = False
         self.controller.on("page", self.__capture_new_page__)
         self.current_return = None'''
-
+        
         local_context = self.__get_class_methods__()
         local_context.update(**{'self': self})
         print(code_snippet.strip())
@@ -65,7 +65,20 @@ class TextOnlyExecutor:
                     code_snippet = code
                     break
 
+        # Add escape characters to nested quotes
         code = remove_leading_zeros_in_string(code_snippet.strip())
+        if 'message=' in code or 'text=' in code:
+            # Find the content between quotes after message= or text=
+            pattern = r'(message|text)="(.*?)"\)'
+            match = re.search(pattern, code, re.S)
+            if match:
+                content = match.group(2)
+                # Escape any quotes within the content
+                escaped_content = content.replace('"', '\\"')
+                # Replace the original content with the escaped version
+                code = re.sub(r'(message|text)=".*?"\)', f'{match.group(1)}="{escaped_content}")', code)
+                print(code)
+
         exec(code, {}, local_context)
         return self.current_return
 
@@ -249,3 +262,212 @@ class TextOnlyExecutor:
             self.current_return = {"operation": "do", "action": 'Call_API',
                                    "kwargs": {"instruction": instruction, "response": response,
                                               "with_screen_info": False}}'''
+
+
+class TextOnlyExecutor_v4(TextOnlyExecutor):
+    def modify_relative_bbox(self, relative_bbox):
+        viewport_width, viewport_height = self.controller.viewport_size
+        modify_x1 = relative_bbox[0] * viewport_width / 999
+        modify_y1 = relative_bbox[1] * viewport_height / 999
+        modify_x2 = relative_bbox[2] * viewport_width / 999
+        modify_y2 = relative_bbox[3] * viewport_height / 999
+        return [modify_x1, modify_y1, modify_x2, modify_y2]
+    
+    def do(self, action=None, element=None, **kwargs):
+        assert action in ["Tap", "Type", "Swipe", "Enter", "Home", "Back", "Long Press", "Wait", "Launch",
+                          "Call_API"], "Unsupported Action"
+        if element is not None:
+            predict_element = element
+            element = self.modify_relative_bbox(element)
+        if action == "Tap":
+            self.tap(element, predict_element)
+        elif action == "Type":
+            self.type(**kwargs)
+        elif action == "Swipe":
+            self.swipe(element, predict_element, **kwargs)
+        elif action == "Enter":
+            self.press_enter()
+        elif action == "Home":
+            self.press_home()
+        elif action == "Back":
+            self.press_back()
+        elif action == "Long Press":
+            self.long_press(element, predict_element)
+        elif action == "Wait":
+            self.wait()
+        elif action == "Launch":
+            self.launch(**kwargs)
+        elif action == "Call_API":
+            self.call_api(**kwargs)
+        else:
+            raise NotImplementedError()
+        # self.__update_screenshot__() # update screenshot 全部移到recoder内
+    
+    def tap(self, element, predict_element):
+        if isinstance(element, list) and len(element) == 4:
+            center_x = (element[0] + element[2]) / 2
+            center_y = (element[1] + element[3]) / 2
+        elif isinstance(element, list) and len(element) == 2:
+            center_x, center_y = element
+        else:
+            raise ValueError("Invalid element format")
+        self.controller.tap(center_x, center_y)
+        self.current_return = {"operation": "do", "action": 'Tap', "kwargs": {"element": predict_element, "origin_element": element}}
+
+    def long_press(self, element, predict_element):
+        if isinstance(element, list) and len(element) == 4:
+            center_x = (element[0] + element[2]) / 2
+            center_y = (element[1] + element[3]) / 2
+        elif isinstance(element, list) and len(element) == 2:
+            center_x, center_y = element
+        else:
+            raise ValueError("Invalid element format")
+        self.controller.long_press(center_x, center_y)
+        self.current_return = {"operation": "do", "action": 'Long Press', "kwargs": {"element": predict_element, "origin_element": element}}
+
+    def swipe(self, element=None, predict_element=None, **kwargs):
+        if element is None:
+            center_x, center_y = self.controller.width // 2, self.controller.height // 2
+        elif element is not None:
+            if isinstance(element, list) and len(element) == 4:
+                center_x = (element[0] + element[2]) / 2
+                center_y = (element[1] + element[3]) / 2
+            elif isinstance(element, list) and len(element) == 2:
+                center_x, center_y = element
+            else:
+                raise ValueError("Invalid element format")
+        assert "direction" in kwargs, "direction is required for swipe"
+        direction = kwargs.get("direction")
+        dist = kwargs.get("dist", "medium")
+        self.controller.swipe(center_x, center_y, direction, dist)
+        self.current_return = {"operation": "do", "action": 'Swipe',
+                               "kwargs": {"element": predict_element, 'origin_element': element, "direction": direction, "dist": dist}}
+        time.sleep(1)
+    
+    def finish(self, message=None):
+        self.is_finish = True
+        self.current_return = {"operation": "finish", "action": 'finish', "kwargs": {"message": message}}
+
+
+import math
+def smart_resize_func(
+    height: int, width: int, factor: int = 28, min_pixels: int = 56 * 56, max_pixels: int = 14 * 14 * 4 * 1280
+):
+    """Rescales the image so that the following conditions are met:
+
+    1. Both dimensions (height and width) are divisible by 'factor'.
+
+    2. The total number of pixels is within the range ['min_pixels', 'max_pixels'].
+
+    3. The aspect ratio of the image is maintained as closely as possible.
+
+    """
+    if height < factor or width < factor:
+        raise ValueError(f"height:{height} or width:{width} must be larger than factor:{factor}")
+    elif max(height, width) / min(height, width) > 200:
+        raise ValueError(
+            f"absolute aspect ratio must be smaller than 200, got {max(height, width) / min(height, width)}"
+        )
+    h_bar = round(height / factor) * factor
+    w_bar = round(width / factor) * factor
+    if h_bar * w_bar > max_pixels:
+        beta = math.sqrt((height * width) / max_pixels)
+        h_bar = math.floor(height / beta / factor) * factor
+        w_bar = math.floor(width / beta / factor) * factor
+    elif h_bar * w_bar < min_pixels:
+        beta = math.sqrt(min_pixels / (height * width))
+        h_bar = math.ceil(height * beta / factor) * factor
+        w_bar = math.ceil(width * beta / factor) * factor
+    return h_bar, w_bar
+
+
+class TextOnlyExecutor_v41(TextOnlyExecutor):
+    def modify_relative_bbox(self, relative_bbox):
+        # Get original viewport dimensions
+        viewport_width, viewport_height = self.controller.viewport_size
+        
+        # Calculate resized dimensions using smart_resize_func
+        resized_height, resized_width = smart_resize_func(viewport_height, viewport_width, max_pixels=1000000)
+
+        # Scale back to original viewport size
+        modify_x1 = relative_bbox[0] * viewport_width / resized_width
+        modify_y1 = relative_bbox[1] * viewport_height / resized_height
+        modify_x2 = relative_bbox[2] * viewport_width / resized_width
+        modify_y2 = relative_bbox[3] * viewport_height / resized_height
+    
+        return [modify_x1, modify_y1, modify_x2, modify_y2]
+    
+    def do(self, action=None, element=None, **kwargs):
+        assert action in ["Tap", "Type", "Swipe", "Enter", "Home", "Back", "Long Press", "Wait", "Launch",
+                          "Call_API"], "Unsupported Action"
+        if element is not None:
+            predict_element = element
+            element = self.modify_relative_bbox(element)
+        if action == "Tap":
+            self.tap(element, predict_element)
+        elif action == "Type":
+            self.type(**kwargs)
+        elif action == "Swipe":
+            self.swipe(element, predict_element, **kwargs)
+        elif action == "Enter":
+            self.press_enter()
+        elif action == "Home":
+            self.press_home()
+        elif action == "Back":
+            self.press_back()
+        elif action == "Long Press":
+            self.long_press(element, predict_element)
+        elif action == "Wait":
+            self.wait()
+        elif action == "Launch":
+            self.launch(**kwargs)
+        elif action == "Call_API":
+            self.call_api(**kwargs)
+        else:
+            raise NotImplementedError()
+        # self.__update_screenshot__() # update screenshot 全部移到recoder内
+    
+    def tap(self, element, predict_element):
+        if isinstance(element, list) and len(element) == 4:
+            center_x = (element[0] + element[2]) / 2
+            center_y = (element[1] + element[3]) / 2
+        elif isinstance(element, list) and len(element) == 2:
+            center_x, center_y = element
+        else:
+            raise ValueError("Invalid element format")
+        self.controller.tap(center_x, center_y)
+        self.current_return = {"operation": "do", "action": 'Tap', "kwargs": {"element": predict_element, "origin_element": element}}
+
+    def long_press(self, element, predict_element):
+        if isinstance(element, list) and len(element) == 4:
+            center_x = (element[0] + element[2]) / 2
+            center_y = (element[1] + element[3]) / 2
+        elif isinstance(element, list) and len(element) == 2:
+            center_x, center_y = element
+        else:
+            raise ValueError("Invalid element format")
+        self.controller.long_press(center_x, center_y)
+        self.current_return = {"operation": "do", "action": 'Long Press', "kwargs": {"element": predict_element, "origin_element": element}}
+
+    def swipe(self, element=None, predict_element=None, **kwargs):
+        if element is None:
+            center_x, center_y = self.controller.width // 2, self.controller.height // 2
+        elif element is not None:
+            if isinstance(element, list) and len(element) == 4:
+                center_x = (element[0] + element[2]) / 2
+                center_y = (element[1] + element[3]) / 2
+            elif isinstance(element, list) and len(element) == 2:
+                center_x, center_y = element
+            else:
+                raise ValueError("Invalid element format")
+        assert "direction" in kwargs, "direction is required for swipe"
+        direction = kwargs.get("direction")
+        dist = kwargs.get("dist", "medium")
+        self.controller.swipe(center_x, center_y, direction, dist)
+        self.current_return = {"operation": "do", "action": 'Swipe',
+                               "kwargs": {"element": predict_element, 'origin_element': element, "direction": direction, "dist": dist}}
+        time.sleep(1)
+    
+    def finish(self, message=None):
+        self.is_finish = True
+        self.current_return = {"operation": "finish", "action": 'finish', "kwargs": {"message": message}}
