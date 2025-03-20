@@ -1,0 +1,183 @@
+APP: Contacts
+package: com.google.android.contacts
+tasks:
+- task: Create a contact for "Emily" and set her phone number to "98765432".
+  task_id: contacts_0
+- task: Insert a contact with the first name "James" and set his phone number to "23456789".
+  task_id: contacts_1
+- task: Register a contact for "Michael Brown" and set his email to "michael.brown@example.com".
+  task_id: contacts_2
+- task: Add a contact with the first name "Olivia" and set her phone number to "34567890".
+  task_id: contacts_3
+- task: Enter a contact named "Sophia Johnson" and set her company to "TechCorp".
+  task_id: contacts_4
+- task: Include a contact with the first name "Liam" and set his email to "liam.smith@example.com".
+  task_id: contacts_5
+- task: Create a contact for "Ava" and set her phone number to "45678901".
+  task_id: contacts_6
+- task: Insert a contact with the first name "Lucas" and set his phone number to "56789012".
+  task_id: contacts_7
+- task: Register "Mia" as a contact and set her phone number to "67890123".
+  task_id: contacts_8
+- task: Add a contact with the first name "Benjamin" and set his email to "benjamin.white@example.com".
+  task_id: contacts_9
+- task: Enter a contact named "Charlotte" and set her phone number to "78901234".
+  task_id: contacts_10
+- task: Include a contact with the first name "Henry" and set his phone number to "89012345".
+  task_id: contacts_11
+- task: Create a contact for "Amelia" and set her email to "amelia.jones@example.com".
+  task_id: contacts_12
+- task: Register "Ethan" as a contact and set his phone number to "90123456".
+  task_id: contacts_13
+- task: Add a contact with the first name "Isabella" and set her phone number to "12345679".
+  task_id: contacts_14
+- task: Insert "Mason" as a contact and set his company to "InnovateCorp".
+  task_id: contacts_15
+- task: Enter a contact named "Harper" and set her email to "harper.wilson@example.com".
+  task_id: contacts_16
+- task: Create a contact for "Alexander" and set his phone number to "23456790".
+  task_id: contacts_17
+- task: Register a contact for "Ella" and set her phone number to "34567891".
+  task_id: contacts_18
+- task: Include a contact with the first name "Daniel" and set his email to "daniel.thomas@example.com".
+  task_id: contacts_19
+- task: Insert a contact with the first name "Aria" and set her phone number to "45678902".
+  task_id: contacts_20
+- task: Create a contact for "Matthew" and set his company to "GlobalTech".
+  task_id: contacts_21
+- task: Enter a contact named "Scarlett" and set her email to "scarlett.brown@example.com".
+  task_id: contacts_22
+- task: Register "David" as a contact and set his phone number to "56789013".
+  task_id: contacts_23
+- task: Add a contact with the first name "Luna" and set her phone number to "67890124".
+  task_id: contacts_24
+- task: Insert "Joseph" as a contact and set his email to "joseph.martin@example.com".
+  task_id: contacts_25
+- task: Include a contact with the first name "Grace" and set her phone number to "78901235".
+  task_id: contacts_26
+- task: Enter a contact named "Samuel" and set his phone number to "89012346".
+  task_id: contacts_27
+- task: Register "Chloe" as a contact and set her email to "chloe.king@example.com".
+  task_id: contacts_28
+- task: Add a contact with the first name "Logan" and set his company to "TechPioneers".
+  task_id: contacts_29
+- task: Add a contact with the first name "Victoria", the last name "Davis", and set her phone number to "90123457".
+  task_id: contacts_30
+- task: Add a contact with the first name "Jack", set his email to "jack.taylor@example.com", and add a note "Met at conference".
+  task_id: contacts_31
+- task: Add a contact with the first name "Zoe", set her phone number to "12345680", and add her address "123 Main St".
+  task_id: contacts_32
+- task: Add a contact with the first name "Owen", set his email to "owen.wright@example.com", and add his company "NextGen Solutions".
+  task_id: contacts_33
+- task: Add a contact with the first name "Maya", set her phone number to "23456791", and add a label "Family".
+  task_id: contacts_34
+- task: Add a contact with the first name "Ryan", set his email to "ryan.harris@example.com", and add a website "www.ryanharris.com".
+  task_id: contacts_35
+- task: Add a contact with the first name "Avery", set her phone number to "34567892", and add a note "Friend from school".
+  task_id: contacts_36
+- task: Add a contact with the first name "Isaac", set his email to "isaac.moore@example.com", and add his address "456 Elm St".
+  task_id: contacts_37
+- task: Add a contact with the first name "Leah", set her phone number to "45678903", and add her company "Creative Minds".
+  task_id: contacts_38
+- task: Add a contact with the first name "Nathan", set his email to "nathan.clark@example.com", and add a note "Project partner".
+  task_id: contacts_39
+- task: Add a contact with the first name "Sophie", set her phone number to "56789014", and add a label "Work".
+  task_id: contacts_40
+- task: Add a contact with the first name "Elijah", set his email to "elijah.walker@example.com", and add a website "www.elijahwalker.com".
+  task_id: contacts_41
+- task: Add a contact with the first name "Hannah", set her phone number to "67890125", and add her address "789 Oak St".
+  task_id: contacts_42
+- task: Add a contact with the first name "Sebastian", set his email to "sebastian.turner@example.com", and add a note "Client".
+  task_id: contacts_43
+- task: Add a contact with the first name "Zoey", set her phone number to "78901236", and add her company "Digital Innovators".
+  task_id: contacts_44
+- task: Add a contact with the first name "Gabriel", set his email to "gabriel.lee@example.com", and add his address "101 Maple St".
+  task_id: contacts_45
+- task: Add a contact with the first name "Stella", set her phone number to "89012347", and add a note "Colleague".
+  task_id: contacts_46
+- task: Add a contact with the first name "Julian", set his email to "julian.young@example.com", and add a label "Friends".
+  task_id: contacts_47
+- task: Add a contact with the first name "Lucy", set her phone number to "90123458", and add a website "www.lucywilson.com".
+  task_id: contacts_48
+- task: Add a contact with the first name "Wyatt", set his email to "wyatt.hall@example.com", and add his company "Tech Experts".
+  task_id: contacts_49
+- task: Update Emily's phone number to "11223344".
+  task_id: contacts_50
+- task: Change James' email to "james.newemail@example.com".
+  task_id: contacts_51
+- task: Modify Michael's company to "NewTech Solutions".
+  task_id: contacts_52
+- task: Edit Li's phone number to "22334455".
+  task_id: contacts_53
+- task: Adjust Zhang's email to "zhang.updated@example.com".
+  task_id: contacts_54
+- task: Revise Emily's company to "Creative Innovations".
+  task_id: contacts_55
+- task: Correct James' phone number to "33445566".
+  task_id: contacts_56
+- task: Update Michael's email to "michael.updated@example.com".
+  task_id: contacts_57
+- task: Change Li's company to "FutureCorp".
+  task_id: contacts_58
+- task: Edit Zhang's phone number to "44556677".
+  task_id: contacts_59
+- task: Modify Emily's email to "emily.new@example.com".
+  task_id: contacts_60
+- task: Adjust James' company to "TechLeaders".
+  task_id: contacts_61
+- task: Revise Michael's phone number to "55667788".
+  task_id: contacts_62
+- task: Correct Li's email to "li.updated@example.com".
+  task_id: contacts_63
+- task: Update Zhang's company to "Innovative Solutions".
+  task_id: contacts_64
+- task: Change Emily's last name to "Brown".
+  task_id: contacts_65
+- task: Modify James' last name to "Smith".
+  task_id: contacts_66
+- task: Edit Michael's last name to "Johnson".
+  task_id: contacts_67
+- task: Adjust Li's last name to "Wang".
+  task_id: contacts_68
+- task: Revise Zhang's last name to "Li".
+  task_id: contacts_69
+- task: Look up Emily's phone number.
+  task_id: contacts_70
+- task: Retrieve James' email.
+  task_id: contacts_71
+- task: Find out Michael's company.
+  task_id: contacts_72
+- task: Get Li's phone number.
+  task_id: contacts_73
+- task: Check Zhang's email.
+  task_id: contacts_74
+- task: Search for Emily's company.
+  task_id: contacts_75
+- task: Query James' phone number.
+  task_id: contacts_76
+- task: Look up Michael's email.
+  task_id: contacts_77
+- task: Retrieve Li's company.
+  task_id: contacts_78
+- task: Find out Zhang's phone number.
+  task_id: contacts_79
+- task: Get Emily's email.
+  task_id: contacts_80
+- task: Check James' company.
+  task_id: contacts_81
+- task: Search for Michael's phone number.
+  task_id: contacts_82
+- task: Query Li's email.
+  task_id: contacts_83
+- task: Look up Zhang's company.
+  task_id: contacts_84
+- task: Retrieve Emily's last name.
+  task_id: contacts_85
+- task: Find out James' last name.
+  task_id: contacts_86
+- task: Get Michael's last name.
+  task_id: contacts_87
+- task: Check Li's last name.
+  task_id: contacts_88
+- task: Search for Zhang's last name.
+  task_id: contacts_89

@@ -92,7 +92,9 @@ class Multi_ScreenshotTask(AutoTask):
 
  
         try:
+            print("rsp: ", rsp)
             exe_res = self.page_executor(get_code_snippet(rsp))
+            print("exe_res: ", exe_res)
             self.record.update_after(exe_res, rsp, format_prompt)
             self.record.turn_number += 1
             return True

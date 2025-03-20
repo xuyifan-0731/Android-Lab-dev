@@ -1,0 +1,694 @@
+APP: Settings
+package: com.android.settings
+tasks:
+- original_id: settings_2
+  task: Adjust the automatic screen brightness or set a manual brightness level on
+    your Android device.
+  task_id: settings_0
+- original_id: settings_3
+  task: Configure 'Battery Saver' mode to extend battery life on your Android device.
+  task_id: settings_1
+- original_id: settings_4
+  task: Set up a user named 'anna' to share your Android device while maintaining
+    privacy.
+  task_id: settings_2
+- original_id: settings_5
+  task: Backup your data to Google Drive to keep your information secure and retrievable
+    on your Android device.
+  task_id: settings_3
+- original_id: settings_7
+  task: Limit background data usage for specific apps to conserve data on your Android
+    device.
+  task_id: settings_4
+- original_id: settings_9
+  task: Change the system language and input settings on your Android device to set
+    the language to French for a multilingual experience.
+  task_id: settings_5
+- original_id: settings_10
+  task: Change the system language and input settings on your Android device to set
+    the language to French for a multilingual experience.
+  task_id: settings_6
+- original_id: settings_13
+  task: Adjust the automatic screen lock time to ten minutes
+  task_id: settings_7
+- original_id: settings_14
+  task: Monitor battery usage by app on your Android device.
+  task_id: settings_8
+- original_id: settings_15
+  task: Monitor battery usage by app on your Android device.
+  task_id: settings_9
+- original_id: settings_17
+  task: Optimize storage by identifying and clearing junk files on your Android device.
+  task_id: settings_10
+- original_id: settings_19
+  task: Restrict app permissions to enhance privacy and control which data apps can
+    access on your Android device.
+  task_id: settings_11
+- original_id: settings_20
+  task: Configure 'Do Not Disturb' rules to silence your Android device during specific
+    times or events.
+  task_id: settings_12
+- original_id: settings_21
+  task: Adjust the display size to small and font size to small to improve visibility
+    or screen space utilization on your Android device.
+  task_id: settings_13
+- original_id: settings_23
+  task: Manage app permissions to control what information and features can be accessed
+    by apps on your Android device.
+  task_id: settings_14
+- original_id: settings_25
+  task: Encrypt your Android device to protect your data in case of theft or loss.
+  task_id: settings_15
+- original_id: settings_28
+  task: shut down the Gboard on your Android device.
+  task_id: settings_16
+- original_id: settings_30
+  task: Optimize battery usage by individual apps to extend the battery life of your
+    Android device.
+  task_id: settings_17
+- original_id: settings_31
+  task: Add a VPN service on your Android device for increased security and privacy
+    while browsing.
+  task_id: settings_18
+- original_id: settings_32
+  task: Configure the 'Do Not Disturb' rules to silence notifications on your Android
+    device from 11 PM to 7 AM on Saturday and Sunday nights.
+  task_id: settings_19
+- original_id: settings_33
+  task: Manage permissions for different apps to control access to your data and device
+    features on your Android device.
+  task_id: settings_20
+- original_id: settings_35
+  task: Set up a mobile hotspot to share your Android device's internet connection
+    with other devices.
+  task_id: settings_21
+- original_id: settings_37
+  task: Change the system navigation method on your Android device to the three-button
+    on-screen navigation.
+  task_id: settings_22
+- original_id: settings_39
+  task: Configure text-to-speech output options to assist with accessibility or for
+    hands-free use on your Android device.
+  task_id: settings_23
+- original_id: settings_42
+  task: Set up a Do Not Disturb schedule to automatically silence notifications during
+    specific hours on your Android device.
+  task_id: settings_24
+- original_id: settings_45
+  task: Manage Bluecoins permissions for better privacy control on your Android device.
+  task_id: settings_25
+- original_id: settings_49
+  task: Modify the display and brightness settings to set the screen's sleep time
+    to 5 minutes.
+  task_id: settings_26
+- original_id: settings_51
+  task: Customize the navigation bar on your Android device to improve usability.
+  task_id: settings_27
+- original_id: settings_52
+  task: Schedule a Do Not Disturb mode to automatically silence your Android device
+    at specific times.
+  task_id: settings_28
+- original_id: settings_55
+  task: Manage app permissions to control what data each app can access on your Android
+    device.
+  task_id: settings_29
+- original_id: settings_59
+  task: Change the default app for web browsing on your Android device.
+  task_id: settings_30
+- original_id: settings_61
+  task: Backup your data on your Android device to prevent data loss.
+  task_id: settings_31
+- original_id: settings_62
+  task: Restrict background data usage for 'Bluecoins ' app on your Android device
+    to save on data usage.
+  task_id: settings_32
+- original_id: settings_69
+  task: Change your Android device's system language to be able to use the device
+    in a different language.
+  task_id: settings_33
+- original_id: settings_70
+  task: Limit background battery usage for specific apps on your Android device.
+  task_id: settings_34
+- original_id: settings_72
+  task: Modify the battery settings to change the battery percentage display to not
+    show.
+  task_id: settings_35
+- original_id: settings_74
+  task: Set font size to improve readability according to your preference on your
+    Android device.
+  task_id: settings_36
+- original_id: settings_75
+  task: Backup your data to Google Drive service to keep your information safe and
+    easily restore it when needed on your Android device.
+  task_id: settings_37
+- original_id: settings_76
+  task: Manage notification importance levels for apps to control how notifications
+    appear and disturb you on your Android device.
+  task_id: settings_38
+- original_id: settings_77
+  task: Create a user account named "jan" to share your Android device with others
+    while keeping your personal data private.
+  task_id: settings_39
+- original_id: settings_84
+  task: Adjust the 'Do Not Disturb' settings to create automatic rules based on time
+    or events on your Android device.
+  task_id: settings_40
+- original_id: settings_85
+  task: Adjust the 'Do Not Disturb' settings to create automatic rules based on time
+    or events on your Android device.
+  task_id: settings_41
+- original_id: settings_89
+  task: Modify the screen timeout settings on your Android device.
+  task_id: settings_42
+- original_id: settings_90
+  task: Optimize battery performance by adjusting the battery usage settings of Bluecoins
+    on your Android device.
+  task_id: settings_43
+- original_id: settings_92
+  task: Configure the 'Do Not Disturb' settings to silence notifications while you
+    sleep.
+  task_id: settings_44
+- original_id: settings_93
+  task: Set up a mobile hotspot to share your Android device's internet connection
+    with other devices.
+  task_id: settings_45
+- original_id: settings_95
+  task: Manage app permissions to enhance privacy and limit access to personal data
+    on your Android device.
+  task_id: settings_46
+- original_id: settings_101
+  task: Disable camera permissions for "Bluecoins" in Rights management to protect
+    your privacy on Android devices.
+  task_id: settings_47
+- original_id: settings_103
+  task: Restrict background data for certain apps to save on data usage on your Android
+    device.
+  task_id: settings_48
+- original_id: settings_106
+  task: Restrict the microphone permission for the "Bluecoins " app in permission
+    management to protect your privacy and data on your Android device.
+  task_id: settings_49
+- original_id: settings_107
+  task: Configure text-to-speech output to assist with reading out text for visually
+    impaired users on your Android device.
+  task_id: settings_50
+- original_id: settings_108
+  task: Change your Android device's screen timeout settings to save battery or keep
+    the screen on longer.
+  task_id: settings_51
+- original_id: settings_109
+  task: Schedule 'Do Not Disturb' mode to automatically enable during meetings or
+    sleep hours on your Android device.
+  task_id: settings_52
+- original_id: settings_110
+  task: Adjust the size of the font for better readability on your Android device.
+  task_id: settings_53
+- original_id: settings_111
+  task: Limit the "Google" app's access to read call logs in permission management
+    to protect your privacy and data on your Android device.
+  task_id: settings_54
+- original_id: settings_115
+  task: Limit the microphone permission for the "Booking.com" app in permission management
+    to protect your privacy on your Android device.
+  task_id: settings_55
+- original_id: settings_116
+  task: Backup your data on your Android device.
+  task_id: settings_56
+- original_id: settings_117
+  task: Backup your data and settings to Google Drive to easily restore them on a
+    new Android device.
+  task_id: settings_57
+- original_id: settings_118
+  task: Customize the navigation bar, including adding custom buttons or changing
+    its background color on your Android device.
+  task_id: settings_58
+- original_id: settings_119
+  task: Use 'Digital Wellbeing' features to monitor your screen time on your Android
+    device.
+  task_id: settings_59
+- original_id: settings_121
+  task: Turn on Developer Options to unlock advanced settings on your Android device.
+  task_id: settings_60
+- original_id: settings_122
+  task: Schedule 'Do Not Disturb' mode to automatically engage at specific times on
+    your Android device.
+  task_id: settings_61
+- original_id: settings_124
+  task: Adjust the display size and font size for better readability on your Android
+    device.
+  task_id: settings_62
+- original_id: settings_127
+  task: Configure 'Battery Saver' mode to extend battery life on your Android device.
+  task_id: settings_63
+- original_id: settings_129
+  task: Manage app permissions to control what data each app can access on your Android
+    device.
+  task_id: settings_64
+- original_id: settings_132
+  task: Create a new user account to share your Android device with family or friends
+    while keeping your data private.
+  task_id: settings_65
+- original_id: settings_134
+  task: Change the default app for browser on your Android device.
+  task_id: settings_66
+- original_id: settings_135
+  task: Schedule the 'Do Not Disturb' mode to automatically silence notifications
+    during specific times on your Android device.
+  task_id: settings_67
+- original_id: settings_136
+  task: Adjust the display size and font size for better readability on your Android
+    device.
+  task_id: settings_68
+- original_id: settings_137
+  task: Manage app permissions to protect your privacy and limit access to your data
+    on your Android device.
+  task_id: settings_69
+- original_id: settings_139
+  task: Enable 'Power Saving' mode to extend the battery life of your Android device
+    when it's running low.
+  task_id: settings_70
+- original_id: settings_141
+  task: Optimize storage by cleaning up cached data and removing unused apps on your
+    Android device.
+  task_id: settings_71
+- original_id: settings_144
+  task: Change sleep time to never on Android devices.
+  task_id: settings_72
+- original_id: settings_145
+  task: Optimize battery usage by managing app background activity on your Android
+    device.
+  task_id: settings_73
+- original_id: settings_147
+  task: Customize the text size and display size for easier readability on your Android
+    device.
+  task_id: settings_74
+- original_id: settings_154
+  task: Manage background processes to improve performance and battery life on your
+    Android device.
+  task_id: settings_75
+- original_id: settings_155
+  task: Create multiple user accounts or guest accounts to share your Android device
+    with others while keeping your personal data separate.
+  task_id: settings_76
+- original_id: settings_156
+  task: Set up 'Do Not Disturb' rules to automatically silence calls and notifications
+    during certain times on your Android device.
+  task_id: settings_77
+- original_id: settings_157
+  task: Schedule 'Do Not Disturb' to mute calls, alerts, and notifications at specific
+    times on your Android device.
+  task_id: settings_78
+- original_id: settings_159
+  task: Customize the navigation bar to include additional buttons or change their
+    arrangement on your Android device.
+  task_id: settings_79
+- original_id: settings_162
+  task: Configure parental controls to restrict app access and purchases on your Android
+    device.
+  task_id: settings_80
+- original_id: settings_163
+  task: Set up and use Digital Wellbeing tools to monitor device usage on your Android
+    device.
+  task_id: settings_81
+- original_id: settings_165
+  task: Back up your data to Google Drive to ensure it is safe in case of device loss
+    or failure on your Android device.
+  task_id: settings_82
+- original_id: settings_166
+  task: Change the default apps for browser, messaging, and more to personalize your
+    experience on your Android device.
+  task_id: settings_83
+- original_id: settings_167
+  task: Set up 'Do Not Disturb' rules to automatically silence calls and notifications
+    during specific times on your Android device.
+  task_id: settings_84
+- original_id: settings_168
+  task: Limit the background data usage of "Bluecoins" to conserve mobile data on
+    your Android device.
+  task_id: settings_85
+- original_id: settings_169
+  task: Encrypt your Android device with a PIN, password, or pattern lock to enhance
+    security.
+  task_id: settings_86
+- original_id: settings_170
+  task: Create multiple user profiles or guest accounts to keep your personal information
+    private on a shared Android device.
+  task_id: settings_87
+- original_id: settings_173
+  task: Manage application permissions and turn off storage permissions for Bluecoins
+    to save space.
+  task_id: settings_88
+- original_id: settings_176
+  task: Back up your Android device settings and data to Google Drive to keep your
+    information secure and easily restore it when needed.
+  task_id: settings_89
+- original_id: settings_179
+  task: Adjust the 'Automatic shutdown' settings to have your Android device turn
+    off at a scheduled time to save on energy and extend its longevity.
+  task_id: settings_90
+- original_id: settings_180
+  task: Set up a new user profile on your Android device.
+  task_id: settings_91
+- original_id: settings_181
+  task: Disable notifications for the MAPS.ME app in Android devices.
+  task_id: settings_92
+- original_id: settings_182
+  task: What is the procedure for manually updating the system software on my Android
+    device?
+  task_id: settings_93
+- original_id: settings_183
+  task: How can I back up my Android phone's data to Google Drive?
+  task_id: settings_94
+- original_id: settings_186
+  task: Help me change the size of the font to the biggest one on my Android device.
+  task_id: settings_95
+- original_id: settings_187
+  task: How can I create multiple user profiles on my Android tablet?
+  task_id: settings_96
+- original_id: settings_189
+  task: How do I connect to a Wi-Fi network on my Android device?
+  task_id: settings_97
+- original_id: settings_190
+  task: Adding Italiano to the system language options for Android devices.
+  task_id: settings_98
+- original_id: settings_192
+  task: How I turn on bluetooth scanning on my Android smartphone.
+  task_id: settings_99
+- original_id: settings_193
+  task: How I turn on bluetooth scanning on my Android smartphone.
+  task_id: settings_100
+- original_id: settings_194
+  task: Setting to show the battery percentage outside the battery icon on Android
+    devices.
+  task_id: settings_101
+- original_id: settings_195
+  task: What should I do to reset my Android device to its factory settings?
+  task_id: settings_102
+- original_id: settings_196
+  task: How do I change the language on my Android device?
+  task_id: settings_103
+- original_id: settings_197
+  task: Set the battery percentage display mode to no display on your Android device.
+  task_id: settings_104
+- original_id: settings_199
+  task: Help me to delete my networks whose WiFi name is AndroidWifi on Android.
+  task_id: settings_105
+- original_id: settings_201
+  task: What method can I use to back up my Android phone?
+  task_id: settings_106
+- original_id: settings_202
+  task: How can I manage app permissions on my Android device?
+  task_id: settings_107
+- original_id: settings_205
+  task: In what way can I limit background battery usage for apps on my Android phone?
+  task_id: settings_108
+- original_id: settings_208
+  task: Clean up junk files from your Android device.
+  task_id: settings_109
+- original_id: settings_209
+  task: How to modify the language on an Android phone?
+  task_id: settings_110
+- original_id: settings_210
+  task: What actions should I take to display battery usage by app on Android?
+  task_id: settings_111
+- original_id: settings_212
+  task: Set up a user named 'amy' to share your Android device while maintaining privacy.
+  task_id: settings_112
+- original_id: settings_213
+  task: Can I configure emergency information on my Android phone, and if so, how?
+  task_id: settings_113
+- original_id: settings_214
+  task: Turn off camera permissions for the Booking.com app on your Android device.
+  task_id: settings_114
+- original_id: settings_215
+  task: Change the display size to small on Android devices.
+  task_id: settings_115
+- original_id: settings_216
+  task: Change the display size to small on Android devices.
+  task_id: settings_116
+- original_id: settings_217
+  task: How do I backup my Android phone's data to Google Drive?
+  task_id: settings_117
+- original_id: settings_218
+  task: What needs to be done to change the time to a 24-hour format on my Android
+    device?
+  task_id: settings_118
+- original_id: settings_220
+  task: Setting in your Android device to display the battery percentage within the
+    battery icon.
+  task_id: settings_119
+- original_id: settings_222
+  task: Can you guide me on how to enable gesture navigation instead of the traditional
+    navigation buttons on Android?
+  task_id: settings_120
+- original_id: settings_223
+  task: How can I change the Wi-Fi network on my Android device?
+  task_id: settings_121
+- original_id: settings_224
+  task: Schedule a power on/off time to save battery life on your Android device.
+  task_id: settings_122
+- original_id: settings_225
+  task: Schedule a power on/off time to save battery life on your Android device.
+  task_id: settings_123
+- original_id: settings_226
+  task: How do I enable battery saver mode on my Android device?
+  task_id: settings_124
+- original_id: settings_227
+  task: How do I customize the notification settings for a specific app on Android?
+  task_id: settings_125
+- original_id: settings_228
+  task: Create a new user on your Android device named Anna.
+  task_id: settings_126
+- original_id: settings_229
+  task: How can I back up my data to Google Drive on an Android smartphone?
+  task_id: settings_127
+- original_id: settings_230
+  task: How do you reset network settings on an Android device?
+  task_id: settings_128
+- original_id: settings_232
+  task: How to set up automatic time zone on Android?
+  task_id: settings_129
+- original_id: settings_233
+  task: Turn off microphone permissions for the Booking.com app on your Android device.
+  task_id: settings_130
+- original_id: settings_234
+  task: How to change the duration of screen brightness on Android devices?
+  task_id: settings_131
+- original_id: settings_237
+  task: How do I configure Do Not Disturb mode settings on my Android phone?
+  task_id: settings_132
+- original_id: settings_238
+  task: Turn on the data-saving mode to save on data usage on your Android device.
+  task_id: settings_133
+- original_id: settings_239
+  task: How can I create multiple user accounts on my Android tablet?
+  task_id: settings_134
+- original_id: settings_240
+  task: What steps should I follow to save the battery on my Android device?
+  task_id: settings_135
+- original_id: settings_245
+  task: Adjust the display size to large to improve visibility on your Android device.
+  task_id: settings_136
+- original_id: settings_247
+  task: What is the process of disabling specific application permissions on Android?
+  task_id: settings_137
+- original_id: settings_248
+  task: How do you change the screen time limit on an Android device for better battery
+    life?
+  task_id: settings_138
+- original_id: settings_249
+  task: How can I check for system updates on my Android phone?
+  task_id: settings_139
+- original_id: settings_250
+  task: Optimize battery usage by adjusting battery saver settings on your Android
+    device.
+  task_id: settings_140
+- original_id: settings_252
+  task: Set the font size to large on your Android device.
+  task_id: settings_141
+- original_id: settings_253
+  task: Set the font's thickness to bold on your Android device.
+  task_id: settings_142
+- original_id: settings_254
+  task: How do I customise the notification settings for a specific app on Android?
+  task_id: settings_143
+- original_id: settings_256
+  task: Help me change the default Browser app to firefox on my Android phone.
+  task_id: settings_144
+- original_id: settings_257
+  task: How do I change the battery mode on my Android smartphone?
+  task_id: settings_145
+- original_id: settings_259
+  task: How do I change the language on my Android smartphone?
+  task_id: settings_146
+- original_id: settings_260
+  task: How do I back up my data on my Android phone?
+  task_id: settings_147
+- original_id: settings_261
+  task: How do I disable app notifications on my Android device?
+  task_id: settings_148
+- original_id: settings_262
+  task: Manage permissions for apps to protect your privacy on your Android device.
+  task_id: settings_149
+- original_id: settings_265
+  task: How can I manage app permissions on my Android device?
+  task_id: settings_150
+- original_id: settings_266
+  task: Turn on color inversion on your Android device.
+  task_id: settings_151
+- original_id: settings_269
+  task: How can I optimize battery usage for individual apps on Android?
+  task_id: settings_152
+- original_id: settings_272
+  task: Adjust the font size to large for easier reading on the screen of your Android
+    device.
+  task_id: settings_153
+- original_id: settings_273
+  task: How can I restrict background battery usage for specific apps on my Android
+    device?
+  task_id: settings_154
+- original_id: settings_274
+  task: Change the display size to large on Android devices.
+  task_id: settings_155
+- original_id: settings_276
+  task: What are the steps to access and use the power saving modes on my Android
+    device?
+  task_id: settings_156
+- original_id: settings_277
+  task: Change the app permissions to control privacy on your Android device.
+  task_id: settings_157
+- original_id: settings_280
+  task: What is the method for encrypting my Android phone to protect my data in case
+    of theft or loss?
+  task_id: settings_158
+- original_id: settings_282
+  task: How to set the time display to 24-hour on an Android phone?
+  task_id: settings_159
+- original_id: settings_283
+  task: What steps can I take to improve battery life by adjusting the battery saver
+    settings on Android?
+  task_id: settings_160
+- original_id: settings_284
+  task: Adjust the size of fonts for better readability on your Android device.
+  task_id: settings_161
+- original_id: settings_285
+  task: Turn on Airplane mode.
+  task_id: settings_162
+- original_id: settings_287
+  task: Turn off Bluetooth.
+  task_id: settings_163
+- original_id: settings_289
+  task: Check for system updates.
+  task_id: settings_164
+- original_id: settings_292
+  task: Limit background battery usage for specific apps to save on mobile data on
+    your Android device.
+  task_id: settings_165
+- original_id: settings_294
+  task: Set screen timeout to 2 minutes.
+  task_id: settings_166
+- original_id: settings_295
+  task: Enable Location Services.
+  task_id: settings_167
+- original_id: settings_296
+  task: Enable Location Services.
+  task_id: settings_168
+- original_id: settings_297
+  task: Adjust font size to large.
+  task_id: settings_169
+- original_id: settings_298
+  task: Turn off notifications for the "Gmail" app.
+  task_id: settings_170
+- original_id: settings_301
+  task: Configure 'Do Not Disturb' rules on your Android device.
+  task_id: settings_171
+- original_id: settings_304
+  task: Set up multiple user accounts to share your Android device with others while
+    keeping your information private.
+  task_id: settings_172
+- original_id: settings_307
+  task: Modify the font size and display size settings to make the text more readable
+    on your device.
+  task_id: settings_173
+- original_id: settings_310
+  task: Turn on the data-saving mode to save on data usage on your Android device.
+  task_id: settings_174
+- original_id: settings_311
+  task: Encrypt your Android device to protect your personal information in case it
+    is lost or stolen.
+  task_id: settings_175
+- original_id: settings_313
+  task: Change the screen timeout settings to preserve battery life on your Android
+    device.
+  task_id: settings_176
+- original_id: settings_314
+  task: Configure 'Do Not Disturb' rules to silence notifications during specific
+    times on your Android device.
+  task_id: settings_177
+- original_id: settings_316
+  task: Adjust the font size and display size for better readability on your Android
+    device.
+  task_id: settings_178
+- original_id: settings_317
+  task: Manage app permissions to protect your privacy on your Android device.
+  task_id: settings_179
+- original_id: settings_319
+  task: Configure text-to-speech output on Android devices, resetting the speech pitch
+    to the normal value.
+  task_id: settings_180
+- original_id: settings_320
+  task: Adjust the font size for easier readability on your Android device.
+  task_id: settings_181
+- original_id: settings_321
+  task: Adjust the font size for easier readability on your Android device.
+  task_id: settings_182
+- original_id: settings_323
+  task: Encrypt your Android device to protect your data in case of theft or loss.
+  task_id: settings_183
+- original_id: settings_326
+  task: Manage 'App Permissions' to protect your privacy by controlling what data
+    Bluecoins app can access on your Android device.
+  task_id: settings_184
+- original_id: settings_327
+  task: Encrypt your Android device for enhanced security and privacy protection.
+  task_id: settings_185
+- original_id: settings_328
+  task: Customize the 'Navigation Bar' to add, remove, or rearrange buttons according
+    to your preferences on your Android device.
+  task_id: settings_186
+- original_id: settings_329
+  task: Adjust the 'Font Display Size' to default on your Android device.
+  task_id: settings_187
+- original_id: settings_330
+  task: Back up your data on your Android device.
+  task_id: settings_188
+- original_id: settings_332
+  task: Use 'Adaptive Battery' to improve battery life by restricting power for infrequently
+    used apps on your Android device.
+  task_id: settings_189
+- original_id: settings_333
+  task: Create and switch between multiple user accounts for privacy and separation
+    of profiles on your Android device.
+  task_id: settings_190
+- original_id: settings_335
+  task: Disable the permission for the 'Bluecoins' app to use background data.
+  task_id: settings_191
+- original_id: settings_336
+  task: Configure 'Do Not Disturb' rules to silence your phone automatically during
+    certain times on your Android device.
+  task_id: settings_192
+- original_id: settings_340
+  task: Change the system navigation method on your Android device to gesture navigation.
+  task_id: settings_193
+- original_id: settings_342
+  task: Control which apps can send you notifications to minimize distractions on
+    your Android device.
+  task_id: settings_194
+- original_id: settings_345
+  task: Set up a Work Profile to keep your personal data separate on your Android
+    device.
+  task_id: settings_195
+- original_id: settings_347
+  task: Disable notification settings for individual apps to reduce distractions on
+    your Android device.
+  task_id: settings_196

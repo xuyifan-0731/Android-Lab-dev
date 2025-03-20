@@ -87,3 +87,6 @@ eval-androidworld-debug.py
 android_world_sample_collect.py
 android_world_sample_copy.py
 sample-round.sh
+offline_sample_aw/
+sample_test-format/
+sample_test/

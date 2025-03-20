@@ -84,6 +84,53 @@ def turn_on_ac(state, env):
     else:
         return None'''
 
+def markor_fix(state, env, get_post_transition_state):
+    x = None
+    y = None
+    for ui_element in state.ui_elements:
+        print(ui_element.text)
+        if ui_element.text == "OK":
+            bbox_pixels = ui_element.bbox_pixels
+            x = (bbox_pixels.x_min + bbox_pixels.x_max) / 2
+            y = (bbox_pixels.y_min + bbox_pixels.y_max) / 2
+            break
+    if x is not None and y is not None:
+        action = json_action.JSONAction(**{'action_type':'click', 'x':x,'y':y})
+        env.execute_action(action)
+        time.sleep(2)
+    else:
+        return None
+    post_transition_state = get_post_transition_state()
+    
+    x = None
+    y = None
+    for ui_element in post_transition_state.ui_elements:
+        if ui_element.class_name == "android.widget.Switch":
+            bbox_pixels = ui_element.bbox_pixels
+            x = (bbox_pixels.x_min + bbox_pixels.x_max) / 2
+            y = (bbox_pixels.y_min + bbox_pixels.y_max) / 2
+            break
+    if x is not None and y is not None:
+        action = json_action.JSONAction(**{'action_type':'click', 'x':x,'y':y})
+        env.execute_action(action)
+        time.sleep(2)
+    else:
+        return None
+    post_transition_state = get_post_transition_state()
+    for ui_element in post_transition_state.ui_elements:
+        if ui_element.content_description == "Navigate up":
+            bbox_pixels = ui_element.bbox_pixels
+            x = (bbox_pixels.x_min + bbox_pixels.x_max) / 2
+            y = (bbox_pixels.y_min + bbox_pixels.y_max) / 2
+            break
+    if x is not None and y is not None:
+        action = json_action.JSONAction(**{'action_type':'click', 'x':x,'y':y})
+        env.execute_action(action)
+        time.sleep(2)
+    post_transition_state = get_post_transition_state()
+    
+    return post_transition_state
+
 def android_world_answer(state, env, finish_message):
     action = json_action.JSONAction(**{'action_type':'answer', 'text':finish_message})
     env.execute_action(action)
@@ -286,6 +333,9 @@ class AndroidLabAgent(base_agent.EnvironmentInteractingAgent):
         self.controller.run_command(command)
         time.sleep(1)
         self.autotest_agent.accessibility = self.autotest_agent.controller.check_ac_survive()
+    
+    if find_package(self.app).strip() == "net.gsantner.markor" and round_count == 0:
+        state = markor_fix(state, self.env, self.get_post_transition_state)
 
     self.autotest_agent.run_step()
 

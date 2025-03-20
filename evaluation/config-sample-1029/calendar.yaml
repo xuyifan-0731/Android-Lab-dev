@@ -1,0 +1,253 @@
+APP: calendar
+package: com.skuld.calendario
+tasks:
+- original_id: calendar_0
+  task: Arrange a recurring monthly bill payment reminder named “Rent Due”.
+  task_id: calendar_0
+- original_id: calendar_1
+  task: Arrange a recurring monthly bill payment reminder named “Rent Due”.
+  task_id: calendar_1
+- original_id: calendar_2
+  task: Set a "Water Plants" reminder everyday at 5 PM starting today.
+  task_id: calendar_2
+- original_id: calendar_3
+  task: Organize a "Weekly Sync-Up" meeting with your project team, recurring every
+    Friday at 2 PM with reminder 1 hour prior.
+  task_id: calendar_3
+- original_id: calendar_4
+  task: Plan your child's "Soccer Game" on May 20th at 4:30 PM.
+  task_id: calendar_4
+- original_id: calendar_5
+  task: Establish an annual "Car Service Check" on May 22nd at 9 AM with a reminder
+    one day in advance.
+  task_id: calendar_5
+- original_id: calendar_6
+  task: Configure a "Medication Refill" reminder to occur monthly starting on May
+    5th at 12 PM.
+  task_id: calendar_6
+- original_id: calendar_7
+  task: Arrange a "Family Reunion" event for May 20th at 2 PM, create a recurring
+    event every years.
+  task_id: calendar_7
+- original_id: calendar_8
+  task: Schedule "Garden Maintenance" on every Friday of the month at 4 PM, and attach
+    a to-do list in the notes.
+  task_id: calendar_8
+- original_id: calendar_9
+  task: Arrange "Family Game Night" for the first day of every month at 8 PM, with
+    an alert the day before to confirm who will be attending.
+  task_id: calendar_9
+- original_id: calendar_10
+  task: Set up a birthday reminder for “Mom’s Birthday” on May 15th including an all-day
+    event and set a reminder 1 day in advance.
+  task_id: calendar_10
+- original_id: calendar_11
+  task: Book a "Weekend Getaway" starting on the first day of May at 3 PM, repeating
+    annually with a notification one day ahead to make travel arrangements.
+  task_id: calendar_11
+- original_id: calendar_12
+  task: Schedule a "Personal Reflection Hour" on the first day of every month at 9
+    PM, with gentle notification reminders starting an hour before.
+  task_id: calendar_12
+- original_id: calendar_13
+  task: Set a monthly "Book Club" gathering  the first day of this month at 7:30 PM,
+    with a reminder 1 day before to prepare discussion points.
+  task_id: calendar_13
+- original_id: calendar_14
+  task: Plan a "Day of Unplugging" where you go tech-free, starting at 8 AM on the
+    15th of every other month, with a 24-hour advance reminder.
+  task_id: calendar_14
+- original_id: calendar_15
+  task: Organize a "Pet Vet Checkup" for your pet on the first day of May at 11 AM,
+    repeating every year with a reminder 1 day in advance to confirm the appointment.
+  task_id: calendar_15
+- original_id: calendar_16
+  task: Schedule a "Fitness Challenge" starting May 1st at 6 AM, recurring daily with
+    a motivational quote included in the notes section.
+  task_id: calendar_16
+- original_id: calendar_17
+  task: Create an "Annual Health Checkup" appointment on May 20th at 9 AM, with a
+    reminder to schedule the visit 1 day in advance.
+  task_id: calendar_17
+- original_id: calendar_18
+  task: Organize a "Family Reunion Picnic" on the first day of May at 12 PM annually,
+    with a reminder set for 1 day before to confirm attendance and potluck dishes.
+  task_id: calendar_18
+- original_id: calendar_19
+  task: Set a "Career Development Webinar" for the first day of each month at 3 PM,
+    with reminders set 1 hour prior.
+  task_id: calendar_19
+- original_id: calendar_20
+  task: Schedule a “Dentist Clean-up” appointment on May 4th at 10 AM and set it to
+    repeated annually.
+  task_id: calendar_20
+- original_id: calendar_21
+  task: Schedule a "Friend's Bachelor Party" for May 22nd at 8 PM, with a note to
+    confirm the venue and activities one day before.
+  task_id: calendar_21
+- original_id: calendar_22
+  task: Add “Parent-Teacher Conference” on May 11th at 4 PM, with a reminder the day
+    before to review child’s progress report.
+  task_id: calendar_22
+- original_id: calendar_23
+  task: Implement a "Weekly Meal Planning" session every Sunday at 10 AM, with a routine
+    reminder the day before to inventory kitchen supplies.
+  task_id: calendar_23
+- original_id: calendar_24
+  task: Arrange a "Monthly Budget Review" on the first day of each month at 8 PM,
+    including a reminder the day before to gather all financial statements and receipts.
+  task_id: calendar_24
+- original_id: calendar_25
+  task: Create a "Weekly Meal Prep" event every Sunday at 10 AM, with a reminder on
+    Saturday to finalize the grocery list.
+  task_id: calendar_25
+- original_id: calendar_26
+  task: Create a "Family Game Night" event for every Saturday at 6 PM, with alternating
+    board game suggestions in the notes.
+  task_id: calendar_26
+- original_id: calendar_27
+  task: Schedule a "Spring Wardrobe Swap" on the first day of May annually at 1 PM,
+    including a checklist of clothing items to sort through.
+  task_id: calendar_27
+- original_id: calendar_28
+  task: Arrange a "Monthly Budget Review" on the first day of each month at 7 PM.
+  task_id: calendar_28
+- original_id: calendar_29
+  task: Plan a "weekly Meal Prep Session" every Sunday at 4 PM, featuring checklist
+    of new recipes to try in the event description.
+  task_id: calendar_29
+- original_id: calendar_30
+  task: Arrange a “Networking Event” on May 23rd at 7 PM with a note about bringing
+    business cards.
+  task_id: calendar_30
+- original_id: calendar_31
+  task: Set up a “Holiday Itinerary Planning” event on May 5th at 8 PM.
+  task_id: calendar_31
+- original_id: calendar_32
+  task: Create a daily medication reminder called “Vitamin Time” for 8 AM starting
+    tomorrow.
+  task_id: calendar_32
+- original_id: calendar_33
+  task: Schedule a “Car Maintenance” appointment on May 18th at 9 AM with a reminder
+    1 day before and include a checklist with items “oil change,” “tire rotation,”
+    and “brake inspection.”
+  task_id: calendar_33
+- original_id: calendar_34
+  task: Add a “Book Club Meeting” for the second Tuesday of the next month at 7 PM
+    with a note to prepare the book discussion points.
+  task_id: calendar_34
+- original_id: calendar_35
+  task: Create an event called "Book Club" on the first Thursday of next month at
+    7 PM, and set a reminder for one day before.
+  task_id: calendar_35
+- original_id: calendar_36
+  task: Add an event at 10:00AM tomorrow with the title "Doctor Appointment".
+  task_id: calendar_36
+- original_id: calendar_37
+  task: Arrange an event titled "Team Meeting" on June 3rd at 1:00 PM, and set a notification
+    10 minutes before.
+  task_id: calendar_37
+- original_id: calendar_38
+  task: Schedule an event titled "Gym" at 6:00PM on July 10th with the note "Bring
+    water bottle".
+  task_id: calendar_38
+- original_id: calendar_39
+  task: Add a recurring event titled "Pay Bills" starting on the 1st of every month.
+  task_id: calendar_39
+- original_id: calendar_42
+  task: Create a new event titled "Gym" and change the notification time to 30 minutes
+    before
+  task_id: calendar_40
+- original_id: calendar_44
+  task: Add an event titled "Dinner" at 7:00PM on August 15th.
+  task_id: calendar_41
+- original_id: calendar_45
+  task: Create the event "Dinner" and add the note "Restaurant ABC".
+  task_id: calendar_42
+- original_id: calendar_46
+  task: Schedule an event titled "Project Deadline" for September 30th.
+  task_id: calendar_43
+- original_id: calendar_47
+  task: Add a reminder for "Project Deadline" one day before the event.
+  task_id: calendar_44
+- original_id: calendar_48
+  task: Arrange an event titled "Flight" at 3:00PM on October 20th.
+  task_id: calendar_45
+- original_id: calendar_50
+  task: Add an event titled "Conference Call" at 2:00PM on November 5th.
+  task_id: calendar_46
+- original_id: calendar_51
+  task: Set a recurring event titled "Weekly Report" every Friday at 4:00PM.
+  task_id: calendar_47
+- original_id: calendar_53
+  task: Arrange an event titled "Lunch with Friends" at 12:00PM on December 15th.
+  task_id: calendar_48
+- original_id: calendar_54
+  task: Set a reminder for "Lunch with Friends" 1 hour before the event.
+  task_id: calendar_49
+- original_id: calendar_55
+  task: Schedule an event titled "Workshop" at 9:00AM on January 12th with the note
+    "Room 204".
+  task_id: calendar_50
+- original_id: calendar_56
+  task: Add a recurring event titled "Morning Jog" every Saturday at 7:00AM.
+  task_id: calendar_51
+- original_id: calendar_58
+  task: Add an event titled "Client Meeting" at 11:00AM on February 8th.
+  task_id: calendar_52
+- original_id: calendar_59
+  task: Add the note "Prepare presentation" to the event "Client Meeting".
+  task_id: calendar_53
+- original_id: calendar_60
+  task: Schedule an event titled "Dinner Reservation" at 7:30PM on March 18th.
+  task_id: calendar_54
+- original_id: calendar_62
+  task: Arrange an event titled "Grocery Shopping" at 10:00AM on April 22nd.
+  task_id: calendar_55
+- original_id: calendar_64
+  task: Schedule an event titled "Yoga Class" at 6:00PM on May 14th.
+  task_id: calendar_56
+- original_id: calendar_65
+  task: Add a reminder for the event "Yoga Class" 10 minutes before the start time.
+  task_id: calendar_57
+- original_id: calendar_66
+  task: Arrange an event titled "Birthday Party" at 2:00PM on June 30th.
+  task_id: calendar_58
+- original_id: calendar_68
+  task: Schedule an event titled "Dentist Appointment" at 10:30AM on July 7th.
+  task_id: calendar_59
+- original_id: calendar_69
+  task: Add a note "Bring insurance card" to the event "Dentist Appointment".
+  task_id: calendar_60
+- original_id: calendar_70
+  task: Arrange an event titled "Vacation" starting on August 10th and set it to repeat
+    yearly.
+  task_id: calendar_61
+- original_id: calendar_72
+  task: Schedule an event titled "Car Service" at 9:00AM on September 25th.
+  task_id: calendar_62
+- original_id: calendar_74
+  task: Arrange an event titled "Interview" at 3:00PM on October 11th.
+  task_id: calendar_63
+- original_id: calendar_76
+  task: Add an event titled "Conference" at 9:00AM on November 22nd.
+  task_id: calendar_64
+- original_id: calendar_78
+  task: Schedule an event titled "Parent-Teacher Meeting" at 4:00PM on December 3rd.
+  task_id: calendar_65
+- original_id: calendar_79
+  task: Add a reminder for "Parent-Teacher Meeting" 30 minutes before the event.
+  task_id: calendar_66
+- original_id: calendar_80
+  task: Arrange an event titled "Board Meeting" at 10:00AM on January 18th.
+  task_id: calendar_67
+- original_id: calendar_81
+  task: Create the event "Board Meeting" and add the note "Prepare reports".
+  task_id: calendar_68
+- original_id: calendar_82
+  task: Schedule an event titled "Networking Event" at 6:30PM on February 27th.
+  task_id: calendar_69
+- original_id: calendar_84
+  task: Arrange an event titled "Anniversary" starting on March 5th and set it to
+    repeat yearly.
+  task_id: calendar_70

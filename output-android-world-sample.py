@@ -5,7 +5,7 @@ import jsonlines
 from collections import defaultdict
 
 dict = defaultdict(list)
-folders = ["/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250307_1history-3e-fix-sample-ir","/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250304_1history-from-2196-3e-sample","/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250307_1history-3e-fix-sample"]
+folders = ["/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e-1","/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e-2","/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e-3","/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e-4","/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e-5","/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e-6","/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e-7","/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e-8"]
 #folder = "/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250307_1history-3e-fix-sample-ir"
 for folder in folders:
     for file in os.listdir(folder):

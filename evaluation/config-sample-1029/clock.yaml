@@ -1,0 +1,769 @@
+APP: clock
+package: com.google.android.deskclock
+tasks:
+- original_id: clock_0
+  task: Set a non-repeating alarm for 7:30 a.m. and name it ‘Morning Exercise’.
+  task_id: clock_0
+- original_id: clock_1
+  task: Set a one-time late night 12:30am alarm labeled “Meteor Shower”.
+  task_id: clock_1
+- original_id: clock_2
+  task: Configure a recurring alarm for weekdays at 7:00 AM to wake up for work.
+  task_id: clock_2
+- original_id: clock_5
+  task: Use the Clock's bedtime feature to schedule a consistent sleep routine by
+    setting a reminder for when to go to bed and when to wake up.
+  task_id: clock_3
+- original_id: clock_6
+  task: Customize the snooze duration of your alarm to better fit your morning habits
+    and ensure you have enough time between snoozes.
+  task_id: clock_4
+- original_id: clock_7
+  task: Schedule a 4 pm alarm which repeat in workdays to remind you to take breaks
+    during your workdays.
+  task_id: clock_5
+- original_id: clock_8
+  task: Create a recurring alarm for every Monday, Wednesday, and Friday at 8 AM labeled
+    "Yoga Sessions."
+  task_id: clock_6
+- original_id: clock_9
+  task: Set a recurring alarm to remind you to take your medication every day at 12:30
+    p.m. The name of the alarm is set to “Take Medication”.
+  task_id: clock_7
+- original_id: clock_11
+  task: Design a world clock display for tracking the time across your company's global
+    locations, with customized labels for each office.
+  task_id: clock_8
+- original_id: clock_13
+  task: Configure the world clock feature to display the current time in five different
+    cities around the world where you have friends or family.
+  task_id: clock_9
+- original_id: clock_14
+  task: Schedule a recurring alarm for 7:00 AM on weekdays for work, with a distinct
+    ringtone that differs from other alarms.
+  task_id: clock_10
+- original_id: clock_15
+  task: Schedule a recurring alarm for 7:00 AM on weekdays for work, with a distinct
+    ringtone that differs from other alarms.
+  task_id: clock_11
+- original_id: clock_16
+  task: Use the world clock to add London and Sydney and compare their time differences
+    to plan a city conference call.
+  task_id: clock_12
+- original_id: clock_17
+  task: Use the Timer function to set time limits for different exercises in a circuit
+    training workout, with intervals of 1 minute long.
+  task_id: clock_13
+- original_id: clock_18
+  task: Use the timer function to set the timer for 30 minutes to ensure that the
+    cake does not bake and the bell to select Argon.
+  task_id: clock_14
+- original_id: clock_22
+  task: Set a one-time alarm for 8am.
+  task_id: clock_15
+- original_id: clock_24
+  task: Organize a schedule for time-zone tracking for multiple cities where your
+    international colleagues work, to avoid calling them after-hours.
+  task_id: clock_16
+- original_id: clock_25
+  task: Set a 15-minute timer to remind you to check the oven while the cake is baking,
+    and choose Rays for the bell.
+  task_id: clock_17
+- original_id: clock_27
+  task: Use the timer function to set a countdown for 20 minutes for a quick power
+    nap.
+  task_id: clock_18
+- original_id: clock_28
+  task: Schedule a world clock to compare the time in your current location with the
+    time at a travel destination you're planning to visit.
+  task_id: clock_19
+- original_id: clock_29
+  task: Program a one-time alarm for an afternoon power nap at 3:20 PM.
+  task_id: clock_20
+- original_id: clock_30
+  task: Adjust your clock settings to display time in 24-hour military format to practice
+    reading time in this manner.
+  task_id: clock_21
+- original_id: clock_31
+  task: Create a countdown timer for an important upcoming event, such as a birthday
+    or anniversary, and pick a celebratory tone as a reminder.
+  task_id: clock_22
+- original_id: clock_33
+  task: Use the clock to determine the time difference between your current location
+    and a friend's time zone who live in London.
+  task_id: clock_23
+- original_id: clock_34
+  task: Change the re-sound interval for the 7am alarm from the default to 5 minutes.
+  task_id: clock_24
+- original_id: clock_35
+  task: Set a wake-up alarm for 07:30 a.m. every morning.
+  task_id: clock_25
+- original_id: clock_36
+  task: Create a world clock configuration to track the current time in three different
+    time zones for an international project.
+  task_id: clock_26
+- original_id: clock_37
+  task: Adjust your clock's settings to display time in 24-hour format to help transition
+    your schedule to military time.
+  task_id: clock_27
+- original_id: clock_38
+  task: Utilize the bedtime feature to establish a consistent sleep schedule and view
+    the sleep quality of May.
+  task_id: clock_28
+- original_id: clock_39
+  task: Set a timer for 20 minutes to cook the pasta to make sure it cooks every time,ring
+    the bell to select Rays.
+  task_id: clock_29
+- original_id: clock_40
+  task: Deploy an alarm to remind you to take medication at 20:00 every evening.
+  task_id: clock_30
+- original_id: clock_41
+  task: Program the clock app to play Argon as a timer tone.
+  task_id: clock_31
+- original_id: clock_42
+  task: Program the clock app to play Argon as an alarm tone to wake up refreshed.
+  task_id: clock_32
+- original_id: clock_43
+  task: Delete all clocks from the World Clock board.
+  task_id: clock_33
+- original_id: clock_44
+  task: Set a world clock for Tokyo, Japan, to keep track of the time difference for
+    an upcoming business trip.
+  task_id: clock_34
+- original_id: clock_47
+  task: Create a weekend alarm for 8:30 AM with Argon tune.
+  task_id: clock_35
+- original_id: clock_48
+  task: Schedule an alarm for 5:30 PM as a reminder to go for an evening walk or wind
+    down the day.
+  task_id: clock_36
+- original_id: clock_49
+  task: Implement a one-time 'power nap' alarm for 1:30pm with Argon sound.
+  task_id: clock_37
+- original_id: clock_51
+  task: Schedule a recurring alarm for every Monday at 8 AM to remind you of a weekly
+    team meeting.
+  task_id: clock_38
+- original_id: clock_52
+  task: Use the world clock to monitor time in Sydney, Tokyo, and Paris for international
+    project coordination.
+  task_id: clock_39
+- original_id: clock_53
+  task: Set a bedtime alarm for every night at 10:30 PM to maintain a consistent sleep
+    schedule.
+  task_id: clock_40
+- original_id: clock_55
+  task: Set up a silent alarm for 2:30 pm during your workday as a hydration reminder
+    to drink water.
+  task_id: clock_41
+- original_id: clock_57
+  task: Add Tokyo and Sydney to the world clock.
+  task_id: clock_42
+- original_id: clock_58
+  task: Schedule a daily morning wake-up alarm with a silent feature to keep from
+    scaring me.
+  task_id: clock_43
+- original_id: clock_59
+  task: Set a bedtime alarm that signals you to start winding down 30 minutes before
+    your target sleep time, 11:00pm.
+  task_id: clock_44
+- original_id: clock_60
+  task: Set an alarm for every Saturday at 5:10 p.m. with the ringtone of “Argon”.
+  task_id: clock_45
+- original_id: clock_64
+  task: Track the duration of a cooking recipe using the timer.
+  task_id: clock_46
+- original_id: clock_65
+  task: Create an alarm in the Alarm Clock app that only goes off every Saturday at
+    5 p.m. without vibration.
+  task_id: clock_47
+- original_id: clock_67
+  task: Set a timer for a 20-minute power nap.
+  task_id: clock_48
+- original_id: clock_68
+  task: Create a world clock to keep track of the time in three different cities where
+    your family members live.The three cities are Sydney, Tokyo, and Paris.
+  task_id: clock_49
+- original_id: clock_69
+  task: In the Timer function, set the countdown time to 3 hours and 30 minutes and
+    select Dawn for the ringer.
+  task_id: clock_50
+- original_id: clock_70
+  task: Set a series of alarms with an 8-hour interval to remind you to drink water
+    throughout the day.
+  task_id: clock_51
+- original_id: clock_71
+  task: Schedule a wake-up alarm with the Argon ringtone for 7:30 am, to motivate
+    you for an early morning workout.
+  task_id: clock_52
+- original_id: clock_72
+  task: Adjust the World Clock feature to add Tokyo and New York time zones.
+  task_id: clock_53
+- original_id: clock_73
+  task: Set a countdown timer for a 20-minute nap and choose the ringtone ‘Creek’
+    for the countdown timer.
+  task_id: clock_54
+- original_id: clock_74
+  task: Configure the clock app to display time in a 24-hour format to accustom yourself
+    to military time.
+  task_id: clock_55
+- original_id: clock_75
+  task: Set an daily alarm with a label reminding you of the purpose, like "Yoga Class
+    at 6 PM".
+  task_id: clock_56
+- original_id: clock_77
+  task: Set up a bedtime routine alarm at 22:00 and reminds you to start winding down
+    for sleep.
+  task_id: clock_57
+- original_id: clock_79
+  task: Use the world clock feature to compare the current time in New York, Tokyo,
+    and Paris.
+  task_id: clock_58
+- original_id: clock_80
+  task: Program a 10 minutes timer for baking.
+  task_id: clock_59
+- original_id: clock_81
+  task: Set a wake-up alarm at 8 am.
+  task_id: clock_60
+- original_id: clock_82
+  task: Configure an alarm to remind you to check in for the tomorrow's 11:30 pm flight
+    exactly 24 hours before the scheduled departure time.
+  task_id: clock_61
+- original_id: clock_83
+  task: Set an alarm for 12:00 noon every day with the name “take your medication”
+    to keep taking your medication.
+  task_id: clock_62
+- original_id: clock_84
+  task: Use the world clock to track the opening and closing times of stock markets
+    in different time zones for trading,like London, New York and Hong Kong. .
+  task_id: clock_63
+- original_id: clock_85
+  task: Schedule a timer for cooking pasta al dente, with different timings for various
+    types of pasta.
+  task_id: clock_64
+- original_id: clock_86
+  task: Create a custom timer for power naps that lasts exactly 20 minutes, including
+    the time needed to fall asleep.
+  task_id: clock_65
+- original_id: clock_87
+  task: Change the clock display from 12-hour to 24-hour format on your device.
+  task_id: clock_66
+- original_id: clock_88
+  task: Set reminders for every week bill payments on Monday to ensure you never miss
+    a due date.
+  task_id: clock_67
+- original_id: clock_90
+  task: Create a recurring alarm at 7:00 for every Monday morning to help you start
+    your workweek on time.
+  task_id: clock_68
+- original_id: clock_91
+  task: Set up a world clock configuration to track the times in New York, London,
+    and Tokyo for global trading.
+  task_id: clock_69
+- original_id: clock_92
+  task: Set a thirty-minute timer to help you with your workout and choose Flourish
+    for the bell.
+  task_id: clock_70
+- original_id: clock_93
+  task: Use the alarm function to remind you to move your parked car before street
+    cleaning regulations take effect on 22 PM.
+  task_id: clock_71
+- original_id: clock_95
+  task: Use the timer to conduct a Pomodoro Technique study session, with 25-minute
+    focused periods followed by 5-minute breaks.
+  task_id: clock_72
+- original_id: clock_96
+  task: Create a recurring alarm for weekdays at 8 AM with the label "Daily Planning".
+  task_id: clock_73
+- original_id: clock_97
+  task: Set an alarm for 7 a.m. on Thursdays and name it “Yoga”.
+  task_id: clock_74
+- original_id: clock_99
+  task: Create a weekend wake-up alarm at 10 AM.
+  task_id: clock_75
+- original_id: clock_100
+  task: Set a recurring alarm for weekdays at 7 AM.
+  task_id: clock_76
+- original_id: clock_103
+  task: Set up a bedtime reminder that prompts you to start your evening routine at
+    the same time every night.
+  task_id: clock_77
+- original_id: clock_105
+  task: Set an alarm that repeats every Saturday and every Sunday at 5pm.
+  task_id: clock_78
+- original_id: clock_106
+  task: Set an alarm to wake you up every weekday at 7 AM.
+  task_id: clock_79
+- original_id: clock_107
+  task: Use the World Clock feature to compare the current times in Tokyo, London,
+    and New York, and find a suitable meeting time for all.
+  task_id: clock_80
+- original_id: clock_108
+  task: Set an alarm for 5:00 pm for my pet's flea medication on every Saturday.
+  task_id: clock_81
+- original_id: clock_109
+  task: Set an alarm for every Saturday at 5pm with the ringtone set to Argon.
+  task_id: clock_82
+- original_id: clock_110
+  task: Use the timer to steep tea  for their recommended durations 4 mins.
+  task_id: clock_83
+- original_id: clock_111
+  task: Configure the clock to play a specific soothing sound to fall asleep to, and
+    make it stop automatically after 45 minutes.
+  task_id: clock_84
+- original_id: clock_112
+  task: Schedule a one-time alarm on today 10:00 pm to remind me of a friend's overseas
+    birthday.
+  task_id: clock_85
+- original_id: clock_113
+  task: Create a recurring alarm for 6:30 AM on weekdays.
+  task_id: clock_86
+- original_id: clock_114
+  task: Program an alarm for 3:30 pm to remind you to take a short break and stretch
+    during workdays.
+  task_id: clock_87
+- original_id: clock_115
+  task: Add New York, London and Sydney to the World Clock board.
+  task_id: clock_88
+- original_id: clock_116
+  task: Customize the clock app to display time in two additional time zones in the
+    status bar of your smartphone for quick checking.
+  task_id: clock_89
+- original_id: clock_117
+  task: Configure world clocks to keep track of the current time in the city where
+    your remote team members live.One is in London, one is  in Paris and the others
+    are in Auckland.
+  task_id: clock_90
+- original_id: clock_118
+  task: Adjust the snooze interval to 10 minutes for your morning alarms.
+  task_id: clock_91
+- original_id: clock_119
+  task: Add Tokyo and Paris to your world clock.
+  task_id: clock_92
+- original_id: clock_121
+  task: Create a countdown timer for important events, like the number of days left
+    until a vacation or a project deadline.
+  task_id: clock_93
+- original_id: clock_122
+  task: Adjust the snooze duration of your morning alarm to your preferred time gap
+    such as 15 minutes.
+  task_id: clock_94
+- original_id: clock_123
+  task: Set an alarm to remind you every Saturday at 2:00 p.m. and name it “Read”.
+  task_id: clock_95
+- original_id: clock_125
+  task: Create alarms for eating medication that goes off everyday at 8 AM and 8 PM.
+  task_id: clock_96
+- original_id: clock_126
+  task: Set up a bedtime schedule, signaling when to wind down 30 minutes before sleep.
+  task_id: clock_97
+- original_id: clock_128
+  task: Establish a time zone conversion shortcut to quickly calculate the time difference
+    between your location and your international clients' locations.
+  task_id: clock_98
+- original_id: clock_131
+  task: Implement a bedtime feature that reminds you to relex 30 minutes before your
+    target sleep time.
+  task_id: clock_99
+- original_id: clock_132
+  task: Set up a custom alarm at 8 AM that wakes you up each weekday.
+  task_id: clock_100
+- original_id: clock_136
+  task: Set an alarm with the name “Doctor's Appointment” for 2 p.m. on Saturday.
+  task_id: clock_101
+- original_id: clock_137
+  task: Set a weekday wake-up alarm that alarm with a silent feature to keep from
+    scaring me to ease into your day more naturally.
+  task_id: clock_102
+- original_id: clock_138
+  task: Program the clock to play a specific playlist or calming sounds at bedtime
+    to help you fall asleep.
+  task_id: clock_103
+- original_id: clock_139
+  task: Set up a world clock configuration to keep track of times in London, Sydney
+    and Osaka for international communication.
+  task_id: clock_104
+- original_id: clock_140
+  task: Set an alarm for every Monday at 7 a.m. and set the duration of the ring to
+    10 minutes.
+  task_id: clock_105
+- original_id: clock_142
+  task: Set a silent but vibrating alarm for 2:50 pm as a discreet reminder for the
+    3:00 pm meetings.
+  task_id: clock_106
+- original_id: clock_143
+  task: Customize the clock widget on your home screen to show time from a different
+    time zone.
+  task_id: clock_107
+- original_id: clock_144
+  task: Add New York to the world clock to see the local time.
+  task_id: clock_108
+- original_id: clock_147
+  task: Add Warsaw to the world clock to see the local time.
+  task_id: clock_109
+- original_id: clock_148
+  task: Set a non-repeat alarm for 6 AM.
+  task_id: clock_110
+- original_id: clock_149
+  task: Show me the current time in Tokyo.
+  task_id: clock_111
+- original_id: clock_150
+  task: Cancel my 5 AM alarm.
+  task_id: clock_112
+- original_id: clock_151
+  task: Change my timer sound to "Argon".
+  task_id: clock_113
+- original_id: clock_152
+  task: Show the world clock.
+  task_id: clock_114
+- original_id: clock_153
+  task: Add a new city to my world clock.
+  task_id: clock_115
+- original_id: clock_154
+  task: Set a bedtime reminder for 10 PM.
+  task_id: clock_116
+- original_id: clock_155
+  task: Cancel the alarm set for 7:30 AM.
+  task_id: clock_117
+- original_id: clock_156
+  task: Show me the stopwatch.
+  task_id: clock_118
+- original_id: clock_157
+  task: Show the current time in New York.
+  task_id: clock_119
+- original_id: clock_158
+  task: Reset my alarm for 8:30 AM.
+  task_id: clock_120
+- original_id: clock_159
+  task: Change my timer sound to "Argon".
+  task_id: clock_121
+- original_id: clock_160
+  task: Tell me the time in Tokyo now.
+  task_id: clock_122
+- original_id: clock_161
+  task: Show me the countdown timer.
+  task_id: clock_123
+- original_id: clock_162
+  task: Adjust my bedtime reminder to 11 PM.
+  task_id: clock_124
+- original_id: clock_163
+  task: Create a recurring alarm for weekdays, waking you up at 7:00 AM with Argon.
+  task_id: clock_125
+- original_id: clock_164
+  task: Use the world clock feature to track the current time in three major cities
+    where your business partners are located.One is London，and one is New York， the
+    rest one is Paris.
+  task_id: clock_126
+- original_id: clock_165
+  task: Use the world clock feature to track the current time in three major cities
+    where your business partners are located.One is London，and one is New York， the
+    rest one is Paris.
+  task_id: clock_127
+- original_id: clock_167
+  task: Change the clock display from digital to analog on your home screen widget.
+  task_id: clock_128
+- original_id: clock_168
+  task: Set an alarm for 9:00 a.m. on Friday and name the alarm “Work Session.”
+  task_id: clock_129
+- original_id: clock_170
+  task: Create a weekly reminder to call your family every Sunday at 8:00 PM.
+  task_id: clock_130
+- original_id: clock_171
+  task: Set a 4pm disposable alarm with a custom label and vibration to remind you
+    to take your medicine.
+  task_id: clock_131
+- original_id: clock_172
+  task: Set a recurring alarm for taking medication at 8 AM, 2 PM, and 9 PM daily.
+  task_id: clock_132
+- original_id: clock_173
+  task: Use the world clock feature to keep track of the current time in two different
+    locations you're doing business with. One is Seoul and the other is Tokyo.
+  task_id: clock_133
+- original_id: clock_174
+  task: Set a meeting reminder alarm for the following Friday at 2 p.m. and name the
+    alarm “Budget Review”.
+  task_id: clock_134
+- original_id: clock_178
+  task: Change the vibration mode of your 7:30 a.m. alarm to none.
+  task_id: clock_135
+- original_id: clock_179
+  task: Use the World Clock to check what time a live sports event at 7 Am in another
+    city  like New York will air in your local time.
+  task_id: clock_136
+- original_id: clock_180
+  task: Schedule a recurring alarm for medication reminders at 8 AM and 8 PM starting
+    from today.
+  task_id: clock_137
+- original_id: clock_181
+  task: Adjust your clock's snooze duration settings for your morning alarms to your
+    preferred length of time.
+  task_id: clock_138
+- original_id: clock_182
+  task: Change your 7:30 a.m. alarm ringtone to “Argon” to wake you up on the weekend.
+  task_id: clock_139
+- original_id: clock_183
+  task: Set up a bedtime schedule within the Clock app to track your sleep and remind
+    you at the optimal time within a 30-minute window.
+  task_id: clock_140
+- original_id: clock_184
+  task: Organize your alarms by labeling them based on different activities such as
+    "Gym", "Study", or "Yoga".
+  task_id: clock_141
+- original_id: clock_186
+  task: Set a one-time alarm for an important appointment at 3pm and adjust the snooze
+    interval to 5 minutes.
+  task_id: clock_142
+- original_id: clock_187
+  task: Use the clock app to determine the time difference between your location and
+    Paris.
+  task_id: clock_143
+- original_id: clock_188
+  task: Compare the time zones of your company's international offices like Tokyo
+    and Seoul.
+  task_id: clock_144
+- original_id: clock_189
+  task: Set a one-time alarm for an early morning flight at 4:30 AM, and label it
+    with the flight number.
+  task_id: clock_145
+- original_id: clock_190
+  task: Arrange a bedtime routine  and set DND mode,which starting at 9 PM, by using
+    the Manage bedtime feature.
+  task_id: clock_146
+- original_id: clock_191
+  task: Set an alarm at 9:20am every morning to remind you to hydrate and name the
+    alarm “Pure Water”.
+  task_id: clock_147
+- original_id: clock_192
+  task: Configure the timer for a high-intensity interval training workout with 1-minute
+    active periods and 30 seconds of rest, repeating for 20 minutes. (medium)
+  task_id: clock_148
+- original_id: clock_193
+  task: Enable a bedtime schedule that prompts wind down at 10 PM and wake-up at 6
+    AM.
+  task_id: clock_149
+- original_id: clock_194
+  task: Create a world clock visual layout to monitor stock market opening hours in
+    London, New York, Tokyo, and Hong Kong.
+  task_id: clock_150
+- original_id: clock_195
+  task: Create a recurring alarm for weekdays that plays a calming tune to wake you
+    up for work.
+  task_id: clock_151
+- original_id: clock_196
+  task: Use the World Clock feature of the Clock app to add Paris and see the current
+    time in Paris.
+  task_id: clock_152
+- original_id: clock_198
+  task: Use the world clock feature to track the current time for international business
+    partners in Berlin, Singapore, and Los Angeles.
+  task_id: clock_153
+- original_id: clock_199
+  task: Use the world clock feature to track the current time for international business
+    partners in Berlin, Singapore, and Los Angeles.
+  task_id: clock_154
+- original_id: clock_200
+  task: Add New York to the World Clock board to see the current time in New York.
+  task_id: clock_155
+- original_id: clock_201
+  task: Organize your travel itinerary by setting alarms for flight check-ins, hotel
+    check-outs, and other time-sensitive activities while traveling.
+  task_id: clock_156
+- original_id: clock_202
+  task: Configure a recurring weekday alarm for 8 AM marked as "Office Commute".
+  task_id: clock_157
+- original_id: clock_203
+  task: Add Washington to the World Clock board to see the local time.
+  task_id: clock_158
+- original_id: clock_204
+  task: Organize your world clock to include the current times in Sydney, Berlin,
+    and Accra for an international project.
+  task_id: clock_159
+- original_id: clock_206
+  task: Set an alarm for 5:15AM with the label "Workout".
+  task_id: clock_160
+- original_id: clock_207
+  task: Set an alarm for 8:00AM and change the ringtone to "Argon".
+  task_id: clock_161
+- original_id: clock_208
+  task: Help me set an alarm every weekend at 9:00AM.
+  task_id: clock_162
+- original_id: clock_209
+  task: Change my 7:30AM alarm to ring only on weekdays.
+  task_id: clock_163
+- original_id: clock_210
+  task: Set a non-repeat alarm for 11:45AM .
+  task_id: clock_164
+- original_id: clock_211
+  task: Set an alarm for 11:00PM on weekends and label it "Late Night Movie".
+  task_id: clock_165
+- original_id: clock_212
+  task: Turn off all alarms.
+  task_id: clock_166
+- original_id: clock_213
+  task: Delete all alarms set after 9:00PM.
+  task_id: clock_167
+- original_id: clock_214
+  task: Turn off the alarm set for 9:00PM.
+  task_id: clock_168
+- original_id: clock_215
+  task: What is the latest alarm that is turned on?
+  task_id: clock_169
+- original_id: clock_216
+  task: Do I have an alarm set for 6:00AM on Saturdays?
+  task_id: clock_170
+- original_id: clock_217
+  task: Does my 6:30AM alarm use vibrate?
+  task_id: clock_171
+- original_id: clock_218
+  task: How many alarms are active right now?
+  task_id: clock_172
+- original_id: clock_219
+  task: Is my 7:30AM alarm turned on?
+  task_id: clock_173
+- original_id: clock_220
+  task: Add the time zones for New York and Tokyo to the clock.
+  task_id: clock_174
+- original_id: clock_221
+  task: What is the current time in London and how does it compare to my local time?
+  task_id: clock_175
+- original_id: clock_222
+  task: Remove Barcelona time from the clock.
+  task_id: clock_176
+- original_id: clock_223
+  task: Set a countdown timer for 45 minutes but do not start it.
+  task_id: clock_177
+- original_id: clock_224
+  task: Set bedtime for 9:30PM with a wake-up time of 6:30AM.
+  task_id: clock_178
+- original_id: clock_225
+  task: Set the sleep sound to "Contemplation".
+  task_id: clock_179
+- original_id: clock_226
+  task: Turn off the Wake-up alarm in Bedtime settings.
+  task_id: clock_180
+- original_id: clock_227
+  task: Set the alarm style to Digital.
+  task_id: clock_181
+- original_id: clock_228
+  task: Change the home time zone to Perth.
+  task_id: clock_182
+- original_id: clock_229
+  task: Adjust the "snooze duration" to 10 minutes.
+  task_id: clock_183
+- original_id: clock_230
+  task: Launch the Clock app.
+  task_id: clock_184
+- original_id: clock_231
+  task: Turn off my 5:00AM alarm.
+  task_id: clock_185
+- original_id: clock_232
+  task: Set an alarm for 1:30PM.
+  task_id: clock_186
+- original_id: clock_233
+  task: Set a repeating alarm for 10:00PM on Mondays and Thursdays.
+  task_id: clock_187
+- original_id: clock_234
+  task: Which alarm is set for the earliest time tomorrow?
+  task_id: clock_188
+- original_id: clock_235
+  task: Change the clock face to a custom one.
+  task_id: clock_189
+- original_id: clock_236
+  task: Set a countdown timer for 90 minutes and start it immediately.
+  task_id: clock_190
+- original_id: clock_237
+  task: Enable the "Wind Down" feature for 30 minutes before bedtime.
+  task_id: clock_191
+- original_id: clock_238
+  task: Set a bedtime reminder for 10:30PM.
+  task_id: clock_192
+- original_id: clock_239
+  task: Modify the alarm for 5:00AM to not vibrate.
+  task_id: clock_193
+- original_id: clock_240
+  task: How many alarms are set to repeat daily?
+  task_id: clock_194
+- original_id: clock_241
+  task: Add the time zone for Paris to the clock.
+  task_id: clock_195
+- original_id: clock_242
+  task: Change the clock's style to Analog.
+  task_id: clock_196
+- original_id: clock_243
+  task: Set a timer for 2 hours and pause it after 30 minutes.
+  task_id: clock_197
+- original_id: clock_244
+  task: Set a one-time alarm for 4:45PM.
+  task_id: clock_198
+- original_id: clock_245
+  task: Disable bedtime notifications.
+  task_id: clock_199
+- original_id: clock_246
+  task: Is my 8:00AM alarm set to repeat every weekday?
+  task_id: clock_200
+- original_id: clock_247
+  task: Set a repeating alarm for 2:00PM every Wednesday.
+  task_id: clock_201
+- original_id: clock_248
+  task: Enable the world clock feature to show times for five different cities.
+  task_id: clock_202
+- original_id: clock_249
+  task: Set a countdown timer for 30 minutes.
+  task_id: clock_203
+- original_id: clock_250
+  task: Which alarm is set to ring on weekends?
+  task_id: clock_204
+- original_id: clock_251
+  task: Add time zones for Sydney and Dubai.
+  task_id: clock_205
+- original_id: clock_252
+  task: Turn off all alarms.
+  task_id: clock_206
+- original_id: clock_253
+  task: Adjust the wake-up time in Bedtime settings to 6:00AM.
+  task_id: clock_207
+- original_id: clock_254
+  task: Do I have any alarms set for the evening?
+  task_id: clock_208
+- original_id: clock_255
+  task: Set a timer for 10 minutes.
+  task_id: clock_209
+- original_id: clock_256
+  task: Change the clock display to 24-hour format.
+  task_id: clock_210
+- original_id: clock_257
+  task: Set an alarm for 9:30PM.
+  task_id: clock_211
+- original_id: clock_258
+  task: Add the time zone for Hong Kong.
+  task_id: clock_212
+- original_id: clock_259
+  task: How many alarms are set to ring on Fridays?
+  task_id: clock_213
+- original_id: clock_260
+  task: Set a countdown timer for 20 minutes and start it immediately.
+  task_id: clock_214
+- original_id: clock_261
+  task: Modify the 5:00AM alarm to ring only on Mondays.
+  task_id: clock_215
+- original_id: clock_262
+  task: Set the clock to show seconds on the display.
+  task_id: clock_216
+- original_id: clock_263
+  task: Set bedtime to 11:00PM and wake-up time to 6:00AM.
+  task_id: clock_217
+- original_id: clock_264
+  task: Set a timer for 5 minutes and label it "Stretch Break".
+  task_id: clock_218
+- original_id: clock_265
+  task: Do I have any alarms set for Monday mornings?
+  task_id: clock_219
+- original_id: clock_266
+  task: Add the time zone for Toronto to the clock.
+  task_id: clock_220
+- original_id: clock_267
+  task: Turn off the 4:00PM alarm.
+  task_id: clock_221
+- original_id: clock_269
+  task: Set the clock to use 12-hour format.
+  task_id: clock_222

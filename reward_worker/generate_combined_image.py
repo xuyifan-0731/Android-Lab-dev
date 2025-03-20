@@ -1,6 +1,7 @@
 import json
 import math
 import os
+import shutil
 from multiprocessing import Pool
 
 import chardet
@@ -9,6 +10,7 @@ import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw
 from tqdm import tqdm
 import textwrap
+
 plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来设置字体样式以正常显示中文标签
 plt.rcParams['axes.unicode_minus'] = False  # 默认是使用Unicode负号，设置正常显示字符，如正常显示负号
 
@@ -35,45 +37,34 @@ def draw_arrow_on_image(img, start, end):
         end[0] + arrow_length * math.cos(angle + arrow_angle), end[1] + arrow_length * math.sin(angle + arrow_angle))
     draw.polygon([end, arrow_point1, arrow_point2], fill="green")
     return img
-
-
 def create_text_image(text, base_image, font_size=24, font_name='Songti SC', log_path=None):
     # 确保提供了用于保存文本图像的路径
     if log_path is None:
         log_path = '..'  # 默认当前目录
     text_image_path = os.path.join(log_path, 'text_image.png')
 
-    # 获取基础图像的尺寸
+    # 加载基础图像以获取其尺寸
+    # base_image = Image.open(base_image_path)
     base_width, base_height = base_image.size
-    
-    # 计算文本图像的宽度（以英寸为单位，假设DPI=100）
-    width_in_inches = base_width / 100
-    text_area_height = base_height / 10  # 设定文本区域高度为基础图像高度的1/10
-    height_in_inches = text_area_height / 100
-    dpi = 100
-    
-    # 计算每行能容纳的最大字符数（假设每个字符宽度大致为 font_size * 0.6）
-    max_chars_per_line = int(base_width / (font_size * 0.9))
-    wrapped_text = '\n'.join(textwrap.wrap(text, width=max_chars_per_line))
-    
-    # 设置matplotlib字体
+
+    # 设置matplotlib字体和其他属性
     plt.rcParams['font.sans-serif'] = [font_name]
     plt.rcParams['font.size'] = font_size
     plt.rcParams['savefig.transparent'] = True
-    
-    # 创建绘图区域
-    fig, ax = plt.subplots(figsize=(width_in_inches, height_in_inches), dpi=dpi)
-    ax.text(0.5, 0.5, wrapped_text, ha='center', va='center', transform=ax.transAxes, color='red')
+
+    # 计算新的文本图像尺寸
+    width = base_width / 100  # 将宽度转换为英寸（假设DPI=100）
+    height = (base_height / 10) / 100  # 高度为基础图像高度的1/10，转换为英寸
+    dpi = 100
+    fig, ax = plt.subplots(figsize=(width, height), dpi=dpi)
+    ax.text(0.5, 0.5, text, ha='center', va='center', transform=ax.transAxes, color='red')
     ax.axis('off')
-    
-    # 保存到一个透明背景的PNG文件
+
+    # 保存到一个透明背景的PNG文件中
     fig.savefig(text_image_path, format='png', transparent=True)
     plt.close(fig)
-    
+
     return text_image_path
-
-
-
 def merge_text(img, text_image, position=(0, 0)):
     # 打开基础图像和文本图像
     base_image = img
@@ -151,6 +142,7 @@ def merge_images(images):
     return new_im
 
 
+
 def make_merge_pic(log_path, save_path=None):
     trace_file = os.path.join(log_path, "traces", "trace.jsonl")
     all_images = []
@@ -180,16 +172,22 @@ def make_merge_pic(log_path, save_path=None):
             parsed_action = obj["parsed_action"]
 
             if parsed_action["action"] == "Tap" or parsed_action["action"] == "Long Press":
-                parsed_action["position_start"] = [
-                    (parsed_action["kwargs"]["relative_element"][0] + parsed_action["kwargs"]["relative_element"][2]) / 2,
-                    (parsed_action["kwargs"]["relative_element"][1] + parsed_action["kwargs"]["relative_element"][3]) / 2]
+                if len(parsed_action["kwargs"]["element"]) == 4:
+                    parsed_action["position_start"] = [
+                        (parsed_action["kwargs"]["element"][0] + parsed_action["kwargs"]["element"][2]) / 2,
+                        (parsed_action["kwargs"]["element"][1] + parsed_action["kwargs"]["element"][3]) / 2]
+                elif len(parsed_action["kwargs"]["element"]) == 2:
+                    parsed_action["position_start"] = parsed_action["kwargs"]["element"]
                 start_pos = (
                     parsed_action["position_start"][0], parsed_action["position_start"][1])
                 processed_img = draw_cross_on_image(img, start_pos)
             elif parsed_action["action"] == "Swipe":
-                parsed_action["position_start"] = [
-                    (parsed_action["kwargs"]["relative_element"][0] + parsed_action["kwargs"]["relative_element"][2]) / 2,
-                    (parsed_action["kwargs"]["relative_element"][1] + parsed_action["kwargs"]["relative_element"][3]) / 2]
+                if len(parsed_action["kwargs"]["element"]) == 4:
+                    parsed_action["position_start"] = [
+                        (parsed_action["kwargs"]["element"][0] + parsed_action["kwargs"]["element"][2]) / 2,
+                        (parsed_action["kwargs"]["element"][1] + parsed_action["kwargs"]["element"][3]) / 2]
+                elif len(parsed_action["kwargs"]["element"]) == 2:
+                    parsed_action["position_start"] = parsed_action["kwargs"]["element"]
                 start_pos = (
                     parsed_action["position_start"][0], parsed_action["position_start"][1])
                 if parsed_action["kwargs"]["direction"] == "up":
@@ -219,7 +217,7 @@ def make_merge_pic(log_path, save_path=None):
                     if "end" in screen:
                         image_filename = os.path.join(log_path, "Screen", screen)
                         break
-                image_path = os.path.join(log_path, "Screen", image_filename)
+                # image_path = os.path.join(log_path, "Screen", image_filename)
                 img = Image.open(image_path)
                 text = f"{parsed_action['action']}: {parsed_action['kwargs']['message']}"
                 text_img = create_text_image(text, img, 48, log_path=log_path)
@@ -231,8 +229,8 @@ def make_merge_pic(log_path, save_path=None):
             if processed_img:
                 all_images.append(processed_img)
 
-    #if not have_finish:
-        #return
+    if not have_finish:
+        return
     # Assuming all_images now contains all processed images
     final_image = merge_images(all_images)
     task_description = task_description.split("following task: ")[-1]
@@ -246,9 +244,17 @@ def make_merge_pic(log_path, save_path=None):
     filename = os.path.basename(log_path)
     final_image_path = os.path.join(save_path, f"{filename}_final_combined_image.png")
     final_image.save(final_image_path)
-    print(f"Saved final image to {final_image_path}")
+    return final_image_path
+    # print(f"Saved final image to {final_image_path}")
 
-
+def merge_single_task(log_path, save_path=None):
+    try:
+        final_image_path = make_merge_pic(log_path, save_path)
+        return final_image_path
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        print(f"Error processing {log_path}: {e}")
 
 def single_worker(all_log_path, log, save_path):
     try:
@@ -271,22 +277,46 @@ def check_all_log(all_log_path, save_path=None):
         pool.join()
 
 
-import os
-import concurrent.futures
 
-def process_log(file):
-    try:
-        log_path = os.path.join("/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e", file)
-        save_path = "/raid/xuyifan/Android-Lab-main/test-pic"
-        make_merge_pic(log_path, save_path)
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
-        print(f"Error processing {file}: {e}")
 
-if __name__ == "__main__":
-    files = os.listdir("/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e")
+
+
+
+# by siyi: 路径啥的改改就能单独画出想要的model-task-combined图片了
+if __name__ == '__main__':
+    import argparse
+    arg_parser = argparse.ArgumentParser()
+    #arg_parser.add_argument("--directory_path", default="logs/evaluation", type=str)
+    arg_parser.add_argument("--directory_path_task", type=str, nargs='+', default=["/workspace/xuyifan/digirl/digirl/data/sample/test-sample-20241216080327/test-sample-r1/clock_0_2024-12-16_02-50-59"])
+    arg_parser.add_argument("--save_path", default="/workspace/xuyifan/digirl/digirl/test-path", type=str)
+
+    #directory_path = arg_parser.parse_args().directory_path
+    #save_path = arg_parser.parse_args().save_path
+
+    directory_path_task_all = arg_parser.parse_args().directory_path_task
+
+    save_path = arg_parser.parse_args().save_path
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
+
+    save_path_origin = os.path.join(save_path, "origin")
+    for directory_path in directory_path_task_all:
+        output_path = os.path.join(save_path_origin, directory_path.split("/")[-2], directory_path.split("/")[-1])
+        if not os.path.exists(output_path):
+            shutil.copytree(directory_path, output_path)
+        else:
+            pass
+
+    subfolders = [f.name for f in os.scandir(save_path_origin) if f.is_dir()]
+    already_done = [f.name for f in os.scandir(save_path) if f.is_dir()]
+
+    combined_paths = [os.path.join(save_path_origin, subfolder) for subfolder in subfolders if subfolder not in already_done]
+    combined_save_paths = [os.path.join(save_path, subfolder) for subfolder in subfolders if subfolder not in already_done]
     
-    max_workers = 32  # 这里可以调整并发量
-    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-        executor.map(process_log, files)
+    for save_path in combined_save_paths:
+        print(save_path)
+    import time
+    time.sleep(5)
+
+    for all_log_path, save_path in zip(combined_paths, combined_save_paths):
+        check_all_log(all_log_path, save_path)

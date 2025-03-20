@@ -1,0 +1,311 @@
+APP: Cantook
+package: Cantook
+tasks:
+- original_id: cantook_0
+  task: Add "Hamlet" by William Shakespeare to the "Sci-Fi Classics" collection.
+  task_id: cantook_0
+- original_id: cantook_1
+  task: Sort books by author name in order.
+  task_id: cantook_1
+- original_id: cantook_2
+  task: Open the first book in the "Recently add" list and turn to page 4.
+  task_id: cantook_2
+- original_id: cantook_3
+  task: Move the book "Peter Pan" into a collection called "Recently Finished".
+  task_id: cantook_3
+- original_id: cantook_4
+  task: Remove all books by J. M. Barrie from the device.
+  task_id: cantook_4
+- original_id: cantook_5
+  task: Arrange the books in Data created order.
+  task_id: cantook_5
+- original_id: cantook_6
+  task: Look up the first book in the "drama" category.
+  task_id: cantook_6
+- original_id: cantook_7
+  task: Adjust font size to 105% while reading "Hamlet".
+  task_id: cantook_7
+- original_id: cantook_8
+  task: Create a new collection named "Mystery Novels".
+  task_id: cantook_8
+- original_id: cantook_9
+  task: Move the book "Hamlet" to the "Science Fiction" collection.
+  task_id: cantook_9
+- original_id: cantook_10
+  task: Sort books by author name in ascending order.
+  task_id: cantook_10
+- original_id: cantook_11
+  task: Move "Oliver Twist" to the "Classics" collection.
+  task_id: cantook_11
+- original_id: cantook_12
+  task: Open the last book in the "Recently added" and tell me how many pages the
+    book has.
+  task_id: cantook_12
+- original_id: cantook_13
+  task: create the "Mystery Novels" collection
+  task_id: cantook_13
+- original_id: cantook_14
+  task: Open the category of "Science Fiction" and check how many books it has.
+  task_id: cantook_14
+- original_id: cantook_15
+  task: Look for the author with the most books and open one of their books.
+  task_id: cantook_15
+- original_id: cantook_16
+  task: Change reading theme to dark mode while reading "Hamlet".
+  task_id: cantook_16
+- original_id: cantook_18
+  task: create the "Mystery Novels" collection
+  task_id: cantook_17
+- original_id: cantook_19
+  task: create the "Mystery Novels" collection
+  task_id: cantook_18
+- original_id: cantook_20
+  task: Move "Hamlet" to the "Children stories" category.
+  task_id: cantook_19
+- original_id: cantook_21
+  task: Sort books by collection.
+  task_id: cantook_20
+- original_id: cantook_22
+  task: Open the "Recently add" section and then open the first book and tell me how
+    many pages the book has.
+  task_id: cantook_21
+- original_id: cantook_23
+  task: Open the "Recently add" section and then open the first book and tell me how
+    many pages the book has.
+  task_id: cantook_22
+- original_id: cantook_24
+  task: Change the sorting of the "Books" section to display by date,the most recent
+    reading first.
+  task_id: cantook_23
+- original_id: cantook_25
+  task: Sort books by date created.
+  task_id: cantook_24
+- original_id: cantook_26
+  task: Sort "Books" by author name in order.
+  task_id: cantook_25
+- original_id: cantook_27
+  task: Add the book "Oliver Twist" to the "Sci-Fi Classics" collection.
+  task_id: cantook_26
+- original_id: cantook_28
+  task: Add the book "Oliver Twist" to the "Sci-Fi Classics" collection.
+  task_id: cantook_27
+- original_id: cantook_29
+  task: Create a category named "Paranormal Stories".
+  task_id: cantook_28
+- original_id: cantook_31
+  task: Compile a list of all books by the author "J. M. Barrie".
+  task_id: cantook_29
+- original_id: cantook_32
+  task: Change the sorting of books to be by title in alphabetical order.
+  task_id: cantook_30
+- original_id: cantook_33
+  task: add "Hamlet" in"Recently add" to the "American Classics" collection.
+  task_id: cantook_31
+- original_id: cantook_34
+  task: Read the first chapter of one of the recently read books.
+  task_id: cantook_32
+- original_id: cantook_35
+  task: Find all books in the "Tragedies" category.
+  task_id: cantook_33
+- original_id: cantook_36
+  task: Find all books in the "Comedies" category and sort them by author's name.
+  task_id: cantook_34
+- original_id: cantook_37
+  task: Modify the name of any classification category.
+  task_id: cantook_35
+- original_id: cantook_38
+  task: Add all books by the author "William Shakespeare" into a collection named
+    "Drama".
+  task_id: cantook_36
+- original_id: cantook_39
+  task: Display the book count for each author in the Authors section.
+  task_id: cantook_37
+- original_id: cantook_40
+  task: Mark the first book in my Books section as read.
+  task_id: cantook_38
+- original_id: cantook_41
+  task: Search for books with "Lives" in the title and add to a collection named "Lives
+    Series".
+  task_id: cantook_39
+- original_id: cantook_42
+  task: Mark the last book from the author with the most books  as read.
+  task_id: cantook_40
+- original_id: cantook_43
+  task: Sort all books in the "Adultery Fiction" category by the date they were created.
+  task_id: cantook_41
+- original_id: cantook_44
+  task: Create a new collection named "Science Fiction Favorites".
+  task_id: cantook_42
+- original_id: cantook_45
+  task: Open the last book listed under the "Recently added" section and tell me how
+    many pages the book has.
+  task_id: cantook_43
+- original_id: cantook_46
+  task: Add the first book listed under "Categories" labeled "Science fiction" to
+    the "Science Fiction Favorites" collection.
+  task_id: cantook_44
+- original_id: cantook_47
+  task: Browse to "Authors", find "William Shakespeare", and open the first book listed.
+  task_id: cantook_45
+- original_id: cantook_48
+  task: Create a new collection titled "add".
+  task_id: cantook_46
+- original_id: cantook_49
+  task: Search for books with "Lives" in the title and add to a collection named "Lives
+    Series".
+  task_id: cantook_47
+- original_id: cantook_50
+  task: Sort books in "Books" by author and open the top book on the list.
+  task_id: cantook_48
+- original_id: cantook_51
+  task: Filter books in "Categories" by the tag "Adultery Fiction" and read the page
+    50 of the book in the list.
+  task_id: cantook_49
+- original_id: cantook_52
+  task: Mark all books by "J. M. Barrie" from the "Authors" section as read.
+  task_id: cantook_50
+- original_id: cantook_53
+  task: Change the cover of the fourth book in "Recently read" to a different image
+    from your storage.
+  task_id: cantook_51
+- original_id: cantook_54
+  task: Create a new collection named "Mystery Novels".
+  task_id: cantook_52
+- original_id: cantook_55
+  task: Add "Peter Pan" to the "Classics" collection.
+  task_id: cantook_53
+- original_id: cantook_56
+  task: Add the book "The Scarlet Letter" to the "Mystery Novels" collection.
+  task_id: cantook_54
+- original_id: cantook_58
+  task: Sort the "Books" section by author name.
+  task_id: cantook_55
+- original_id: cantook_59
+  task: View which author has 3 or more books from the author list, and identify which
+    books they are.
+  task_id: cantook_56
+- original_id: cantook_60
+  task: Jump to chapter 3 in "Oliver Twist".
+  task_id: cantook_57
+- original_id: cantook_61
+  task: Organize a new collection named "Comedy Collection" and add A Midsummer Night's
+    Dream to it.
+  task_id: cantook_58
+- original_id: cantook_62
+  task: Find and open the first book with the highest number of books by the same
+    author in the "Authors" section.
+  task_id: cantook_59
+- original_id: cantook_63
+  task: Display the total number of books written by "Charles Dickens" listed in the
+    "Authors" section.
+  task_id: cantook_60
+- original_id: cantook_64
+  task: Filter and display only the books categorized under "Boys -- Fiction" in the
+    "Categories" section.
+  task_id: cantook_61
+- original_id: cantook_65
+  task: Go to "Recently add" and open page 20 of the third book in the list.
+  task_id: cantook_62
+- original_id: cantook_66
+  task: Within "Books", scroll down and open the last book.
+  task_id: cantook_63
+- original_id: cantook_67
+  task: Move all books written by William Shakespeare from "Books" to a new collection
+    named "William Shakespeare Classics".
+  task_id: cantook_64
+- original_id: cantook_68
+  task: Find all books of William Shakespeare.
+  task_id: cantook_65
+- original_id: cantook_69
+  task: Sort "Authors" alphabetically and then open the first author's first book.
+  task_id: cantook_66
+- original_id: cantook_70
+  task: Add the book "Hamlet" to the "Mystery Novels" collection.
+  task_id: cantook_67
+- original_id: cantook_71
+  task: Sort the "Recently read" list by author name in ascending order.
+  task_id: cantook_68
+- original_id: cantook_72
+  task: Open the books "Romeo and Juliet" and set the text size to 100%.
+  task_id: cantook_69
+- original_id: cantook_74
+  task: Create a category named "Humor".
+  task_id: cantook_70
+- original_id: cantook_75
+  task: Find all books by the author "Charles Dickens" and list them in date last
+    read order.
+  task_id: cantook_71
+- original_id: cantook_76
+  task: Create a collection labeled "Favorites".
+  task_id: cantook_72
+- original_id: cantook_78
+  task: Browse the "Categories" and count how many books are classified under "Science
+    Fiction".
+  task_id: cantook_73
+- original_id: cantook_79
+  task: Find the book "The Scarlet Letter" and open the scroll option.
+  task_id: cantook_74
+- original_id: cantook_80
+  task: Create a new collection named "Science Fiction".
+  task_id: cantook_75
+- original_id: cantook_81
+  task: Sort "Books" by author name in alphabetical order.
+  task_id: cantook_76
+- original_id: cantook_82
+  task: Find all books in the "Categories" that are tagged under "Comedies".
+  task_id: cantook_77
+- original_id: cantook_83
+  task: Look for the Books with "Picaresque literature" in their categories.
+  task_id: cantook_78
+- original_id: cantook_84
+  task: Remove the book "Peter Pan" from the device.
+  task_id: cantook_79
+- original_id: cantook_85
+  task: Search for books by author "J. M. Barrie" within the "Authors" tab.
+  task_id: cantook_80
+- original_id: cantook_87
+  task: Find how many books are under the category of "Fairy plays" in the "category".
+  task_id: cantook_81
+- original_id: cantook_88
+  task: Open the first book I have recently read and bookmark page 135.
+  task_id: cantook_82
+- original_id: cantook_89
+  task: Organize a new collection named "Mystery Novels".
+  task_id: cantook_83
+- original_id: cantook_90
+  task: Find and open the book with the most books by the same author.
+  task_id: cantook_84
+- original_id: cantook_91
+  task: Add the latest imported book to the "Favorites" collection.
+  task_id: cantook_85
+- original_id: cantook_92
+  task: Locate a book in the "Historical fiction" category and tell me its title.
+  task_id: cantook_86
+- original_id: cantook_93
+  task: Create a new collection named "Mystery Novels".
+  task_id: cantook_87
+- original_id: cantook_94
+  task: Add a collection named "Timeless Literature".
+  task_id: cantook_88
+- original_id: cantook_95
+  task: Arrange the books in the order of Expiration date.
+  task_id: cantook_89
+- original_id: cantook_96
+  task: Move the second book in the "Recently add" list to the "Weekend Reads" collection.
+  task_id: cantook_90
+- original_id: cantook_97
+  task: Open the book at the top of the "Recently read" and bookmark page 50.
+  task_id: cantook_91
+- original_id: cantook_99
+  task: Create a new collection called "Weekend Reads".
+  task_id: cantook_92
+- original_id: cantook_100
+  task: Search for all books by Charles Dickens.
+  task_id: cantook_93
+- original_id: cantook_101
+  task: Add all books categorized under "Science Fiction" to the "Favorite Sci-Fi"
+    collection. (medium)
+  task_id: cantook_94
+- original_id: cantook_102
+  task: Add a new collection named "Sci-Fi Must Reads".
+  task_id: cantook_95

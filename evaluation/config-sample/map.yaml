@@ -1,0 +1,321 @@
+APP: map.me
+package: com.mapswithme.maps.pro
+tasks:
+- task: Find out which dining establishments are closest to you and see how long it takes to bike there.
+  task_id: maps.me_0
+- task: Mark and save a restaurant near your location.
+  task_id: maps.me_1
+- task: Share your current location with a friend.
+  task_id: maps.me_2
+- task: Customize the map style for better visibility during night-time driving.
+  task_id: maps.me_3
+- task: Find out which groceries are closest to you and bookmark them.
+  task_id: maps.me_4
+- task: Plan a hiking route with multiple rest stops in Golden Gate Park.
+  task_id: maps.me_5
+- task: Start a biking navigation to Fisherman’s Wharf.
+  task_id: maps.me_6
+- task: Search for the nearest bus stop for convenient travel.
+  task_id: maps.me_7
+- task: Organize a city scavenger hunt by placing custom pin locations for participants to find in San Francisco.
+  task_id: maps.me_8
+- task: Use MAPS.ME to create a travel plan with multiple activity locations around San Francisco.
+  task_id: maps.me_9
+- task: Find a nearby cafe and add it to your collection.
+  task_id: maps.me_10
+- task: Mark and save the location of your favorite beach in San Francisco.
+  task_id: maps.me_11
+- task: Bookmark various points of interest for a future vacation.
+  task_id: maps.me_12
+- task: Compare the straight-line distance and the driving distance from your location to the Golden Gate Bridge.
+  task_id: maps.me_13
+- task: Plan a scenic drive along the California Pacific Coast Highway.
+  task_id: maps.me_14
+- task: Search for nearby art galleries and bookmark one.
+  task_id: maps.me_15
+- task: Record natural landscapes and landmarks along the way and mark their locations.
+  task_id: maps.me_16
+- task: Find the nearest vegetarian restaurant and tell me how far it is.
+  task_id: maps.me_17
+- task: Plan a multi-day backpacking trip through a nearby national park, ensuring to mark all water sources and campsites.
+  task_id: maps.me_18
+- task: Create a list of top-rated hostels, filtering them by price and proximity to tourist attractions.
+  task_id: maps.me_19
+- task: Locate the nearest public parks and create an urban nature walk route connecting them.
+  task_id: maps.me_20
+- task: Search for the nearest Luckin Coffee and bookmark the location.
+  task_id: maps.me_21
+- task: Plan a scenic driving route, identifying viewpoints and landmarks along the chosen route.
+  task_id: maps.me_22
+- task: Find a dog-friendly park within walking distance and bookmark it for future visits.
+  task_id: maps.me_23
+- task: Organize a historic buildings scavenger hunt, marking each building as a separate waypoint.
+  task_id: maps.me_24
+- task: Search for nearby bars, select one you like, and mark it.
+  task_id: maps.me_25
+- task: Locate public transportation stops and build an itinerary for a day trip.
+  task_id: maps.me_26
+- task: Use MAPS.ME to set up a waterside hiking trail at Lands End.
+  task_id: maps.me_27
+- task: Find the straight-line distance between Alamo Square and your current location and compare it with the driving distance.
+  task_id: maps.me_28
+- task: Plan a scenic bicycle route through the city, avoiding major roads.
+  task_id: maps.me_29
+- task: Create a walking tour of museums in San Francisco, including the SFMOMA and the de Young Museum.
+  task_id: maps.me_30
+- task: Bookmark your nearest restaurant for easy access later.
+  task_id: maps.me_31
+- task: Plan a multi-stop errand run by inputting all locations and optimizing the route.
+  task_id: maps.me_32
+- task: Explore street art in the Mission District and save the murals you find.
+  task_id: maps.me_33
+- task: Identify and save the nearest public restrooms.
+  task_id: maps.me_34
+- task: Bookmark the Golden Gate Park for future reference.
+  task_id: maps.me_35
+- task: Set up a walking tour of Chinatown, including stops at the Dragon Gate and Chinese Historical Society.
+  task_id: maps.me_36
+- task: Find the quickest pedestrian route to your nearest library, avoiding major road crossings.
+  task_id: maps.me_37
+- task: Mark and save the location of a popular tourist attraction, such as Alcatraz Island.
+  task_id: maps.me_38
+- task: Locate the nearest hospital and bookmark it for emergencies.
+  task_id: maps.me_39
+- task: Plan a scenic drive through Napa Valley, including stops at vineyards and viewpoints.
+  task_id: maps.me_40
+- task: Find the nearest hotel that accommodates two adults and one child.
+  task_id: maps.me_41
+- task: Create a scenic cycling route through Golden Gate Park, marking points of interest along the way.
+  task_id: maps.me_42
+- task: Bookmark three family-friendly attractions in the city, such as the Exploratorium and the California Academy of Sciences.
+  task_id: maps.me_43
+- task: Search for the nearest vegetarian restaurant and tell me how far it is.
+  task_id: maps.me_44
+- task: Use MAPS.ME to mark the location of the nearest grocery store.
+  task_id: maps.me_45
+- task: Create a personalized food tour by bookmarking two nearby restaurants.
+  task_id: maps.me_46
+- task: Find the best viewpoints for sunset watching in San Francisco and plan a romantic evening route.
+  task_id: maps.me_47
+- task: Mark and save the location of your favorite coffee shop for future visits.
+  task_id: maps.me_48
+- task: Create an emergency services map with hospitals, clinics, and pharmacies marked, focusing on 24-hour services.
+  task_id: maps.me_49
+- task: Find the nearest bakery and add it to your "Delicious" favorites.
+  task_id: maps.me_50
+- task: Plan a beach-hopping day along the coastline, including the best swimming spots and beach cafes.
+  task_id: maps.me_51
+- task: Find and mark the nearest gas station for future reference.
+  task_id: maps.me_52
+- task: Set up a route for a day trip around the city, visiting three famous landmarks.
+  task_id: maps.me_53
+- task: Bookmark your home and work addresses for quick and easy directions on daily commutes.
+  task_id: maps.me_54
+- task: Locate and bookmark nearby hostels, comparing their ratings and amenities.
+  task_id: maps.me_55
+- task: Bookmark all the parks in your area for future outings.
+  task_id: maps.me_56
+- task: Plan a cycling route through quiet streets, avoiding major roads.
+  task_id: maps.me_57
+- task: Mark the nearest bus stop and see how long it takes to walk there.
+  task_id: maps.me_58
+- task: Bookmark the nearest bar for future visits.
+  task_id: maps.me_59
+- task: Organize a cycling challenge that includes elevation gains and tracks the route over hills.
+  task_id: maps.me_60
+- task: Find and mark all the historical landmarks within a 10-kilometer radius.
+  task_id: maps.me_61
+- task: Plan a scenic road trip along the California coast, marking must-see viewpoints.
+  task_id: maps.me_62
+- task: Use MAPS.ME to create a custom walking tour of historical sites in the city.
+  task_id: maps.me_63
+- task: Locate the nearest vegan restaurant and save it for a future visit.
+  task_id: maps.me_64
+- task: Plan a multi-day hiking trip, marking rest stops and water sources along the trail.
+  task_id: maps.me_65
+- task: Find the nearest park and bookmark it for future visits.
+  task_id: maps.me_66
+- task: Use MAPS.ME to create a scenic driving route through the city, identifying points of interest along the way.
+  task_id: maps.me_67
+- task: Bookmark a series of local restaurants to create a personal food tour.
+  task_id: maps.me_68
+- task: Mark all nearby hospitals and create an emergency route from your current location.
+  task_id: maps.me_69
+- task: Plan a jogging route with minimal traffic crossings and pleasant scenery.
+  task_id: maps.me_70
+- task: Bookmark the nearest fast food stores for quick future reference.
+  task_id: maps.me_71
+- task: Organize a charity run through Golden Gate Park, marking water stations and checkpoints along the route.
+  task_id: maps.me_72
+- task: Plan a road trip to Yosemite National Park, including scenic stops and rest areas along the way.
+  task_id: maps.me_73
+- task: Mark the nearest ATM within a 10-kilometer radius for easy access.
+  task_id: maps.me_74
+- task: Create a custom walking tour of the city's hidden gems, including non-touristy spots recommended by locals.
+  task_id: maps.me_75
+- task: Plan a scenic cycling route along the Embarcadero, stopping at the Ferry Building for a break.
+  task_id: maps.me_76
+- task: Bookmark the location of your favorite beach in San Francisco for future visits.
+  task_id: maps.me_77
+- task: Plan a hiking route in Muir Woods, marking rest stops and points of interest along the way.
+  task_id: maps.me_78
+- task: Find and bookmark the nearest public restroom.
+  task_id: maps.me_79
+- task: Locate all the museums in your city and mark them for future reference.
+  task_id: maps.me_80
+- task: Bookmark a nearby cafe that you visit frequently.
+  task_id: maps.me_81
+- task: Plan a scenic drive through the city, identifying the best viewpoints for photography.
+  task_id: maps.me_82
+- task: Mark all the public art installations, such as murals and sculptures, that you can visit on foot.
+  task_id: maps.me_83
+- task: Plan a walking tour of the city's historical landmarks, including descriptions and photos for each location.
+  task_id: maps.me_84
+- task: Create a hiking trail route in a nearby national park, adding waypoints from your starting point to your destination.
+  task_id: maps.me_85
+- task: Find and mark all vegan restaurants within a 5-mile radius of your location.
+  task_id: maps.me_86
+- task: Set up a treasure hunt for your friends by hiding clues in different locations and mapping them out.
+  task_id: maps.me_87
+- task: Mark the nearest public transportation stop for future use.
+  task_id: maps.me_88
+- task: Create a custom list of favorite locations in the city.
+  task_id: maps.me_89
+- task: Find and bookmark the nearest coffee shop for your next weekend outing.
+  task_id: maps.me_90
+- task: Create an urban nature walk route connecting all the major parks in your area.
+  task_id: maps.me_91
+- task: Plan a scenic driving route from San Francisco to Los Angeles, highlighting must-see attractions along the way.
+  task_id: maps.me_92
+- task: Organize a food tour, marking two nearby restaurants for your next culinary adventure.
+  task_id: maps.me_93
+- task: Bookmark a series of scenic viewpoints for sunset watching in the city.
+  task_id: maps.me_94
+- task: Mark and save the location of your favorite restaurant for quick future visits.
+  task_id: maps.me_95
+- task: Set up a walking tour itinerary of San Francisco's famous sites, complete with estimated times.
+  task_id: maps.me_96
+- task: Plan a bike tour around the city, marking each point of interest you want to visit along the way.
+  task_id: maps.me_97
+- task: Locate and bookmark the nearest public restrooms for easy access during your outings.
+  task_id: maps.me_98
+- task: Plan a cycling route that avoids main roads and prefers bike paths and quiet streets.
+  task_id: maps.me_99
+- task: Bookmark the closest pet-friendly park for future visits with your dog.
+  task_id: maps.me_100
+- task: Search for and mark the nearest gas station for your next road trip.
+  task_id: maps.me_101
+- task: Organize a city scavenger hunt, placing custom pin locations for participants to find.
+  task_id: maps.me_102
+- task: Plan a multi-day hiking trip through a nearby national park, marking campsites and points of interest.
+  task_id: maps.me_103
+- task: Mark and save the location of your favorite coffee shop in the city.
+  task_id: maps.me_104
+- task: Find and mark the nearest grocery store for future reference.
+  task_id: maps.me_105
+- task: Create a scenic driving route through the Napa Valley, including stops at vineyards and scenic viewpoints.
+  task_id: maps.me_106
+- task: Bookmark the nearest vegetarian restaurant for your next meal.
+  task_id: maps.me_107
+- task: Create a personalized walking tour of the city's historical sites, complete with descriptions for each landmark.
+  task_id: maps.me_108
+- task_id: maps.me_108
+  task: Check the walking distance and time between Bus Stop of Palo Alto Transit Center and Bus Stop of El Camino Real & Embarcadero Road.
+- task_id: maps.me_109
+  task: Check the driving distance and time between Bus Stop of California Avenue and Bus Stop of Quarry Road & Arboretum Road.
+- task_id: maps.me_110
+  task: Check the riding time between Bus Stop of Stanford Shopping Center and Bus Stop of Palo Alto Medical Foundation.
+- task_id: maps.me_111
+  task: Check the route by public transportation between Bus Stop of University Avenue and Bus Stop of Mountain View Station.
+- task_id: maps.me_112
+  task: Compare which takes less time to travel between Bus Stop of Stanford Shopping Center and Bus Stop of Palo Alto Transit Center, by riding or by public transportation?
+- task_id: maps.me_113
+  task: Compare which takes less time to travel between Bus Stop of Mountain View Station and Bus Stop of California Avenue, by walking or by public transportation?
+- task_id: maps.me_114
+  task: Check the nearest gas station and tell me what is it.
+- task_id: maps.me_115
+  task: Check the nearest gas station, and tell me the time it will take to drive to the gas station.
+- task_id: maps.me_116
+  task: Check the nearest coffee shop and tell me its name.
+- task_id: maps.me_117
+  task: Check the nearest coffee shop, and tell me how long it will take to walk there.
+- task_id: maps.me_118
+  task: Check the nearest hotel, and tell me its name.
+- task_id: maps.me_119
+  task: Check the nearest Whole Foods Market, and tell me how long it will take to drive there.
+- task_id: maps.me_120
+  task: Add the address of Googleplex to my Work place.
+- task_id: maps.me_121
+  task: Navigate from my location to the Golden Gate Bridge.
+- task_id: maps.me_122
+  task: Navigate from my location to Fisherman's Wharf.
+- task_id: maps.me_123
+  task: Navigate from my location to the Salesforce Tower.
+- task_id: maps.me_124
+  task: Navigate from my location to Stanford University.
+- task_id: maps.me_125
+  task: Compare the time it takes to travel from Palo Alto Transit Center to SFO Airport by car versus by public transportation.
+- task_id: maps.me_126
+  task: Find the quickest way to reach the nearest dog park.
+- task_id: maps.me_127
+  task: Check the best route to drive from Golden Gate Park to the Ferry Building.
+- task_id: maps.me_128
+  task: Find the closest park, and tell me how long it will take to walk there.
+- task_id: maps.me_129
+  task: Compare the time it takes to bike versus take public transportation from the Mission District to the Financial District.
+- task_id: maps.me_130
+  task: Check the nearest Trader Joe’s, and tell me how long it will take to drive there.
+- task_id: maps.me_131
+  task: Find the fastest driving route from my location to Twin Peaks.
+- task_id: maps.me_132
+  task: Compare walking time from my location to the nearest grocery store versus the nearest pharmacy.
+- task_id: maps.me_133
+  task: Check the nearest bike rental shop, and tell me its name.
+- task_id: maps.me_134
+  task: Find the quickest route from the Ferry Building to Oracle Park.
+- task_id: maps.me_135
+  task: Check the nearest vegan restaurant, and tell me how long it will take to walk there.
+- task_id: maps.me_136
+  task: Find the best route to take public transportation from Civic Center to Golden Gate Park.
+- task_id: maps.me_137
+  task: Check the nearest hospital, and tell me its name.
+- task_id: maps.me_138
+  task: Compare the time it takes to drive versus bike from the Marina District to the Presidio.
+- task_id: maps.me_139
+  task: Check the nearest bookstore, and tell me how long it will take to walk there.
+- task_id: maps.me_140
+  task: Compare the driving time from the Sunset District to downtown San Francisco during rush hour versus non-rush hour.
+- task_id: maps.me_141
+  task: Check the nearest post office, and tell me its name.
+- task_id: maps.me_142
+  task: Find the best route to drive from my location to Coit Tower.
+- task_id: maps.me_143
+  task: Check the nearest sushi restaurant, and tell me how long it will take to walk there.
+- task_id: maps.me_144
+  task: Compare walking time from my location to the nearest gym versus the nearest park.
+- task_id: maps.me_145
+  task: Check the nearest theater, and tell me its name.
+- task_id: maps.me_146
+  task: Find the quickest public transportation route from Union Square to Haight-Ashbury.
+- task_id: maps.me_147
+  task: Check the nearest ATM, and tell me its location.
+- task_id: maps.me_148
+  task: Find the best walking route from Chinatown to North Beach.
+- task_id: maps.me_149
+  task: Compare the biking time from Mission Bay to the Ferry Building versus taking public transportation.
+- task_id: maps.me_150
+  task: Check the nearest pharmacy, and tell me its name.
+- task_id: maps.me_151
+  task: Find the quickest route to the nearest beach from my location.
+- task_id: maps.me_152
+  task: Compare the driving time from my location to the Golden Gate Bridge during rush hour versus non-rush hour.
+- task_id: maps.me_153
+  task: Check the nearest gas station, and tell me how long it will take to walk there.
+- task_id: maps.me_154
+  task: Find the quickest route to drive from the Financial District to Pier 39.
+- task_id: maps.me_155
+  task: Check the nearest hotel, and tell me how long it will take to walk there.
+- task_id: maps.me_156
+  task: Compare the time it takes to travel from the Castro to the Mission District by bike versus public transportation.
+- task_id: maps.me_157
+  task: Check the nearest gym, and tell me its name.

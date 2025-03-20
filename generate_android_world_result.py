@@ -1,31 +1,46 @@
 import pandas as pd
-import jsonlines
 import os
 
 base_folder = "/raid/xuyifan/Android-Lab-main/logs/android_world"
 files = os.listdir(base_folder)
+
+# 存储所有模型的结果
+all_results = []
+
 for file in files:
     model_name = file
-    if "sample" in model_name:
+    result_path = os.path.join(base_folder, file, "results.xlsx")
+
+    if not os.path.exists(result_path):
         continue
-    if not os.path.exists(os.path.join(base_folder, file, "results.xlsx")):
-        continue
-    print(file)
-    result_df = pd.read_excel(os.path.join(base_folder, file, "results.xlsx"))
-    # 计算 num_complete_trials 的和与平均值
+
+    print(f"Processing: {model_name}")
+    result_df = pd.read_excel(result_path)
+
+    # 计算指标
     sum_num_complete_trials = result_df["num_complete_trials"].sum()
-    real_success_rate = result_df["mean_success_rate"].sum()/116
+    real_success_rate = result_df["mean_success_rate"].sum() / 116
     mean_complete_success_rate = result_df["mean_success_rate"].mean()
 
-    # 创建结果 DataFrame
-    result_df = pd.DataFrame({
-        "Metric": ["Sum_num_complete_trials", "Real_success_rate", "Mean_complete_success_rate"],
-        "Value": [sum_num_complete_trials, real_success_rate, mean_complete_success_rate]
-    })
+    # 记录结果
+    all_results.append([
+        model_name,
+        sum_num_complete_trials,
+        real_success_rate,
+        mean_complete_success_rate
+    ])
 
-    # 输出结果
-    print(result_df)
+# 转换为 DataFrame 并排序
+summary_df = pd.DataFrame(
+    all_results,
+    columns=["Model", "Sum_num_complete_trials", "Real_success_rate", "Mean_complete_success_rate"]
+)
+summary_df = summary_df.sort_values(by="Real_success_rate", ascending=False)
 
+# 打印结果
+print(summary_df.to_string(index=False))
 
-
-    
+# 如果需要保存结果
+output_path = os.path.join(base_folder, "model_performance_summary.xlsx")
+summary_df.to_excel(output_path, index=False)
+print(f"Results saved to {output_path}")

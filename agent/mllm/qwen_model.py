@@ -176,3 +176,54 @@ class QwenVLAgent(Agent):
         }
         return message
     
+class Qwen2VLAgent_reward(Agent):
+    def __init__(
+        self,
+        model_name: str = "",
+        url: str = "",  
+        **kwargs,
+    ) -> None:
+        self.model_name = model_name
+        self.url = url
+
+
+    @backoff.on_exception(
+    backoff.expo, Exception,
+    on_backoff=handle_backoff,
+    on_giveup=handle_giveup,
+    max_tries=10
+    )
+    def act(self, messages: List[Dict[str, Any]]) -> str:
+        headers = {
+            'Content-Type': 'application/json',
+            # 'Host': ''
+        }
+        data = {
+            'model': self.model_name,
+            'messages': messages,
+            'temperature': 0.0,
+        }
+        response = requests.post(self.url, headers=headers, json=data)
+        if response.status_code != 200:
+            print(response.text)
+
+        return response.json()["choices"][0]["message"]["content"]
+
+    def prompt_to_message(self, prompt, images):
+        content = [{
+            "type": "text",
+            "text": prompt
+        }]
+
+        for img in images:
+            content.append({
+                "type": "image_url",
+                "image_url": {
+                    "url": f"{img}",
+                }
+            })
+        message = {
+            "role": "user",
+            "content": content
+        }
+        return message

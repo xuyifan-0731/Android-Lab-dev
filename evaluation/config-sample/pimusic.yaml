@@ -1,0 +1,240 @@
+APP: Pi Music Player
+package: com.Project100Pi.themusicplayer
+tasks:
+- task_id: pimusicplayer_0
+  task: Create a new playlist called "Chill Vibes" and add 5 songs to it.
+  original_id: None
+- task_id: pimusicplayer_1
+  task: Sort all songs by duration in descending order and play the longest track.
+  original_id: pimusicplayer_1
+- task_id: pimusicplayer_2
+  task: Sort the "TRACKS" list by song duration in descending order.
+  original_id: None
+- task_id: pimusicplayer_3
+  task: Find the shortest song in the tracks list and play it.
+  original_id: None
+- task_id: pimusicplayer_4
+  task: Find the shortest song in the tracks list and play it.
+  original_id: None
+- task_id: pimusicplayer_5
+  task: Find the shortest song in the tracks list and play it.
+  original_id: None
+- task_id: pimusicplayer_6
+  task: Open the entire "ALBUMS" list by the artist Adele in alphabetical order of
+    the song titles.
+  original_id: pimusicplayer_6
+- task_id: pimusicplayer_7
+  task: Find the longest song within the "TRACKS" list and add it to the "Pi Favorite"
+    playlist.
+  original_id: None
+- task_id: pimusicplayer_8
+  task: Count the number of tracks in the "Recently Added" playlist and play the first
+    song.
+  original_id: pimusicplayer_8
+- task_id: pimusicplayer_9
+  task: Play all songs from the "ALBUMS" section of the artist with the second largest
+    number of songs.
+  original_id: None
+- task_id: pimusicplayer_10
+  task: Make a playlist called "Chill Vibes" with tracks that are longer than 8 minutes.
+  original_id: None
+- task_id: pimusicplayer_11
+  task: Make a playlist called "Chill Vibes" with tracks that are longer than 8 minutes.
+  original_id: None
+- task_id: pimusicplayer_12
+  task: Navigate to the "Recently Added" playlist and play the last song on the list.
+  original_id: None
+- task_id: pimusicplayer_13
+  task: Display all songs by an artist with the longest name in the "ARTISTS" list.
+  original_id: None
+- task_id: pimusicplayer_14
+  task: Move all songs from the artist "Eason Chen" to a new playlist called "Artist
+    Spotlight".
+  original_id: None
+- task_id: pimusicplayer_15
+  task: Create a playlist called "Workout Jam" and add all songs that shorter than
+    2 minutes to it.
+  original_id: None
+- task_id: pimusicplayer_16
+  task: Sort the TRACKS by duration in descending order and play the longest song.
+  original_id: None
+- task_id: pimusicplayer_17
+  task: Add a song to the "Most Played" playlist and play it.
+  original_id: None
+- task_id: pimusicplayer_18
+  task: Shuffle play all the songs by the artist "Pink Floyd".
+  original_id: None
+- task_id: pimusicplayer_19
+  task: Shuffle play all the songs by the artist "Pink Floyd".
+  original_id: None
+- task_id: pimusicplayer_20
+  task: Shuffle play all the songs by the artist "Pink Floyd".
+  original_id: None
+- task_id: pimusicplayer_21
+  task: Search for any songs that have the word "You" in the title and add them to
+    the "Pi Favourites" playlist.
+  original_id: None
+- task_id: pimusicplayer_22
+  task: Open the page of the album with the most songs and play the first track.
+  original_id: None
+- task_id: pimusicplayer_23
+  task: Find the album with the most songs and shuffle play all tracks from it.
+  original_id: None
+- task_id: pimusicplayer_24
+  task: Find the album with the most songs and shuffle play all tracks from it.
+  original_id: None
+- task_id: pimusicplayer_25
+  task: Add the most recently played song to a new playlist called "Current Favorites".
+  original_id: None
+- task_id: pimusicplayer_26
+  task: Sort my song list by duration in descending order.
+  original_id: pimusicplayer_26
+- task_id: pimusicplayer_27
+  task: Sort my song list by duration in descending order.
+  original_id: pimusicplayer_27
+- task_id: pimusicplayer_28
+  task: Sort my song list by duration in descending order.
+  original_id: pimusicplayer_28
+- task_id: pimusicplayer_29
+  task: Find the shortest song by Eason Chen and play it.
+  original_id: pimusicplayer_29
+- task_id: pimusicplayer_30
+  task: Create a playlist of all songs that are longer than 8 minutes called "Long
+    songs".
+  original_id: None
+- task_id: pimusicplayer_31
+  task: Set a sleep timer to stop playing music after 30 minutes.
+  original_id: None
+- task_id: pimusicplayer_32
+  task: Play the first song from the "Recently Played" playlist.
+  original_id: pimusicplayer_32
+- task_id: pimusicplayer_33
+  task: Add all songs by Pink Floyd to the "Pi Favorite" playlist.
+  original_id: None
+- task_id: pimusicplayer_34
+  task: Add all songs by Pink Floyd to the "Pi Favorite" playlist.
+  original_id: None
+- task_id: pimusicplayer_35
+  task: Randomly play a song by Eason Chen from the "ARTISTS" section.
+  original_id: pimusicplayer_35
+- task_id: pimusicplayer_36
+  task: Create a new playlist named "Chill Vibes" and add 5 songs that you like.
+  original_id: pimusicplayer_36
+- task_id: pimusicplayer_37
+  task: Add the recently added song to "Pi Favorite" playlist.
+  original_id: pimusicplayer_37
+- task_id: pimusicplayer_38
+  task: Sort the "TRACKS" list by artist name in ascending order and play the first
+    song on the list.
+  original_id: pimusicplayer_38
+- task_id: pimusicplayer_39
+  task: Play all the songs from the "Recently Played" playlist in shuffle mode.
+  original_id: pimusicplayer_39
+- task_id: pimusicplayer_40
+  task: Determine which album has the highest number of songs and listen to the first
+    song of that album.
+  original_id: pimusicplayer_40
+- task_id: pimusicplayer_41
+  task: Search for any song by "Eason Chen" and arrange his songs by duration in descending
+    order, then play the longest one.
+  original_id: pimusicplayer_41
+- task_id: pimusicplayer_42
+  task: Locate the album with the fewest songs and delete it.
+  original_id: pimusicplayer_42
+- task_id: pimusicplayer_43
+  task: Create a new playlist named "Workout Jams" and add 5 songs to it.
+  original_id: None
+- task_id: pimusicplayer_44
+  task: Make a playlist called "Workout Hits" consisting only of songs longer than
+    8 minutes.
+  original_id: None
+- task_id: pimusicplayer_45
+  task: Add the longest song you found to the "Pi Favorite" playlist.
+  original_id: pimusicplayer_45
+- task_id: pimusicplayer_46
+  task: Shuffle play the "Most Played" playlist.
+  original_id: None
+- task_id: pimusicplayer_47
+  task: Rename the "Workout Jams" playlist to "New Discoveries."
+  original_id: None
+- task_id: pimusicplayer_48
+  task: Rename the "Workout Jams" playlist to "New Discoveries."
+  original_id: None
+- task_id: pimusicplayer_49
+  task: Rename the "Workout Jams" playlist to "New Discoveries."
+  original_id: None
+- task_id: pimusicplayer_50
+  task: Find the album with the most songs and play the first track of that album.
+  original_id: pimusicplayer_50
+- task_id: pimusicplayer_51
+  task: Play the longest track in my collection.
+  original_id: pimusicplayer_51
+- task_id: pimusicplayer_52
+  task: Shuffle play the "Recently Added" playlist.
+  original_id: None
+- task_id: pimusicplayer_53
+  task: Find all songs by Eason Chen and sort them by duration in ascending order.
+  original_id: None
+- task_id: pimusicplayer_54
+  task: Rename the "Chill Vibes" playlist to "Top Hits".
+  original_id: None
+- task_id: pimusicplayer_55
+  task: Play all the songs by Eason Chen in the list.
+  original_id: pimusicplayer_55
+- task_id: pimusicplayer_56
+  task: Play all the songs by Eason Chen in the list.
+  original_id: pimusicplayer_56
+- task_id: pimusicplayer_57
+  task: Play all the songs by Eason Chen in the list.
+  original_id: pimusicplayer_57
+- task_id: pimusicplayer_58
+  task: Set "PINK BLOOD" as the first song in my "Workout Jams" playlist.
+  original_id: None
+- task_id: pimusicplayer_59
+  task: Sort all tracks by duration in descending order and play the top 3.
+  original_id: None
+- task_id: pimusicplayer_60
+  task: Create a playlist called "Workout Songs".
+  original_id: pimusicplayer_60
+- task_id: pimusicplayer_61
+  task: Shuffle play all songs by Eason Chen.
+  original_id: None
+- task_id: pimusicplayer_62
+  task: Play the most recent song I added to my library.
+  original_id: None
+- task_id: pimusicplayer_63
+  task: Find the longest song in the "TRACKS" playlist.
+  original_id: None
+- task_id: pimusicplayer_64
+  task: Go to "ARTISTS" and play all songs by Eason Chen
+  original_id: pimusicplayer_64
+- task_id: pimusicplayer_65
+  task: Play the song in "ALBUMS" starting with the letter 'F'.
+  original_id: None
+- task_id: pimusicplayer_66
+  task: Add all songs from the album "Pulse Live" to the "Chill Vibes" playlist.
+  original_id: None
+- task_id: pimusicplayer_67
+  task: Play the entire "Pi Favorite" playlist on shuffle.
+  original_id: pimusicplayer_67
+- task_id: pimusicplayer_68
+  task: Find the longest track in my collection and play it.
+  original_id: pimusicplayer_68
+- task_id: pimusicplayer_69
+  task: Remove all songs by "Pink Floyd" from the "Recently Played" playlist.
+  original_id: pimusicplayer_69
+- task_id: pimusicplayer_70
+  task: Create a playlist "Mellow Moods" with tracks only by Eason Chen.
+  original_id: pimusicplayer_70
+- task_id: pimusicplayer_71
+  task: Rename the playlist "Road Trip" to "Gym Hits".
+  original_id: None
+- task_id: pimusicplayer_72
+  task: Play the song by "Floruitshow" on repeat.
+  original_id: None
+- task_id: pimusicplayer_73
+  task: Create a playlist named "Workout Hits".
+  original_id: None
+- task_id: pimusicplayer_74
+  task: Add all songs by Eason Chen to the "Workout Hits" playlist.
+  original_id: None

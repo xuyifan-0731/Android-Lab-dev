@@ -64,8 +64,10 @@ class TextOnlyExecutor:
                 if "Action: " in code:
                     code_snippet = code
                     break
-
-        code = remove_leading_zeros_in_string(code_snippet.strip())
+        if "do(action=\"Tap\"" in code_snippet or "do(action=\"Swipe\"" in code_snippet or "do(action=\"Long Press\"" in code_snippet:
+            code = remove_leading_zeros_in_string(code_snippet.strip())
+        else:
+            code = code_snippet.strip()
         exec(code, {}, local_context)
         return self.current_return
 
@@ -239,7 +241,6 @@ class TextOnlyExecutor_v4(TextOnlyExecutor):
         
         local_context = self.__get_class_methods__()
         local_context.update(**{'self': self})
-        print(code_snippet.strip())
         if len(code_snippet.split("\n")) > 1:
             for code in code_snippet.split("\n"):
                 if "Action: " in code:
@@ -247,7 +248,11 @@ class TextOnlyExecutor_v4(TextOnlyExecutor):
                     break
 
         # Add escape characters to nested quotes
-        code = remove_leading_zeros_in_string(code_snippet.strip())
+        if "do(action=\"Tap\"" in code_snippet or "do(action=\"Swipe\"" in code_snippet or "do(action=\"Long Press\"" in code_snippet:
+            code = remove_leading_zeros_in_string(code_snippet.strip())
+        else:
+            code = code_snippet.strip()
+
         if 'message=' in code or 'text=' in code:
             # Find the content between quotes after message= or text=
             pattern = r'(message|text)="(.*?)"\)'
@@ -258,7 +263,6 @@ class TextOnlyExecutor_v4(TextOnlyExecutor):
                 escaped_content = content.replace('"', '\\"')
                 # Replace the original content with the escaped version
                 code = re.sub(r'(message|text)=".*?"\)', f'{match.group(1)}="{escaped_content}")', code)
-                print(code)
 
         exec(code, {}, local_context)
         return self.current_return

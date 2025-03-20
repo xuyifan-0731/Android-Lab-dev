@@ -1,0 +1,28 @@
+APP: clock
+package: com.google.android.deskclock
+tasks:
+- original_id: clock_0
+  task: Set a non-repeating alarm for 7:30 a.m. and name it ‘Morning Exercise’.
+  task_id: clock_0
+- original_id: clock_1
+  task: Set a one-time late night 12:30am alarm labeled “Meteor Shower”.
+  task_id: clock_1
+- original_id: clock_2
+  task: Configure a recurring alarm for weekdays at 7:00 AM to wake up for work.
+  task_id: clock_2
+- original_id: clock_5
+  task: Use the Clock's bedtime feature to schedule a consistent sleep routine by
+    setting a reminder for when to go to bed and when to wake up.
+  task_id: clock_3
+- original_id: clock_6
+  task: Customize the snooze duration of your alarm to better fit your morning habits
+    and ensure you have enough time between snoozes.
+  task_id: clock_4
+- original_id: clock_7
+  task: Schedule a 4 pm alarm which repeat in workdays to remind you to take breaks
+    during your workdays.
+  task_id: clock_5
+- original_id: clock_8
+  task: Create a recurring alarm for every Monday, Wednesday, and Friday at 8 AM labeled
+    "Yoga Sessions."
+  task_id: clock_6
