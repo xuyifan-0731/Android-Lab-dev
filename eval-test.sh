@@ -30,4 +30,7 @@ python eval-androidworld.py -n 0312_launch_3e_awr_subset_5e-7-1e -c /raid/xuyifa
 
 python eval-androidworld.py -n aw_train_sample-0317_from_0312_launch_3e-1e -c /raid/xuyifan/Android-Lab-main/configs/android-world-qwen.yaml -p 15
 
-python eval-androidworld.py -n v26_android_world_250319_text_1history_launch_filter300_aw_train_sample-0317-3e -c /raid/xuyifan/Android-Lab-main/configs/android-world-qwen.yaml -p 15 --parallel_start_num 20 && python eval.py -n  v26_android_world_250319_text_1history_launch_filter300_aw_train_sample-0317-3e -c /raid/xuyifan/Android-Lab-main/configs/qwen25-vl.yaml -p 15 && python generate_result.py  --input_folder /raid/xuyifan/Android-Lab-main/logs/shudan --output_folder /raid/xuyifan/Android-Lab-main/outputs-qw --output_excel /raid/xuyifan/Android-Lab-main/output-qw.xlsx
+python eval-androidworld.py -n v26_android_world_250319_1history_launch_filter300_aw_train_sample-0317-3e -c /raid/xuyifan/Android-Lab-main/configs/android-world-qwen.yaml -p 10 --parallel_start_num 20 && python eval.py -n  v26_android_world_250319_text_1history_launch_filter300_aw_train_sample-0317-3e -c /raid/xuyifan/Android-Lab-main/configs/qwen25-vl.yaml -p 10 && python generate_result.py  --input_folder /raid/xuyifan/Android-Lab-main/logs/shudan --output_folder /raid/xuyifan/Android-Lab-main/outputs-qw --output_excel /raid/xuyifan/Android-Lab-main/output-qw.xlsx
+
+
+python eval-androidworld.py -n v26_android_world_250319_1history_launch_filter300_aw_train_sample-0317-3e -c /raid/xuyifan/Android-Lab-main/configs/android-world-qwen.yaml -p 10 --parallel_start_num 20

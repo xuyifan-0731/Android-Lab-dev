@@ -156,7 +156,7 @@ class Instance_AndroidWorld_test(Instance_AndroidWorld):
         idx_num = int(self.idx)
         self.device_port = device_start_port + idx_num * 4
         self.grpc_port = grpc_start_port + idx_num * 4
-        self.task_count_unclosed = 0
+        #self.task_count_unclosed = 0
         
         self.initialize_worker()
 
@@ -171,11 +171,11 @@ class Instance_AndroidWorld_test(Instance_AndroidWorld):
             device = get_adb_device_name(avd_name)
         except:
             pass
-        if device is None or self.task_count_unclosed > 5:
-            if self.task_count_unclosed > 5 and device is not None:
-                self.task_count_unclosed == 0
-                self.stop_emulator()
-
+        #if device is None or self.task_count_unclosed > 5:
+            #if self.task_count_unclosed > 5 and device is not None:
+                #self.task_count_unclosed == 0
+                #self.stop_emulator()
+        if device is None:
             emulator_process = subprocess.Popen(
                 [
                     "emulator",
@@ -204,7 +204,7 @@ class Instance_AndroidWorld_test(Instance_AndroidWorld):
                     break
             self.emulator_process = emulator_process
         else:
-            self.task_count_unclosed += 1
+            #self.task_count_unclosed += 1
             print_with_color(f"Emulator {avd_name} already started", "blue")
         # TODO: fix open emulator bug here
 

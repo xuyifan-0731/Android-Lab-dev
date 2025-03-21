@@ -63,13 +63,15 @@ if __name__ == '__main__':
         suite = initialize_android_world_suite(n_task_combinations = args.n_task_combinations, seed = None, task_template = args.task_id)
     else:
         suite = initialize_android_world_suite(n_task_combinations = args.n_task_combinations, seed = 30, task_template = args.task_id)
-    suite_list = split_dict(suite, 1)
-
+    
+    num_delete = 0
     for key in already_run:
         if key in suite:
             del suite[key]
+            num_delete += 1
             print(f"Task {key} already run, skipping")
-
+    print(f"Num of tasks already run: {num_delete}")
+    suite_list = split_dict(suite, 1)
     class_ = globals().get(autotask_class)
     if class_ is None:
         raise AttributeError(f"Class {autotask_class} not found. Please check the class name in the config file.")
