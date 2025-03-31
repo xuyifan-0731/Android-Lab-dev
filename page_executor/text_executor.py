@@ -194,7 +194,8 @@ class TextOnlyExecutor:
     def type(self, **kwargs):
         assert "text" in kwargs, "text is required for type"
         instruction = kwargs.get("text")
-        self.controller.text(instruction)
+        clear = kwargs.get("clear")
+        self.controller.text(instruction, clear)
         self.controller.enter()
         self.current_return = {"operation": "do", "action": 'Type',
                                "kwargs": {"text": instruction}}
@@ -263,11 +264,14 @@ class TextOnlyExecutor_v4(TextOnlyExecutor):
                 escaped_content = content.replace('"', '\\"')
                 # Replace the original content with the escaped version
                 code = re.sub(r'(message|text)=".*?"\)', f'{match.group(1)}="{escaped_content}")', code)
-
+        if "\n" in code:
+            code = code.replace("\n", "\\n")
         exec(code, {}, local_context)
         return self.current_return
         
     def modify_relative_bbox(self, relative_bbox):
+        if any([bound > 999 for bound in relative_bbox]):
+            return relative_bbox
         viewport_width, viewport_height = self.controller.viewport_size
         modify_x1 = relative_bbox[0] * viewport_width / 999
         modify_y1 = relative_bbox[1] * viewport_height / 999
@@ -277,7 +281,7 @@ class TextOnlyExecutor_v4(TextOnlyExecutor):
     
     def do(self, action=None, element=None, **kwargs):
         assert action in ["Tap", "Type", "Swipe", "Enter", "Home", "Back", "Long Press", "Wait", "Launch",
-                          "Call_API", "Press Back"], "Unsupported Action"
+                          "Call_API"], "Unsupported Action"
         if element is not None:
             predict_element = element
             element = self.modify_relative_bbox(element)
@@ -469,7 +473,8 @@ class TextOnlyExecutor_android_world(TextOnlyExecutor_v4):
     def type(self, **kwargs):
         assert "text" in kwargs, "text is required for type"
         instruction = kwargs.get("text")
-        self.controller.text_android_world(instruction)
+        clear = kwargs.get("clear")
+        self.controller.text_android_world(instruction, clear)
         self.current_return = {"operation": "do", "action": 'Type',
                                "kwargs": {"text": instruction}}
 

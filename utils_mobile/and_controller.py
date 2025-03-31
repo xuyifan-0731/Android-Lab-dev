@@ -186,21 +186,24 @@ class AndroidController:
         ret = self.execute_adb(adb_command, self.type)
         return ret
 
-    def text(self, input_str):
+    def text(self, input_str, clear=False):
         # adb_command = f'adb -s {self.device} input keyevent KEYCODE_MOVE_END'
         # ret = self.execute_adb(adb_command, self.type)
-        adb_command = f'adb -s {self.device} shell input keyevent --press $(for i in {{1..100}}; do echo -n "67 "; done)'
-        ret = self.execute_adb(adb_command, self.type)
+        if clear:
+            adb_command = f'adb -s {self.device} shell input keyevent --press $(for i in {{1..100}}; do echo -n "67 "; done)'
+            ret = self.execute_adb(adb_command, self.type)
         chars = input_str
         charsb64 = str(base64.b64encode(chars.encode('utf-8')))[1:]
         adb_command = f"adb -s {self.device} shell am broadcast -a ADB_INPUT_B64 --es msg {charsb64}"
         ret = self.execute_adb(adb_command, self.type)
         return ret
 
-    def text_android_world(self, input_str):
+    def text_android_world(self, input_str, clear=False):
         # adb_command = f'adb -s {self.device} shell input keyevent --press $(for i in {{1..100}}; do echo -n "67 "; done)'
         # ret = self.execute_adb(adb_command, self.type)
-        print("text_android_world: no backspace")
+        if clear:
+            adb_command = f'adb -s {self.device} shell input keyevent --press $(for i in {{1..100}}; do echo -n "67 "; done)'
+            ret = self.execute_adb(adb_command, self.type)
         chars = input_str
         charsb64 = str(base64.b64encode(chars.encode('utf-8')))[1:]
         adb_command = f"adb -s {self.device} shell am broadcast -a ADB_INPUT_B64 --es msg {charsb64}"

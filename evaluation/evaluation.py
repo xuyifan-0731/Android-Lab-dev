@@ -65,6 +65,14 @@ class Multi_ScreenshotTask(AutoTask):
             # format current message
             prompt = "** XML **"
             xml = self.record.get_latest_xml(self.controller)
+            edittext_empty = True
+            for line in xml.split('\n'):
+                if 'EditText' in line:
+                    text = line.split(';')[-2]
+                    if text != "":
+                        edittext_empty = False
+                        break
+
             image_path = self.record.contents[-1]['image']
             if self.record.get_current_activity() not in package_dict_en:
                 print_with_color(f"Current activity: {self.record.get_current_activity()} not in package_dict_en, task dir {self.record.xml_file_path}", "red")
@@ -86,12 +94,18 @@ class Multi_ScreenshotTask(AutoTask):
             else:
                 rsp = self.agent.act([*self.record.history, current_message]) 
                 format_prompt = self.agent.format_prompt([*self.record.history, current_message])
+        except Exception as e:
+            print_with_color(f"Error: {e}", "red")
+            traceback.print_exc()
+
+        try:
             print("rsp: ", rsp)
-            if 'claude' in self.agent.model_name:
-                # rsp = rsp.split('\n')[-1]
-                exe_res = self.page_executor(get_code_snippet(rsp.split('\n')[-1]))
-            else:
-                exe_res = self.page_executor(get_code_snippet(rsp))
+            code_snippet = get_code_snippet(rsp) if 'claude' not in self.agent.model_name else get_code_snippet(rsp.replace('\\n', '<|newline|>').split('\n')[-1].replace('<|newline|>', '\\n'))
+            if 'action="Type"' in code_snippet and not edittext_empty:
+                code_snippet = code_snippet[:-1] + ", clear=True)"
+
+            exe_res = self.page_executor(code_snippet)
+            
             print("exe_res: ", exe_res)
             self.record.update_after(exe_res, rsp, format_prompt)
             self.record.turn_number += 1
