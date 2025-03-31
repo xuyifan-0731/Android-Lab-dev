@@ -143,7 +143,7 @@ def print_android_world_results(path = None, all_results = None):
 
 class Instance_AndroidWorld_test(Instance_AndroidWorld):
     def __init__(self, config, idx = 0, start_idx = 0):
-        self.idx = str(idx+start_idx)
+        self.idx = str(idx+start_idx)+str(time.time())  
         self.type = "cmd"
         self.config = config
         self.container_id = None
@@ -153,7 +153,7 @@ class Instance_AndroidWorld_test(Instance_AndroidWorld):
         self.tar_ini_file = None
         device_start_port = self.config.device_start_port
         grpc_start_port = self.config.grpc_start_port
-        idx_num = int(self.idx)
+        idx_num = idx+start_idx
         self.device_port = device_start_port + idx_num * 4
         self.grpc_port = grpc_start_port + idx_num * 4
         #self.task_count_unclosed = 0
@@ -176,6 +176,7 @@ class Instance_AndroidWorld_test(Instance_AndroidWorld):
                 #self.task_count_unclosed == 0
                 #self.stop_emulator()
         if device is None:
+            env = os.environ.copy()
             emulator_process = subprocess.Popen(
                 [
                     "emulator",
@@ -187,7 +188,8 @@ class Instance_AndroidWorld_test(Instance_AndroidWorld):
                     "-port", str(self.device_port)  # 替换为你要指定的端口
                 ],
                 stdout=out_file,
-                stderr=subprocess.STDOUT
+                stderr=subprocess.STDOUT,
+                env=env 
             )
             print_with_color(f"Waiting for the emulator to start...", "blue")
             limit_time = time.time() + 120
@@ -338,12 +340,16 @@ class AndroidLabAgent(base_agent.EnvironmentInteractingAgent):
         state = markor_fix(state, self.env, self.get_post_transition_state)
 
     self.autotest_agent.run_step()
-
-    latest_action = self.autotest_agent.record.get_latest_parsed_action()
-    if latest_action.get("operation") == 'finish':
-        finish_message = latest_action.get("kwargs",{}).get("message", None)
-        android_world_answer(state, self.env, finish_message)
-
+    try:
+        latest_action = self.autotest_agent.record.get_latest_parsed_action()
+        if latest_action.get("operation") == 'finish':
+            finish_message = latest_action.get("kwargs",{}).get("message", None)
+            android_world_answer(state, self.env, finish_message)
+    except:
+        import traceback
+        traceback.print_exc()
+        done = True
+        #import pdb; pdb.set_trace()
     
     
     step_data = {

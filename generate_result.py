@@ -77,9 +77,9 @@ def evaluate_input_dir(input_dir, task_yamls, create_time, args):
     for app_task_config_path in task_files:
         app_config = AppConfig(app_task_config_path, output_dir=output_root_dir)
         app_task = Evaluation_Task(app_config, traces, args, detail=True)
-        #print(f"    Evaluation_Task '{app_task.name}' loaded from config {app_task_config_path}")
+        print(f"    Evaluation_Task '{app_task.name}' loaded from config {app_task_config_path}")
         tasks.append(app_task)
-    #print(f"> Successfully load {len(tasks)} task{'s' if len(tasks) > 1 else ''}")
+    print(f"> Successfully load {len(tasks)} task{'s' if len(tasks) > 1 else ''}")
     evaluate_all_tasks(tasks)
 
 

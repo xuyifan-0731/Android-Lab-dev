@@ -118,10 +118,11 @@ class Evaluation_Task(Generic[T_INPUT, T_OUTPUT, T_TARGET]):
 
             num_repeat = 0
             last_action = None
-
             with jsonlines.open(self.traces[task_id]['trace_file']) as reader:
                 trace_root = self.traces[task_id]['trace_root']
                 for line in reader:
+                    if "parsed_action" not in line:
+                        continue
                     current_action = json.dumps(line["parsed_action"])
                     if current_action == last_action:
                         num_repeat += 1
@@ -156,10 +157,6 @@ class Evaluation_Task(Generic[T_INPUT, T_OUTPUT, T_TARGET]):
                             final_result = result
                     except:
                         result = {"complete": False}
-                        import traceback
-                        #traceback.print_exc()
-                        #print(f"Error in judging {task_id} at line {line}")
-
             if self.show_detail_metrics:
                 self.add_metrics(task, all_operation_trace, all_images, final_result)
 

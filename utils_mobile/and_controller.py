@@ -198,6 +198,9 @@ class AndroidController:
         return ret
 
     def text_android_world(self, input_str):
+        # adb_command = f'adb -s {self.device} shell input keyevent --press $(for i in {{1..100}}; do echo -n "67 "; done)'
+        # ret = self.execute_adb(adb_command, self.type)
+        print("text_android_world: no backspace")
         chars = input_str
         charsb64 = str(base64.b64encode(chars.encode('utf-8')))[1:]
         adb_command = f"adb -s {self.device} shell am broadcast -a ADB_INPUT_B64 --es msg {charsb64}"
@@ -231,9 +234,9 @@ class AndroidController:
         elif direction == "down":
             offset = 0, 2 * unit_dist
         elif direction == "left":
-            offset = -1 * unit_dist, 0
+            offset = -1 * unit_dist * 2.5, 0
         elif direction == "right":
-            offset = unit_dist, 0
+            offset = unit_dist * 2.5, 0
         else:
             return "ERROR"
         duration = 100 if quick else 400
@@ -244,7 +247,7 @@ class AndroidController:
     def swipe_precise(self, start, end, duration=400):
         start_x, start_y = start
         end_x, end_y = end
-        adb_command = f"adb -s {self.device} shell input swipe {start_x} {start_x} {end_x} {end_y} {duration}"
+        adb_command = f"adb -s {self.device} shell input swipe {start_x} {start_y} {end_x} {end_y} {duration}"
         ret = self.execute_adb(adb_command, self.type)
         return ret
 

@@ -25,6 +25,9 @@ for file in files:
         with jsonlines.open(result_path) as reader:
             for line in reader:
                 score = line["is_successful"]
+                #if "exception_info" in line and line["exception_info"] is not None:
+                #    print(taskname)
+                #    print(line["exception_info"])
         if np.isnan(score):
             continue
         
@@ -72,7 +75,6 @@ for result in all_results:
     how='left')
 
 # 将结果保存到新的Excel文件，转置存储
-df = df.T
 df.to_excel("/raid/xuyifan/Android-Lab-main/logs/android_world/android_world_results_with_models.xlsx")
 
 

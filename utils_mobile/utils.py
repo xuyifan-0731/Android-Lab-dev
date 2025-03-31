@@ -20,7 +20,7 @@ from zhipuai import ZhipuAI
 from utils_mobile.xml_tool_v1 import UIXMLTree
 
 
-def get_compressed_xml(xml_path, type="json"):
+def get_compressed_xml(xml_path, type="json", version=""):
     xml_parser = UIXMLTree()
     with open(xml_path, 'r', encoding='utf-8') as f:
         xml_str = f.read()

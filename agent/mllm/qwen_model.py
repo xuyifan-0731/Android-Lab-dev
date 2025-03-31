@@ -4,6 +4,7 @@ import dashscope
 
 from agent.model import *
 import json
+from templates.text_only_mobile import android_world_system_prompt
 
 
 class QwenAgent(OpenAIAgent):
@@ -175,6 +176,57 @@ class QwenVLAgent(Agent):
             "content": content
         }
         return message
+
+class QwenVLAgent_no_text(QwenVLAgent):
+    def prompt_to_message(self, prompt: str, images: List[str], xml: str=None, current_app: str=None) -> Dict[str, Any]:
+        base_text = prompt + f"\n\n{json.dumps({'current_app': current_app}, ensure_ascii=False)}"
+        final_text = base_text + (f"\n{clean_tree_structure(xml)}" if xml is not None else "")
+        #final_text = base_text + (f"\n{xml}" if xml is not None else "")
+        content = [
+            {
+                "type": "text",
+                "text": final_text
+            }
+        ]
+        
+        for img in images:
+            base64_img = image_to_base64(img)
+            content.append({
+                "type": "image_url",
+                "image_url": {
+                    "url": f"data:image/jpeg;base64,{base64_img}"
+                }
+            })
+        message = {
+            "role": "user",
+            "content": content
+        }
+        return message
+
+class Qwen2VLAgent_sys(QwenVLAgent):
+    def format_messages(self, messages: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        messages = copy.deepcopy(messages)
+        if messages[0]["role"] == "system":
+            instruction = messages[0]["content"]
+            messages = messages[1:]
+            if isinstance(messages[0]["content"], str):
+                messages[0]["content"] = messages[0]["content"].replace("** XML **", instruction)
+            else:
+                messages[0]["content"][0]["text"] = messages[0]["content"][0]["text"].replace("** XML **", instruction)
+            
+        for i, message in enumerate(messages):
+            if 'current_app' in message:
+                current_app = message.pop("current_app")
+            
+            if isinstance(message["content"], str):
+                message["content"] = message["content"].replace("** XML **", "** Screen Info **")
+                if message["role"] == "assistant" and isinstance(messages[i-1]["content"], str):
+                    messages[i-1]["content"] += f"\n\n{json.dumps({'current_app': current_app}, ensure_ascii=False)}"
+            else:
+                message["content"][0]["text"] = message["content"][0]["text"].replace("** XML **", "** Screen Info **")
+        new_messages = [{"role": "system", "content": android_world_system_prompt}] + messages
+        return new_messages
+
     
 class Qwen2VLAgent_reward(Agent):
     def __init__(

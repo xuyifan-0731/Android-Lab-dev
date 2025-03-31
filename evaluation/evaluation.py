@@ -86,21 +86,18 @@ class Multi_ScreenshotTask(AutoTask):
             else:
                 rsp = self.agent.act([*self.record.history, current_message]) 
                 format_prompt = self.agent.format_prompt([*self.record.history, current_message])
-        except Exception as e:
-            print_with_color(f"Error: {e}", "red")
-            traceback.print_exc()
-
- 
-        try:
             print("rsp: ", rsp)
-            exe_res = self.page_executor(get_code_snippet(rsp))
+            if 'claude' in self.agent.model_name:
+                # rsp = rsp.split('\n')[-1]
+                exe_res = self.page_executor(get_code_snippet(rsp.split('\n')[-1]))
+            else:
+                exe_res = self.page_executor(get_code_snippet(rsp))
             print("exe_res: ", exe_res)
             self.record.update_after(exe_res, rsp, format_prompt)
             self.record.turn_number += 1
             return True
         except Exception as e:
             print_with_color(f"Error: {e}", "red")
-            
             error_message = traceback.format_exc()
             self.record.update_error(error_message, rsp, format_prompt)
             return False

@@ -463,20 +463,6 @@ class ScreenshotMobileTask_AutoTest_for_show(ScreenshotMobileTask_AutoTest):
         print("AVD name: ", avd_name)
 
 
-        self.emulator_process = None
-        self.out_file = None
-        device_list = list_all_devices()
-        if len(device_list) == 1:
-            device = device_list[0]
-            print_with_color(f"Device selected: {device}", "yellow")
-        else:
-            device = get_avd_serial_number(avd_name)
-        return device
-
-    def stop_emulator(self, instance):
-        print_with_color("Skip Stopping Android Emulator...", "blue")
-
-
 
 class CogAgentTask_AutoTest(TextOnlyMobileTask_AutoTest):
     def get_agent(self):

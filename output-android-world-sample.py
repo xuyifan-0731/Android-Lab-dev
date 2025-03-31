@@ -5,15 +5,18 @@ import jsonlines
 from collections import defaultdict
 
 dict = defaultdict(list)
-folders = ["/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e-1","/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e-2","/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e-3","/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e-4","/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e-5","/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e-6","/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e-7","/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e-8"]
+base_folder = "/raid/xuyifan/Android-Lab-main/logs/android_world_sample_claude_lxh_0327"
+folders = os.listdir(base_folder)
 #folder = "/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250307_1history-3e-fix-sample-ir"
 for folder in folders:
-    for file in os.listdir(folder):
+    for file in os.listdir(os.path.join(base_folder, folder)):
         task_name = file.split("_")[0]
-        if not os.path.exists(os.path.join(folder, file, "results.jsonl")):
+        if not os.path.exists(os.path.join(base_folder, folder, file, "results.jsonl")):
+            print(os.path.join(base_folder, folder, file, "results.jsonl"))
+            #import pdb; pdb.set_trace()
             print(f"Task {file} not found")
             continue
-        with jsonlines.open(os.path.join(folder, file, "results.jsonl"), "r") as f:
+        with jsonlines.open(os.path.join(base_folder, folder, file, "results.jsonl"), "r") as f:
             for line in f:
                 if isinstance(line["is_successful"], float):
                     if np.isnan(line["is_successful"]):

@@ -77,6 +77,7 @@ if __name__ == '__main__':
         raise AttributeError(f"Class {autotask_class} not found. Please check the class name in the config file.")
     Auto_Test = class_(single_config.subdir_config(args.name))
     task_path = os.path.join(single_config.save_dir, args.name)
+    args.parallel = min(args.parallel, len(suite_list))
     if args.parallel == 1:
         android_world_class = AndroidWorld_AutoTest(single_config.subdir_config(args.name), Auto_Test, agent)
         android_world_class.run_serial(suite_list)

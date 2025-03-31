@@ -122,11 +122,10 @@ from evaluation.docker_utils import execute_adb_command
 
 def execute_adb(adb_command, type="cmd", output=True, port=None):
     if type == "cmd":
-        env = os.environ.copy()
-        env["PATH"] = f"/Users/{getpass.getuser()}/Library/Android/sdk/platform-tools:" + env["PATH"]
-        env["PATH"] = f"/Users/{getpass.getuser()}/Library/Android/sdk/tools:" + env["PATH"]
-        result = subprocess.run(adb_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
-                                executable='/bin/zsh', env=env)
+        #env = os.environ.copy()
+        #env["PATH"] = f"/Users/{getpass.getuser()}/Library/Android/sdk/platform-tools:" + env["PATH"]
+        #env["PATH"] = f"/Users/{getpass.getuser()}/Library/Android/sdk/tools:" + env["PATH"]
+        result = subprocess.run(adb_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         if result.returncode == 0:
             return result.stdout.strip()
         if output:

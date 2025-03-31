@@ -276,8 +276,8 @@ import concurrent.futures
 
 def process_log(file):
     try:
-        log_path = os.path.join("/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e", file)
-        save_path = "/raid/xuyifan/Android-Lab-main/test-pic"
+        log_path = os.path.join("//raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250319_1history_aw_train_sample-0328-text-change-swipe", file)
+        save_path = "/raid/xuyifan/Android-Lab-main/test-pic-2"
         make_merge_pic(log_path, save_path)
     except Exception as e:
         import traceback
@@ -285,7 +285,7 @@ def process_log(file):
         print(f"Error processing {file}: {e}")
 
 if __name__ == "__main__":
-    files = os.listdir("/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250312_text_1history_launch_filter300_aw_train_sample-0317-3e")
+    files = os.listdir("/raid/xuyifan/Android-Lab-main/logs/android_world/v26_android_world_250319_1history_aw_train_sample-0328-text-change-swipe")
     
     max_workers = 32  # 这里可以调整并发量
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:

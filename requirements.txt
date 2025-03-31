@@ -37,3 +37,4 @@ openpyxl
 datasketch
 rapidocr_onnxruntime
 immutabledict
+PySocks

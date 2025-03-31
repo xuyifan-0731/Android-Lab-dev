@@ -104,7 +104,7 @@ class TextOnlyExecutor:
 
     def do(self, action=None, element=None, **kwargs):
         assert action in ["Tap", "Type", "Swipe", "Enter", "Home", "Back", "Long Press", "Wait", "Launch",
-                          "Call_API"], "Unsupported Action"
+                          "Call_API", "Press Back"], "Unsupported Action"
         if self.config.is_relative_bbox:
             if element is not None:
                 element = self.modify_relative_bbox(element)
@@ -118,7 +118,7 @@ class TextOnlyExecutor:
             self.press_enter()
         elif action == "Home":
             self.press_home()
-        elif action == "Back":
+        elif action == "Back" or action == "Press Back":
             self.press_back()
         elif action == "Long Press":
             self.long_press(element)
@@ -277,7 +277,7 @@ class TextOnlyExecutor_v4(TextOnlyExecutor):
     
     def do(self, action=None, element=None, **kwargs):
         assert action in ["Tap", "Type", "Swipe", "Enter", "Home", "Back", "Long Press", "Wait", "Launch",
-                          "Call_API"], "Unsupported Action"
+                          "Call_API", "Press Back"], "Unsupported Action"
         if element is not None:
             predict_element = element
             element = self.modify_relative_bbox(element)
@@ -291,7 +291,7 @@ class TextOnlyExecutor_v4(TextOnlyExecutor):
             self.press_enter()
         elif action == "Home":
             self.press_home()
-        elif action == "Back":
+        elif action == "Back" or action == "Press Back":
             self.press_back()
         elif action == "Long Press":
             self.long_press(element, predict_element)
@@ -362,7 +362,7 @@ class TextOnlyExecutor_v41(TextOnlyExecutor):
     
     def do(self, action=None, element=None, **kwargs):
         assert action in ["Tap", "Type", "Swipe", "Enter", "Home", "Back", "Long Press", "Wait", "Launch",
-                          "Call_API"], "Unsupported Action"
+                          "Call_API", "Press Back"], "Unsupported Action"
         if element is not None:
             predict_element = element
             element = self.modify_relative_bbox(element)
@@ -376,7 +376,7 @@ class TextOnlyExecutor_v41(TextOnlyExecutor):
             self.press_enter()
         elif action == "Home":
             self.press_home()
-        elif action == "Back":
+        elif action == "Back" or action == "Press Back":
             self.press_back()
         elif action == "Long Press":
             self.long_press(element, predict_element)
@@ -438,7 +438,7 @@ class TextOnlyExecutor_v41(TextOnlyExecutor):
 
 class TextOnlyExecutor_android_world(TextOnlyExecutor_v4):
     def do(self, action=None, element=None, **kwargs):
-        assert action in ["Tap", "Type", "Swipe", "Enter", "Home", "Back", "Long Press", "Wait", "Launch",
+        assert action in ["Tap", "Type", "Swipe", "Enter", "Home", "Back", "Press Back", "Long Press", "Wait", "Launch",
                           "Call_API"], "Unsupported Action"
         if element is not None:
             predict_element = element
@@ -453,7 +453,7 @@ class TextOnlyExecutor_android_world(TextOnlyExecutor_v4):
             self.press_enter()
         elif action == "Home":
             self.press_home()
-        elif action == "Back":
+        elif action == "Back" or action == "Press Back":
             self.press_back()
         elif action == "Long Press":
             self.long_press(element, predict_element)

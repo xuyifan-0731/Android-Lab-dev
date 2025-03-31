@@ -90,3 +90,10 @@ sample-round.sh
 offline_sample_aw/
 sample_test-format/
 sample_test/
+sample-*
+*tar.gz
+generate_android_world_sample-lxh.py
+generate_android_world_sample.py
+test_docker.py
+.vscode/
+android_world_sample_gpt.py
