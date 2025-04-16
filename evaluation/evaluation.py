@@ -97,6 +97,149 @@ class Multi_ScreenshotTask(AutoTask):
         except Exception as e:
             print_with_color(f"Error: {e}", "red")
             traceback.print_exc()
+            
+
+        try:
+            print("rsp: ", rsp)
+            code_snippet = get_code_snippet(rsp) if 'claude' not in self.agent.model_name else get_code_snippet(rsp.replace('\\n', '<|newline|>').split('\n')[-1].replace('<|newline|>', '\\n'))
+            if 'action="Type"' in code_snippet and not edittext_empty:
+                code_snippet = code_snippet[:-1] + ", clear=True)"
+
+            exe_res = self.page_executor(code_snippet)
+            
+            print("exe_res: ", exe_res)
+            self.record.update_after(exe_res, rsp, format_prompt)
+            self.record.turn_number += 1
+            return True
+        except Exception as e:
+            print_with_color(f"Error: {e}", "red")
+            error_message = traceback.format_exc()
+            self.record.update_error(error_message, rsp, format_prompt)
+            return False
+    
+    def set_system_prompt(self, instruction):
+        self.record.history = [{
+            "role": "system",
+            "content": instruction
+        }]
+        
+class Multi_ScreenshotTask_reasoning(AutoTask):
+    def run_step(self):
+        self.record.update_before(controller=self.controller, need_screenshot=True, ac_status=self.accessibility,
+                                  need_labeled=False)
+        round_count = self.record.get_round_count()
+        rsp = None
+        format_prompt = None
+        try:
+            # format current message
+            prompt = "** XML **"
+            xml = self.record.get_latest_xml(self.controller)
+            edittext_empty = True
+            for line in xml.split('\n'):
+                if 'EditText' in line:
+                    text = line.split(';')[-2]
+                    if text != "":
+                        edittext_empty = False
+                        break
+
+            image_path = self.record.contents[-1]['image']
+            if self.record.get_current_activity() not in package_dict_en:
+                print_with_color(f"Current activity: {self.record.get_current_activity()} not in package_dict_en, task dir {self.record.xml_file_path}", "red")
+                with open('new_activate.txt', 'a') as f:
+                    f.write(f"Current activity: {self.record.get_current_activity()} not in package_dict_en, task dir {self.record.xml_file_path}\n")
+
+            current_app = package_dict_en[self.record.get_current_activity()]
+            current_message = self.agent.prompt_to_message(prompt, [image_path], xml=xml, current_app=current_app)
+            
+            # format last user message
+            if len(self.record.contents) > 1:
+                prompt = "** XML **"
+                image_path = self.record.contents[-2]['image']
+                current_app = self.record.contents[-2]['current_app']
+                last_user = self.agent.prompt_to_message(prompt, [image_path], current_app=current_app)
+                
+                rsp = self.agent.act([*self.record.history[:-2], last_user, self.record.history[-1], current_message])
+                format_prompt = self.agent.format_prompt([*self.record.history[:-2], last_user, self.record.history[-1], current_message])
+            else:
+                rsp = self.agent.act([*self.record.history, current_message]) 
+                format_prompt = self.agent.format_prompt([*self.record.history, current_message])
+        except Exception as e:
+            print_with_color(f"Error: {e}", "red")
+            traceback.print_exc()
+            
+
+        try:
+            print("rsp: ", rsp)
+            from evaluation.utils import extract_think_ans
+            is_think_ans, think, ans = extract_think_ans(rsp)
+            assert is_think_ans, "format response error"
+                
+            code_snippet = get_code_snippet(ans)
+            if 'action="Type"' in code_snippet and not edittext_empty:
+                code_snippet = code_snippet[:-1] + ", clear=True)"
+
+            exe_res = self.page_executor(code_snippet)
+            
+            print("exe_res: ", exe_res)
+            self.record.update_after(exe_res, rsp, format_prompt)
+            self.record.turn_number += 1
+            return True
+        except Exception as e:
+            print_with_color(f"Error: {e}", "red")
+            error_message = traceback.format_exc()
+            self.record.update_error(error_message, rsp, format_prompt)
+            return False
+    
+    def set_system_prompt(self, instruction):
+        self.record.history = [{
+            "role": "system",
+            "content": instruction
+        }]
+
+class Multi_ScreenshotTask_noxml(AutoTask):
+    def run_step(self):
+        self.record.update_before(controller=self.controller, need_screenshot=True, ac_status=self.accessibility,
+                                  need_labeled=False)
+        round_count = self.record.get_round_count()
+        rsp = None
+        format_prompt = None
+        try:
+            # format current message
+            prompt = "** XML **"
+            xml = self.record.get_latest_xml(self.controller)
+            edittext_empty = True
+            for line in xml.split('\n'):
+                if 'EditText' in line:
+                    text = line.split(';')[-2]
+                    if text != "":
+                        edittext_empty = False
+                        break
+
+            image_path = self.record.contents[-1]['image']
+            if self.record.get_current_activity() not in package_dict_en:
+                print_with_color(f"Current activity: {self.record.get_current_activity()} not in package_dict_en, task dir {self.record.xml_file_path}", "red")
+                with open('new_activate.txt', 'a') as f:
+                    f.write(f"Current activity: {self.record.get_current_activity()} not in package_dict_en, task dir {self.record.xml_file_path}\n")
+
+            current_app = package_dict_en[self.record.get_current_activity()]
+            current_message = self.agent.prompt_to_message(prompt, [image_path], xml=None, current_app=current_app)
+            
+            # format last user message
+            if len(self.record.contents) > 1:
+                prompt = "** XML **"
+                image_path = self.record.contents[-2]['image']
+                current_app = self.record.contents[-2]['current_app']
+                last_user = self.agent.prompt_to_message(prompt, [image_path], current_app=current_app)
+                
+                rsp = self.agent.act([*self.record.history[:-2], last_user, self.record.history[-1], current_message])
+                format_prompt = self.agent.format_prompt([*self.record.history[:-2], last_user, self.record.history[-1], current_message])
+            else:
+                rsp = self.agent.act([*self.record.history, current_message]) 
+                format_prompt = self.agent.format_prompt([*self.record.history, current_message])
+        except Exception as e:
+            print_with_color(f"Error: {e}", "red")
+            traceback.print_exc()
+            
 
         try:
             print("rsp: ", rsp)

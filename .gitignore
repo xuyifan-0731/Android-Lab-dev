@@ -2,6 +2,7 @@
 */temp
 */*/temp
 temp
+tmp/*
 __pycache__
 traces
 *.xlsx
@@ -72,10 +73,10 @@ test-*
 sample.sh
 test.py
 utils_mobile-old/
-android_env
-android_env/*
-android_world
-android_world/*
+#android_env
+#android_env/*
+#android_world
+#android_world/*
 new_activate.txt
 run-aw.sh
 run-android-world-test.sh
@@ -97,3 +98,6 @@ generate_android_world_sample.py
 test_docker.py
 .vscode/
 android_world_sample_gpt.py
+clean_avd.py
+testyemp.py
+evaluation/android_world_utils-old.py

@@ -17,6 +17,11 @@ except:
 
 
 if __name__ == '__main__':
+    # 将当前路径的tmp文件设置为os.environ['TMPDIR']
+    os.environ['TMPDIR'] = os.path.join(os.getcwd(), 'tmp')
+    if not os.path.exists(os.environ['TMPDIR']):
+        os.makedirs(os.environ['TMPDIR'])
+    
     task_yamls = os.listdir('evaluation/config')
     task_yamls = ["evaluation/config/" + i for i in task_yamls if i.endswith(".yaml")]
 

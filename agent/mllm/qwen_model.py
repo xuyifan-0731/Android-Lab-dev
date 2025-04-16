@@ -91,6 +91,8 @@ class QwenVLAgent(Agent):
     )
     def act(self, messages: List[Dict[str, Any]]) -> str:
         messages = self.format_messages(messages)
+        #import pdb
+        #pdb.set_trace()
         
         proxy = {
             'http': 'socks5h://127.0.0.1:8889',

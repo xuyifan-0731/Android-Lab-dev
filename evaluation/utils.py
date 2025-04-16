@@ -1,4 +1,5 @@
 import os
+import re
 import shutil
 import socket
 import subprocess
@@ -231,3 +232,18 @@ def clone_avd(src_avd_name, tar_avd_name, android_avd_home):
                 file.write(new_line)
 
     return tar_avd_dir, tar_ini_file
+
+def extract_think_ans(text):
+    pattern = r'^<think>(.*?)</think>\n<ans>(.*?)</ans>$'
+    match = re.match(pattern, text, re.DOTALL)
+    if match:
+        return True, match.group(1).strip(), match.group(2).strip()
+    pattern = r'^<think>(.*?)</think>\n<ans>(.*?)$'
+    match = re.match(pattern, text, re.DOTALL)
+    if match:
+        return True, match.group(1).strip(), match.group(2).strip()
+    pattern = r'^<think>(.*?)</think>(.*?)$'
+    match = re.match(pattern, text, re.DOTALL)
+    if match:
+        return True, match.group(1), match.group(2)
+    return False, None, None

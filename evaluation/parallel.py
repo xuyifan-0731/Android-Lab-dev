@@ -52,21 +52,28 @@ def parallel_worker_android_world(args, class_, AndroidWorld_AutoTest, config, a
         tasks = [dict(items[i:i + 1]) for i in range(0, len(items), 1)]
     
 
+    #for idx in range(parallel):
+        #from evaluation.android_world_utils import Instance_AndroidWorld_docker
+        #instance = Instance_AndroidWorld_docker(config, idx, args.parallel_start_num)
+        #free_dockers.put(instance)
     for idx in range(parallel):
-        from evaluation.android_world_utils import Instance_AndroidWorld, Instance_AndroidWorld_test
-        instance = Instance_AndroidWorld_test(config, idx, args.parallel_start_num)
-        free_dockers.put(instance)
+        free_dockers.put(idx)
     with concurrent.futures.ThreadPoolExecutor(max_workers=parallel) as executor:
         while tasks:
             if free_dockers.empty():
                 time.sleep(0.5)
                 continue
 
-            instance = free_dockers.get()
+            #instance = free_dockers.get()
+            idx = free_dockers.get()
             task = tasks.pop(0)
             config_copy = copy.deepcopy(config)
             #agent_copy = copy.deepcopy(agent)
             auto_class = class_(config_copy)
+            android_world_class = AndroidWorld_AutoTest(config_copy, auto_class, agent, idx, args.parallel_start_num)
+            future = executor.submit(android_world_class.run_task, task)
+            future.add_done_callback(lambda fut, di=idx: task_done_callback_android_world(fut, di, free_dockers, results))
+            '''
             if not sample:
                 android_world_class = AndroidWorld_AutoTest(config_copy, auto_class, agent)
                 future = executor.submit(android_world_class.run_task, task, instance)
@@ -74,6 +81,6 @@ def parallel_worker_android_world(args, class_, AndroidWorld_AutoTest, config, a
             else:
                 android_world_class = AndroidWorld_Sample(config_copy, auto_class, agent)
                 future = executor.submit(android_world_class.android_world_task_wrapper, task, instance)
-                future.add_done_callback(lambda fut, di=instance: task_done_callback_android_world(fut, di, free_dockers, results))
+                future.add_done_callback(lambda fut, di=instance: task_done_callback_android_world(fut, di, free_dockers, results))'''
     
     return results

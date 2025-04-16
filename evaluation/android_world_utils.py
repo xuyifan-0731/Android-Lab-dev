@@ -20,7 +20,8 @@ from android_world.agents import m3a
 from android_world.agents import random_agent
 from android_world.agents import seeact
 from android_world.agents import t3a
-from android_world.env import env_launcher
+#from android_world.env import env_launcher
+from evaluation.android_world_load import load_and_setup_env
 from android_world.env import interface
 from android_world.env import adb_utils
 from android_world.env import json_action
@@ -34,6 +35,9 @@ from recorder import JSONRecorder
 
 from evaluation.docker_utils import create_docker_container, execute_command_in_container, remove_docker_container, \
     start_avd, stop_avd
+    
+import docker
+from docker.types import Mount
 
 '''
 def split_dict(input_dict, n = 1):
@@ -67,22 +71,6 @@ _EMULATOR_SETUP = False
 _SUITE_FAMILY = registry.TaskRegistry.ANDROID_WORLD_FAMILY
 # other:registry.TaskRegistry.MINIWOB_FAMILY_SUBSET
   
-'''
-def turn_on_ac(state, env):
-    x = None
-    y = None
-    for ui_element in state.ui_elements:
-        if ui_element.content_description == "XMLParser（数据标注）":
-            bbox_pixels = ui_element.bbox_pixels
-            x = (bbox_pixels.x_min + bbox_pixels.x_max) / 2
-            y = (bbox_pixels.y_min + bbox_pixels.y_max) / 2
-            break
-    if x is not None and y is not None:
-        action = json_action.JSONAction(**{'action_type':'click', 'x':x,'y':y})
-        env.execute_action(action)
-        time.sleep(2)
-    else:
-        return None'''
 
 def markor_fix(state, env, get_post_transition_state):
     x = None
@@ -140,8 +128,37 @@ def print_android_world_results(path = None, all_results = None):
     df = process_episodes(all_results, print_summary = True)
     df.to_excel(os.path.join(path, "results.xlsx"), index=True)
     return df
+     
+def check_device_connected(device_port):
+    time.sleep(2)
+    try_time = 0
+    while try_time <= 10:
+        adb_connect_cmd = f"adb connect localhost:{device_port}"
+        #print_with_color(f"Trying to connect to AVD via: {adb_connect_cmd}", "blue")
+        connect_result = execute_adb(adb_connect_cmd, output=True)
 
-class Instance_AndroidWorld_test(Instance_AndroidWorld):
+        if "connected" not in connect_result and "already connected" not in connect_result:
+            pass
+            #print_with_color(f"ADB connect failed: {connect_result}", "red")
+        else:
+            break
+        try_time += 1
+        time.sleep(2)
+
+    # 等待设备可用
+    wait_cmd = f"adb -s localhost:{device_port} wait-for-device"
+    print_with_color("Waiting for device to become available...", "blue")
+    try:
+        subprocess.run(wait_cmd.split(), timeout=120)
+    except subprocess.TimeoutExpired:
+        print_with_color("ADB wait-for-device timeout", "red")
+        return False
+
+    device = f"localhost:{device_port}"
+    
+    return device
+        
+class Instance_AndroidWorld_docker(Instance_AndroidWorld):
     def __init__(self, config, idx = 0, start_idx = 0):
         self.idx = str(idx+start_idx)+str(time.time())  
         self.type = "cmd"
@@ -156,139 +173,98 @@ class Instance_AndroidWorld_test(Instance_AndroidWorld):
         idx_num = idx+start_idx
         self.device_port = device_start_port + idx_num * 4
         self.grpc_port = grpc_start_port + idx_num * 4
-        #self.task_count_unclosed = 0
-        
-        self.initialize_worker()
 
-    def initialize_single_task(self, config = None):
+
+    def initialize_single_task(self, config=None):
         avd_name = self.avd_name
-        print_with_color(f"Starting Android Emulator with AVD name: {avd_name}", "blue")
-        if not os.path.exists(self.config.avd_log_dir):
-            os.makedirs(self.config.avd_log_dir, exist_ok=True)
-        out_file = open(os.path.join(self.config.avd_log_dir, 'emulator_output.txt'), 'a')
+        print_with_color(f"Starting Android Emulator in Docker with AVD name: {avd_name}", "blue")
+
+        client = docker.from_env()
+
+        adbkey_path = os.path.expanduser("~/.android/adbkey")
+        with open(adbkey_path, "r") as f:
+            adbkey_content = f.read()
+
+        port_1 = self.grpc_port     # 8554
+        port_2 = self.device_port   # 5555
 
         try:
-            device = get_adb_device_name(avd_name)
-        except:
-            pass
-        #if device is None or self.task_count_unclosed > 5:
-            #if self.task_count_unclosed > 5 and device is not None:
-                #self.task_count_unclosed == 0
-                #self.stop_emulator()
-        if device is None:
-            env = os.environ.copy()
-            emulator_process = subprocess.Popen(
-                [
-                    "emulator",
-                    "-avd", avd_name,
-                    "-no-snapshot-save",
-                    "-no-window",
-                    "-no-audio",
-                    "-grpc", str(self.grpc_port),
-                    "-port", str(self.device_port)  # 替换为你要指定的端口
-                ],
-                stdout=out_file,
-                stderr=subprocess.STDOUT,
-                env=env 
+            container = client.containers.run(
+                image="android_world:v2",
+                detach=True,
+                network_mode="host",
+                environment={
+                    "ADBKEY": adbkey_content
+                },
+                devices=["/dev/kvm"],
+                name=f"android_emulator_{self.idx}",
+                remove=True,
+                stdout=True,
+                stderr=True,
+                volumes={
+                    os.path.join(os.getcwd(), 'tmp'): {'bind': os.path.join(os.getcwd(), 'tmp'), 'mode': 'rw'}
+                }
             )
-            print_with_color(f"Waiting for the emulator to start...", "blue")
-            limit_time = time.time() + 120
-            while True:
-                try:
-                    device = get_adb_device_name(avd_name)
-                    time.sleep(1)
-                    if time.time() > limit_time:
-                        print_with_color("Emulator start timeout, please check the log", "red")
-                        return False
-                except:
-                    continue
-                if device is not None:
-                    break
-            self.emulator_process = emulator_process
-        else:
-            #self.task_count_unclosed += 1
-            print_with_color(f"Emulator {avd_name} already started", "blue")
-        # TODO: fix open emulator bug here
+            
+            self.container_id = container.id
+            print_with_color(f"Container started with ID: {self.container_id}", "green")
+        except docker.errors.APIError as e:
+            print_with_color(f"Failed to start container: {str(e)}", "red")
+            return False
 
-        print("idx: ", self.idx)
-        print("Device name: ", device)
-        print("Device port: ", self.device_port)
-        print("GRPC port: ", self.grpc_port)
-        print("AVD name: ", avd_name)
+        device = f"emulator-{self.device_port-1}"
 
+  
+        '''
+        print_with_color("Emulator in Docker started successfully", "blue")
+
+        # 检查 boot 动画是否完成
         limit_time = time.time() + 120
         while True:
             boot_complete = f"adb -s {device} shell getprop init.svc.bootanim"
             boot_complete = execute_adb(boot_complete, output=False)
             if boot_complete == 'stopped':
-                print_with_color("Emulator started successfully", "blue")
+                print_with_color("Emulator boot completed", "blue")
                 break
-            time.sleep(1)
             if time.time() > limit_time:
-                print_with_color("Emulator start timeout, please check the log", "red")
+                print_with_color("Emulator boot timeout", "red")
                 return False
-        time.sleep(1)
-        
-        self.out_file = out_file
-        device_list = list_all_devices()
-        if len(device_list) == 1:
-            device = device_list[0]
-            print_with_color(f"Device selected: {device}", "yellow")
-        else:
-            device = get_avd_serial_number(avd_name)
+            time.sleep(1)'''
+
+        self.docker_container = container
         return device
 
     def stop_single_task(self):
-        print_with_color("Stopping Android Emulator, only close output file...", "blue")
+        pass
         '''
-        self.emulator_process.terminate()
-
-        while True:
-            try:
-                device = get_adb_device_name(self.config.avd_name)
-                command = f"adb -s {device} reboot -p"
-                ret = execute_adb(command, output=False)
-                self.emulator_process.terminate()
-            except:
-                device = None
-            if device is None:
-                print_with_color("Emulator stopped successfully", "blue")
-                break
-            time.sleep(1)'''
-        self.out_file.close()
-
-    def stop_emulator(self):
-        print_with_color("Stopping Android Emulator...", "blue")
-        self.emulator_process.terminate()
-
-        while True:
-            try:
-                device = get_adb_device_name(self.config.avd_name)
-                command = f"adb -s {device} reboot -p"
-                ret = execute_adb(command, output=False)
-                self.emulator_process.terminate()
-            except:
-                device = None
-            if device is None:
-                print_with_color("Emulator stopped successfully", "blue")
-                break
-            time.sleep(5)
-        self.out_file.close()
+        print_with_color("Stopping Docker Android Emulator...", "blue")
+        try:
+            if self.container_id:
+                client = docker.from_env()
+                container = client.containers.get(self.container_id)
+                container.stop()
+                print_with_color("Docker container stopped", "blue")
+                time.sleep(2)
+            else:
+                assert False, "Container ID is not set"
+        except Exception as e:
+            print_with_color(f"Failed to stop container: {str(e)}", "red")'''
 
     def __del__(self):
-        if self.tar_avd_dir is not None:
-            shutil.rmtree(self.tar_avd_dir)
-        if self.tar_ini_file is not None:
-            os.remove(self.tar_ini_file)
+        print_with_color("Stopping Docker Android Emulator...", "blue")
         try:
-            self.emulator_process.terminate()
-        except:
-            pass
-        try:
-            self.out_file.close()
-        except:
-            pass
-
+            if self.container_id:
+                client = docker.from_env()
+                container = client.containers.get(self.container_id)
+                container.stop()
+                print_with_color("Docker container stopped", "blue")
+                time.sleep(2)
+            else:
+                assert False, "Container ID is not set"
+        except Exception as e:
+            print_with_color(f"Failed to stop container: {str(e)}", "red")
+     
+        
 class AndroidLabAgent(base_agent.EnvironmentInteractingAgent):
   """A random agent interaction loop for testing purposes."""
 
@@ -349,7 +325,6 @@ class AndroidLabAgent(base_agent.EnvironmentInteractingAgent):
         import traceback
         traceback.print_exc()
         done = True
-        #import pdb; pdb.set_trace()
     
     
     step_data = {
@@ -411,35 +386,14 @@ def initialize_android_world_suite(task_template = None, n_task_combinations = 1
     suite.suite_family = _SUITE_FAMILY
     return suite
 
-'''
-class Docker_Instance_AndroidWorld(Docker_Instance):
-    def initialize_worker(self, config):
-        self.config = config
-        print_with_color(f"Starting Android Emulator in docker with AVD name: {config.avd_name}", "blue")
-        if "local_port" in self.config.docker_args:
-            local_port_start = self.config.docker_args["local_port"]
-        else:
-            local_port_start = 6060
-        docker_port_local = find_free_ports(start_port=local_port_start + self.idx)
-        self.docker_port_local = docker_port_local
-        self.device_port = docker_port_local
-        print(f"Local port: {docker_port_local}")
-        grpc_prot_start = docker_port_local + 50
-        grpc_port_loacl = find_free_ports(start_port=grpc_prot_start)
-        self.grpc_port_loacl = grpc_port_loacl
-        self.grpc_port = 8554
-        print(f"GRPC port: {grpc_port_loacl}")
-
-    def start_docker(self, docker_image_name, docker_port):
-        container_id = create_docker_container(docker_image_name, [(docker_port, self.docker_port_local), (self.grpc_port, self.grpc_port_loacl)])
-        return container_id
-'''
-
 class AndroidWorld_AutoTest(AutoTest):
-    def __init__(self, config, base_class, llm_agent) -> None:
+    def __init__(self, config, base_class, llm_agent, docker_idx = 0, parallel_start_num = 0) -> None:
         self.config = config
         self.base_class = base_class
         self.llm_agent = llm_agent
+        self.docker_idx = docker_idx
+        self.parallel_start_num = parallel_start_num
+        self.instance = Instance_AndroidWorld_docker(self.config, self.docker_idx, self.parallel_start_num)
         #self.test_llm_agent()
 
     def test_llm_agent(self):
@@ -457,10 +411,10 @@ class AndroidWorld_AutoTest(AutoTest):
         device = instance.initialize_single_task(self.config)
         #adb_path = _find_adb_directory(self.config.adb_path)
         adb_path = self.config.adb_path
-        env = env_launcher.load_and_setup_env(
+        env = load_and_setup_env(
             console_port=instance.device_port,
             emulator_setup=_EMULATOR_SETUP,
-            adb_path=adb_path,
+            adb_path=f'docker exec {instance.container_id} /android/sdk/platform-tools/adb',
             grpc_port=instance.grpc_port
         )
 
@@ -470,11 +424,13 @@ class AndroidWorld_AutoTest(AutoTest):
 
 
     def run_serial(self, tasks):
-        instance = Instance_AndroidWorld_test(self.config)
+        instance = Instance_AndroidWorld_docker(self.config)
         for task in tasks:
             self.run_task(task, instance)
 
-    def run_task(self, suite, instance):
+    def run_task(self, suite, instance = None):
+        if instance is None:
+            instance = self.instance
         task_id = list(suite.keys())[0]
         app = suite[task_id][0].app_names[-1]
         self.instruction = suite[task_id][0].goal

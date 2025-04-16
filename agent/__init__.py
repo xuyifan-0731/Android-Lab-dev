@@ -12,6 +12,11 @@ try:
     from .mllm.qwen_model import *
 except:
     print("Qwen LLM is not available.")
+    
+try:
+    from .mllm.reasoning_agent import *
+except:
+    print("Reasoning Agent is not available.")
 
 try:
     from .mllm.cogagent import *

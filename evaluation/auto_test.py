@@ -243,7 +243,7 @@ class Docker_Instance(Instance):
 
         # TODO: python location should be configurable
         command = "/usr/local/bin/python adb_client.py > server.txt 2>&1"
-        execute_command_in_container(container_id, command)
+        #execute_command_in_container(container_id, command)
         execute_command_in_container(container_id, command)
         self.container_id = container_id
         time.sleep(3)
@@ -421,22 +421,25 @@ class Multi_ScreenshotMobileTask_AutoTest_v4(TextOnlyMobileTask_AutoTest_v4):
 
 class Multi_ScreenshotMobileTask_AutoTest_v4_android_world(TextOnlyMobileTask_AutoTest_v4):
     def get_agent(self):
-        task_agent = Multi_ScreenshotTask(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record,
+        if not self.config.reasoning_agent:
+            task_agent = Multi_ScreenshotTask(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record,
+                                          self.command_per_step)
+        else:
+            task_agent = Multi_ScreenshotTask_reasoning(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record,
                                           self.command_per_step)
         return task_agent
     
     def get_executor(self):
         return TextOnlyExecutor_android_world(self.controller, self.config)
 
-class Multi_ScreenshotMobileTask_AutoTest_v41(AutoTest):
+class Multi_ScreenshotMobileTask_AutoTest_v4_android_world_noxml(TextOnlyMobileTask_AutoTest_v4):
     def get_agent(self):
-        task_agent = Multi_ScreenshotTask(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record,
-                                          self.command_per_step)
+        task_agent = Multi_ScreenshotTask_noxml(self.instruction, self.controller, self.page_executor, self.llm_agent, self.record, self.command_per_step)
+
         return task_agent
     
     def get_executor(self):
-        return TextOnlyExecutor_v41(self.controller, self.config)
-
+        return TextOnlyExecutor_android_world(self.controller, self.config)
 
 class ScreenshotMobileTask_AutoTest(TextOnlyMobileTask_AutoTest):
     def get_agent(self):

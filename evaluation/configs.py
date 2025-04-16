@@ -114,6 +114,7 @@ class TaskConfig:
     device_start_port: Optional[int] = 5558
     grpc_start_port: Optional[int] = 8554
     android_world: Optional[bool] = False
+    reasoning_agent: Optional[bool] = False
 
     def subdir_config(self, subdir: str):
         new_config = self.__dict__.copy()
