@@ -20,8 +20,7 @@ from android_world.agents import m3a
 from android_world.agents import random_agent
 from android_world.agents import seeact
 from android_world.agents import t3a
-#from android_world.env import env_launcher
-from evaluation.android_world_load import load_and_setup_env
+from android_world.env import env_launcher
 from android_world.env import interface
 from android_world.env import adb_utils
 from android_world.env import json_action
@@ -190,11 +189,13 @@ class Instance_AndroidWorld_docker(Instance_AndroidWorld):
 
         try:
             container = client.containers.run(
-                image="android_world:v2",
+                image="android_world:v3",
                 detach=True,
                 network_mode="host",
                 environment={
-                    "ADBKEY": adbkey_content
+                    "ADBKEY": adbkey_content,
+                    "ADB_PORT": str(self.device_port + 1),
+                    "GRPC_PORT": str(self.grpc_port),
                 },
                 devices=["/dev/kvm"],
                 name=f"android_emulator_{self.idx}",
@@ -212,10 +213,10 @@ class Instance_AndroidWorld_docker(Instance_AndroidWorld):
             print_with_color(f"Failed to start container: {str(e)}", "red")
             return False
 
-        device = f"emulator-{self.device_port-1}"
+        device = f"emulator-{self.device_port}"
 
   
-        '''
+        
         print_with_color("Emulator in Docker started successfully", "blue")
 
         # 检查 boot 动画是否完成
@@ -229,26 +230,14 @@ class Instance_AndroidWorld_docker(Instance_AndroidWorld):
             if time.time() > limit_time:
                 print_with_color("Emulator boot timeout", "red")
                 return False
-            time.sleep(1)'''
+            time.sleep(1)
 
         self.docker_container = container
         return device
 
     def stop_single_task(self):
         pass
-        '''
-        print_with_color("Stopping Docker Android Emulator...", "blue")
-        try:
-            if self.container_id:
-                client = docker.from_env()
-                container = client.containers.get(self.container_id)
-                container.stop()
-                print_with_color("Docker container stopped", "blue")
-                time.sleep(2)
-            else:
-                assert False, "Container ID is not set"
-        except Exception as e:
-            print_with_color(f"Failed to stop container: {str(e)}", "red")'''
+
 
     def __del__(self):
         print_with_color("Stopping Docker Android Emulator...", "blue")
@@ -411,7 +400,7 @@ class AndroidWorld_AutoTest(AutoTest):
         device = instance.initialize_single_task(self.config)
         #adb_path = _find_adb_directory(self.config.adb_path)
         adb_path = self.config.adb_path
-        env = load_and_setup_env(
+        env = env_launcher.load_and_setup_env(
             console_port=instance.device_port,
             emulator_setup=_EMULATOR_SETUP,
             adb_path=f'docker exec {instance.container_id} /android/sdk/platform-tools/adb',

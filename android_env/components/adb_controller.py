@@ -111,7 +111,8 @@ class AdbController:
       The output of running such command as a binary string.
     """
     timeout = self._config.default_timeout if timeout is None else timeout
-    command = self.command_prefix(include_device_name=False)[0].split(' ') + args
+    command = self.command_prefix(include_device_name=True)[0].split(' ') + self.command_prefix(include_device_name=True)[1:] + args
+    #command = self.command_prefix(include_device_name=False)[0].split(' ') + args
     #command = command[0].split(' ') + args
     command_str = 'adb ' + ' '.join(command[1:])
 

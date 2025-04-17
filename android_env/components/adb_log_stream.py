@@ -29,7 +29,7 @@ class AdbLogStream(log_stream.LogStream):
 
   def __init__(self, adb_command_prefix: list[str], verbose: bool = False):
     super().__init__(verbose=verbose)
-    self._adb_command_prefix = adb_command_prefix[0].split(' ')
+    self._adb_command_prefix = adb_command_prefix[0].split(' ') + adb_command_prefix[1:]
 
   def _get_stream_output(self):
 
